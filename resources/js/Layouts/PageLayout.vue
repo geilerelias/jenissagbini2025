@@ -58,6 +58,6 @@ onBeforeUnmount(() => {
                 </v-btn>
             </div>
         </v-main>
-        <Footer app  style="z-index: 100"/>
+        <Footer style="z-index: 100"/>
     </v-app>
 </template>

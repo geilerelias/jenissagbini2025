@@ -3,14 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
 
@@ -19,6 +21,9 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
+
+    protected string $guard_name = 'sanctum';
 
     /**
      * The attributes that are mass assignable.
@@ -63,5 +68,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'subject_user')->withPivot('role_id')->withTimestamps();
+    }
+
+    public function getPermissionArray()
+    {
+        return $this->getAllPermissions()->mapWithKeys(function ($pr) {
+            return [$pr['name'] => true];
+        });
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\SubjectController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,6 +21,89 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\AnalyticsController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+
+
+Route::get('/diagnostic-db', function () {
+    try {
+        DB::connection()->getPdo();
+
+        $database = DB::connection()->getDatabaseName();
+        $tablaSessionsExiste = Schema::hasTable('sessions');
+        $registrosEnSessions = $tablaSessionsExiste ? DB::table('sessions')->count() : null;
+
+        $env = [
+            'APP_NAME' => config('app.name'),
+            'APP_ENV' => config('app.env'),
+            'APP_DEBUG' => config('app.debug'),
+            'APP_URL' => config('app.url'),
+        ];
+
+        // Ejecuta migrate:status y captura la salida
+        Artisan::call('migrate:status');
+        $output = Artisan::output();
+
+        // Verifica si hay migraciones pendientes buscando la palabra 'No'
+        $migracionesPendientes = str_contains($output, 'No');
+
+        return Inertia::render('Dashboard/DiagnosticoDB', [
+            'conexion' => 'exitosa',
+            'baseDeDatos' => $database,
+            'tablaSessionsExiste' => $tablaSessionsExiste,
+            'registrosEnSessions' => $registrosEnSessions,
+            'variablesEnv' => $env,
+            'migracionesPendientes' => $migracionesPendientes,
+            'phpVersion' => phpversion(),
+            'laravelVersion' => app()->version(),
+        ]);
+
+    } catch (\Exception $e) {
+        return Inertia::render('Dashboard/DiagnosticDB', [
+            'conexion' => 'fallida',
+            'error' => $e->getMessage(),
+        ]);
+    }
+})->name('diagnostic.db');
+
+Route::middleware(['auth:sanctum', 'can:assign permissions'])->get('/clear-permission-cache', function () {
+    Artisan::call('permission:cache-reset');
+    Artisan::call('optimize:clear');
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Cache de permisos y optimización limpiados correctamente.'
+    ]);
+});
+
+Route::get('/check-role', function (Request $request) {
+    $user = auth()->user();
+
+    $role = $request->query('role');
+    $permission = $request->query('permission');
+
+    $response = [
+        'roles' => $user->getRoleNames(),
+        'permissions' => $user->getAllPermissions()->pluck('name'),
+    ];
+
+    // Si se pasa el parámetro 'role', verifica si el usuario lo tiene
+    if ($role) {
+        $response['checking_role'] = $role;
+        $response['has_role'] = $user->hasRole($role);
+    }
+
+    // Si se pasa el parámetro 'permission', verifica si el usuario lo tiene
+    if ($permission) {
+        $response['checking_permission'] = $permission;
+        $response['has_permission'] = $user->can($permission);
+    }
+
+    return $response;
+});
 
 Route::get('/clear-cache', function () {
     try {
@@ -30,6 +114,8 @@ Route::get('/clear-cache', function () {
         //throw $th;
     }
 });
+
+
 
 Route::get('/welcome', function () {
     return Inertia::render('Welcome', [
@@ -48,6 +134,19 @@ Route::get('/articles', fn() => Inertia::render('Articles'))->name('articles');
 Route::get('/services', fn() => Inertia::render('Services'))->name('services');
 Route::get('/contact', fn() => Inertia::render('Contact'))->name('contact');
 
+
+
+
+
+Route::get('/statistics', [AnalyticsController::class, 'index'])->name('statistics.admin');
+
+Route::prefix('api')->group(function () {
+    Route::get('/stats', [AnalyticsController::class, 'stats']);
+    Route::get('/visitors', [AnalyticsController::class, 'visitors']);
+});
+
+
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -59,6 +158,11 @@ Route::middleware([
 });
 
 Route::prefix('admin')->group(function () {
+    //Asignaturas
+    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+        Route::resource('subjects', SubjectController::class);
+    });
+
     //notices
     Route::get('notices/all', [NoticeController::class, 'all']);
     Route::middleware(['auth:sanctum', 'verified', 'can:view notices'])->group(function () {
@@ -78,7 +182,7 @@ Route::prefix('admin')->group(function () {
     Route::get('publishedArticle/all', [PublishedArticleController::class, 'all']);
     Route::get('othersArticle/all', [OtherArticleController::class, 'all']);
     Route::middleware(['auth:sanctum', 'verified', 'can:view articles'])->group(function () {
-        Route::get('articles', fn() => Inertia::render('Dashboard/Articles/MainArticle'))->name('articles');
+        Route::get('articles', fn() => Inertia::render('Dashboard/Articles/MainArticle'))->name('articles.admin');
         Route::resource('articles/published', PublishedArticleController::class)->except(['update']);
         Route::post('articles/published/update/{id}', [PublishedArticleController::class, 'update']);
         Route::resource('articles/others', OtherArticleController::class)->except(['update']);
@@ -92,7 +196,7 @@ Route::prefix('admin')->group(function () {
     Route::get('thesis/all', [ThesisController::class, 'all']);
     Route::get('jury/all', [JuryController::class, 'all']);
     Route::middleware(['auth:sanctum', 'verified', 'can:view project'])->group(function () {
-        Route::get('project', fn() => Inertia::render('Dashboard/Projects/MainProjects'))->name('project');
+        Route::get('project', fn() => Inertia::render('Dashboard/Projects/MainProjects'))->name('project.admin');
         Route::resources([
             'entrepreneurship' => EntrepreneurshipController::class,
             'software' => SoftwareController::class,
@@ -104,7 +208,7 @@ Route::prefix('admin')->group(function () {
 
     //services
     Route::middleware(['auth:sanctum', 'verified', 'can:view services'])->group(function () {
-        Route::get('services', fn() => Inertia::render('Dashboard/Services/Services'))->name('services');
+        Route::get('services', fn() => Inertia::render('Dashboard/Services/Services'))->name('services.admin');
     });
 
     // API resources

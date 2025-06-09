@@ -1,20 +1,15 @@
 <script setup>
-import { ref } from "vue";
+import {ref} from "vue";
 
 import PageLayout from "@/Layouts/PageLayout.vue";
-import CorporateValues from "@/Components/CorporateValues.vue";
 import ProfileBlocks from "@/Components/ProfileBlocks.vue";
 import Logo from "@/Components/Logo.vue";
-import { useDisplay } from "vuetify";
-import { Link } from "@inertiajs/vue3";
+import {useDisplay} from "vuetify";
 
 import slide1 from "@images/slides/DSC_9635.PNG";
 import slide2 from "@images/slides/DSC_9732.PNG";
 import slide3 from "@images/slides/DSC_9785.PNG";
 import slide4 from "@images/slides/DSC_9816.PNG";
-
-import bg2 from "@images/bg/bg-1.jpg";
-import bg1 from "@images/bg/bg-1.jpg";
 import bgAbout from "@images/bg/bg-about.jpg";
 
 import img9785 from "@images/bg/DSC_9785.JPG";
@@ -26,8 +21,24 @@ import img9688 from "@images/bg/DSC_9688.JPG";
 import img9724 from "@images/bg/DSC_9724.JPG";
 import img9625 from "@images/bg/DSC_9625.JPG";
 
-const { mobile, xs, md, mdAndDown, mdAndUp, lgAndUp, smAndUp, smAndDown } =
-    useDisplay();
+
+const {
+    mobile,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+    xxl,
+    smAndUp,
+    mdAndUp,
+    lgAndUp,
+    xlAndUp,
+    smAndDown,
+    mdAndDown,
+    lgAndDown,
+    xlAndDown,
+} = useDisplay();
 
 const slides = ref([
     {
@@ -215,6 +226,44 @@ const jenisSagbiniProfile = [
         ],
     },
 ];
+
+const infoCards = ref([
+    {
+        icon: "mdi-email-outline",
+        title: "Dirección de correo",
+        text: "contacto@constructoravillaiii.com",
+        link: "mailto:contacto@constructoravillaiii.com",
+        target: "_self",
+        classes: [
+            "border-custom-right",
+            "border-custom-bottom border-custom-right",
+            "",
+        ],
+    },
+    {
+        icon: "mdi-map-marker",
+        title: "Ubicación",
+        text: "Calle 85c 71-57 Barranquilla",
+        link: "https://www.google.com/maps?q=Calle+85c+71-57+Barranquilla",
+        target: "_blank",
+        classes: [
+            "border-custom-right",
+            "border-custom-bottom",
+            "border-custom-top",
+        ],
+    },
+
+    {
+        icon: "mdi-clock",
+        title: "Horario de oficina",
+        text: "Lun a Vie: 8:00 AM - 5:00 PM",
+        link: null,
+        target: null,
+        classes: ["", "", "border-custom-top"],
+    },
+]);
+
+const navigateTo = ref(null)
 </script>
 
 <template>
@@ -252,7 +301,7 @@ const jenisSagbiniProfile = [
                     </v-btn>
                 </template>
 
-                <v-carousel-item v-for="item in slides" :key="item.id">
+                <v-carousel-item v-for="(item, index) in slides" :key="index">
                     <v-sheet
                         class="d-flex rounded-lg fill-height bg-gradient"
                         color="grey"
@@ -397,6 +446,7 @@ const jenisSagbiniProfile = [
             </v-carousel>
         </section>
 
+
         <section class="container py-md-15 py-8">
             <div v-for="(item, index) in jenisSagbiniProfile" :key="index">
                 <ProfileBlocks
@@ -412,7 +462,7 @@ const jenisSagbiniProfile = [
 
             <v-container class="py-6 py-lg-12 text-center">
                 <v-icon size="30" class="mb-2"
-                    >mdi-lightbulb-on-outline
+                >mdi-lightbulb-on-outline
                 </v-icon>
                 <blockquote class="text-h6 font-italic">
                     “¡Haciendo a la Gente Exitosa en un mundo cambiante!”
@@ -683,7 +733,7 @@ const jenisSagbiniProfile = [
                                                 target="_blank"
                                             >
                                                 <v-icon color="white"
-                                                    >mdi-email
+                                                >mdi-email
                                                 </v-icon>
                                             </a>
 
@@ -708,7 +758,7 @@ const jenisSagbiniProfile = [
                                                 target="_blank"
                                             >
                                                 <v-icon color="white"
-                                                    >mdi-map-marker
+                                                >mdi-map-marker
                                                 </v-icon>
                                             </a>
                                             <h5
@@ -821,7 +871,7 @@ const jenisSagbiniProfile = [
                                                         letter-spacing: 0px;
                                                     "
                                                     variant="flat"
-                                                    >enviar consulta
+                                                >enviar consulta
                                                 </v-btn>
                                             </v-col>
                                         </v-row>
@@ -848,6 +898,10 @@ const jenisSagbiniProfile = [
 
 .position-absolute {
     position: absolute;
+}
+
+.bg-primary-card {
+    background-color: rgba(25, 25, 25, 0.8); /* 0.8 es el grado de opacidad */
 }
 
 .bg-gray-transparent {

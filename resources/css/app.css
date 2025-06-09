@@ -6,6 +6,11 @@
 @tailwind components;
 @tailwind utilities;
 
+input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 body {
     font-family: "Montserrat", sans-serif;
 }
@@ -34,7 +39,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Poppins", sans-serif !important;
+    font-family: "Poppins", sans-serif !important ;
 }
 
 @font-face {
@@ -45,15 +50,16 @@ h6 {
 }
 
 .font-montserrat {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat", sans-serif !important;
 }
 
 .font-signature {
-    font-family: "Photograph_Signature", sans-serif;
+    font-family: "Photograph_Signature", sans-serif !important;
 }
 
 .font-poppins {
-    font-family: "Poppins", sans-serif;
+    font-family: "Poppins", sans-serif !important;
+    font-weight: 400 !important;
 }
 
 [x-cloak] {

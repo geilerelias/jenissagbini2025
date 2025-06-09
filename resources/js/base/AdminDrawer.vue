@@ -1,36 +1,68 @@
 <script setup>
 import {computed, ref} from 'vue';
 import {Link, router} from "@inertiajs/vue3";
+
 //import logo from '../../images/logo.jpg'
-import {useAdminDrawerStore} from '../../stores/adminDrawer';
+import {useAdminDrawerStore} from "../stores/adminDrawer.js";
+import {useAuthLinksStore} from "../stores/authLinks.js";
+
+
 import {useDisplay} from 'vuetify';
-import {useAuthLinksStore} from "../../stores/authLinks";
-import bg from "../../images/bg/bg-1.png";
-import logo from "../../images/logo/logo.png";
-import name from "../../images/logo/name.png";
+
+import bg from "@images/bg/bg-about.jpg";
+
 
 const {mdAndUp} = useDisplay()
 
 const adminDrawerStore = useAdminDrawerStore();
 
 let drawer = computed({
-    get: () => adminDrawerStore.adminDrawer,
+    get: () => adminDrawerStore.isOpen,
     set: (value) => {
         // Realiza alguna lógica adicional antes de asignar el valor
-        adminDrawerStore.adminDrawer = value;
+        adminDrawerStore.isOpen = value;
     }
 });
 
-const rail = computed(() => adminDrawerStore.rail)
-
+let rail = computed({
+    get: () => adminDrawerStore.rail,
+    set: (value) => {
+        // Realiza alguna lógica adicional antes de asignar el valor
+        adminDrawerStore.rail = value;
+    }
+});
 const group = ref(null)
 const listNotAuthenticated = [
     {title: 'Login', icon: 'mdi-account-lock', route: "/login"},
     {title: 'Sign Up', icon: 'mdi-account-plus', route: "/register"},
 ];
 
+const managementLinks = [
+    {
+        route: "statistics.admin",
+        icon: 'mdi-chart-bar',
+        title: "Estadísticas",
+        can: 'view statistics'
+    },
+    {
+        route: "diagnostic.db",
+        icon: 'mdi-database-eye',
+        title: "Diagnóstico DB",
+        can: 'view statistics'
+    }
+];
+
 const authLinksStore = useAuthLinksStore();
 const links = authLinksStore.authLinks
+
+function goBack() {
+    if (typeof window !== 'undefined') {
+        window.history.back();
+    } else {
+        console.warn('window is not defined, cannot go back');
+    }
+}
+
 
 function navigateTo(route) {
     router.get(route);
@@ -42,63 +74,60 @@ function logout() {
     })
 }
 
+
 </script>
 
 <template>
-
     <v-navigation-drawer
         v-model="drawer"
-        :absolute="true"
-        :permanent="mdAndUp"
         :rail="rail"
-        :rail-width="75"
-        class="position-fixed"
-        expand-on-hover
-        fixed
+        :expand-on-hover="rail"
         style="box-shadow: rgb(0 0 0 / 20%) -20px 1px 17px 8px, rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;"
-
     >
-        <perfect-scrollbar>
-            <v-img :src="bg" cover gradient="to top right, rgb(21 92 138 / 75%), rgb(4 16 35 / 82%)">
-                <v-row class="fill-height">
-                    <v-avatar v-if="$page.props.auth !==null" class="position-absolute mt-6 ml-7" size="45">
-                        <v-img :alt="$page.props.auth.user.name" :src="$page.props.auth.user.profile_photo_url"
-                               contain
-                        >
-                        </v-img>
-                    </v-avatar>
-                    <v-col class="d-flex justify-center">
-                        <div class="d-flex align-center flex-column mt-12">
-                            <img :src="logo" alt="logo" data-aos="fade-up"
-                                 data-aos-delay="200" data-aos-duration="1000" style="height: 100px;"/>
-                            <img :src="name" alt="logo name" class="h-14 mt-4" data-aos="fade-down"
-                                 data-aos-delay="200" data-aos-duration="1000"
-                                 style="object-fit: contain;width: 80%;"/>
-                        </div>
-                    </v-col>
-                </v-row>
-            </v-img>
 
 
-            <div class="d-flex align-center px-3"
-                 style="background: rgba(0,0,0,.5);">
-                <h5 v-if="$page.props.auth !==null" :class="{'text-truncate': rail }"
-                    class="text-white font-weight-medium  text-truncate"
-                    style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-                    {{ $page.props.auth.user.name }}
-                </h5>
-                <div class="ml-auto">
-                    <v-btn color="white" icon variant="text" @click="logout">
-                        <v-icon icon="mdi-power"></v-icon>
-                        <v-tooltip
-                            activator="parent"
-                            location="top"
-                        >
-                            cerrar sesión
-                        </v-tooltip>
-                    </v-btn>
-                </div>
-            </div>
+        <v-divider></v-divider>
+
+
+
+            <v-toolbar  density="compact" class="d-flex ga-2 px-2">
+                <v-btn variant="text" icon
+                       @click="goBack"
+                >
+                    <v-icon icon="mdi-arrow-left"></v-icon>
+                    <v-tooltip
+                        activator="parent"
+                    >
+                        Regresar
+                    </v-tooltip>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn  icon variant="text" @click="logout">
+                    <v-icon icon="mdi-power"></v-icon>
+                    <v-tooltip
+                        activator="parent"
+                    >
+                        cerrar sesión
+                    </v-tooltip>
+                </v-btn>
+                <v-btn @click="navigateTo(route('profile.show'))" icon variant="text">
+                    <v-icon icon="mdi-dots-vertical"></v-icon>
+                    <v-tooltip
+                        activator="parent"
+                    >
+                        Perfil de usuario
+                    </v-tooltip>
+                </v-btn>
+
+            </v-toolbar>
+            <v-list>
+                <v-list-item
+                    :prepend-avatar="$page.props.auth.user.profile_photo_url"
+                    :subtitle="$page.props.auth.user.email"
+                    :title="$page.props.auth.user.name"
+                ></v-list-item>
+            </v-list>
+
 
             <v-divider></v-divider>
 
@@ -133,14 +162,26 @@ function logout() {
                 >
 
                 </v-list-item>
+
+                <v-list-subheader>Gestión de plataforma</v-list-subheader>
+
+                <v-list-item
+                    v-for="(item, i) in managementLinks" :key="i"
+                    :active="route().current(item.route)"
+                    :class="route().current(item.route)?'active bg-primary':''"
+                    :dark="route().current(item.route)"
+                    :prepend-icon="item.icon"
+                    :title="item.title"
+                    class="text-decoration-none mr-1"
+                    rounded="e-xl"
+                    @click="navigateTo(route(item.route))"
+                >
+
+                </v-list-item>
             </v-list>
-        </perfect-scrollbar>
+
+
+
     </v-navigation-drawer>
 </template>
 
-<style scoped>
-.ps {
-    height: calc(100vh - 64px);
-}
-
-</style>

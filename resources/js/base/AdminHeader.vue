@@ -1,11 +1,13 @@
 <script setup>
-import { computed, ref } from "vue";
-import { useDisplay, useTheme } from "vuetify";
+import {computed, ref, onMounted, onUnmounted} from "vue";
+import {useDisplay, useTheme} from "vuetify";
 
-import { useAdminDrawerStore } from "../../stores/adminDrawer";
-import { useAuthLinksStore } from "../../stores/authLinks";
+import {useAdminDrawerStore} from "../stores/adminDrawer.js";
+import {useAuthLinksStore} from "../stores/authLinks.js";
+
+
 import Logo from "@/Components/Logo.vue";
-import name from "../../images/logo/name.png";
+
 import SettingsDropdown from "@/Components/SettingsDropdown.vue";
 
 const adminDrawerStore = useAdminDrawerStore();
@@ -14,33 +16,33 @@ const authLinksStore = useAuthLinksStore();
 const links = authLinksStore.authLinks;
 
 const listNewNotification = [
-    { type: "subheader", title: "Today" },
+    {type: "subheader", title: "Today"},
     {
         prependAvatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
         title: "Brunch this weekend?",
         subtitle: `<span class="text-primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
     },
-    { type: "divider", inset: true },
+    {type: "divider", inset: true},
     {
         prependAvatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
         title: "Summer BBQ",
         subtitle: `<span class="text-primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
     },
-    { type: "divider", inset: true },
+    {type: "divider", inset: true},
     {
         prependAvatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
         title: "Oui oui",
         subtitle:
             '<span class="text-primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
     },
-    { type: "divider", inset: true },
+    {type: "divider", inset: true},
     {
         prependAvatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
         title: "Birthday gift",
         subtitle:
             '<span class="text-primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
     },
-    { type: "divider", inset: true },
+    {type: "divider", inset: true},
     {
         prependAvatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
         title: "Recipe to try",
@@ -50,6 +52,7 @@ const listNewNotification = [
 ];
 
 const toggleDrawer = () => {
+    console.log(adminDrawerStore.isOpen)
     adminDrawerStore.toggleDrawer();
 };
 
@@ -60,7 +63,7 @@ function changeRail() {
     adminDrawerStore.changeDrawerRail();
 }
 
-const { mdAndUp } = useDisplay();
+const {mdAndUp} = useDisplay();
 const layoutStyle = computed(() => {
     console.error("este es un mensaje: ", mdAndUp && rail);
     if (mdAndUp && rail) {
@@ -93,43 +96,63 @@ function toggleTheme() {
         ? "light"
         : "dark";
 }
+
+const scrollY = ref(0);
+
+function handleScroll() {
+    scrollY.value = window.scrollY;
+}
+
+onMounted(() => {
+    window.addEventListener("scroll", handleScroll);
+});
+onUnmounted(() => {
+    window.removeEventListener("scroll", handleScroll);
+});
 </script>
 
 <template>
-    <v-app-bar class="bg-primary position-fixed">
+    <v-app-bar
+        class="custom-app-bar"
+        app
+        :color="scrollY === 0 ? 'primary' : 'primary'"
+        scroll-behavior="elevate"
+        :style="{
+            marginLeft: (!mdAndUp ? '10px' : '0px'),
+            marginRight: (!mdAndUp ? '10px' : '0px'),
+            borderBottomLeftRadius: '20px',
+            borderBottomRightRadius: '20px',
+            borderTopLeftRadius: '0px',
+            borderTopRightRadius: '0px',
+        }"
+    >
         <template v-slot:prepend>
             <div
                 :style="{ width: !mdAndUp || rail ? '' : '260px !important' }"
                 class="d-flex align-center"
             >
                 <logo
-                    :size="50"
+                    :size="45"
                     data-aos="fade-down"
                     data-aos-delay="200"
                     data-aos-duration="1000"
                 ></logo>
-                <p v-if="!rail" class="ml-1 text-h6 font-weight-bold">
-                    <img
-                        :src="name"
-                        alt="logo name"
-                        class="h-14 mt-4"
-                        data-aos="fade-down"
-                        data-aos-delay="200"
-                        data-aos-duration="1000"
-                        style="object-fit: contain; width: 80%"
-                    />
+                <p v-if="!rail" class="ml-2 text-h6 font-weight-bold">
+                    Jenis Sagbini
                 </p>
             </div>
         </template>
 
         <v-app-bar-nav-icon
-            v-if="!mdAndUp"
             @click="toggleDrawer"
-        ></v-app-bar-nav-icon>
-        <v-app-bar-nav-icon
-            v-if="mdAndUp"
-            @click="changeRail"
-        ></v-app-bar-nav-icon>
+        >
+        </v-app-bar-nav-icon>
+        <v-switch
+            v-model="adminDrawerStore.rail"
+            :label="rail ? 'Contraer' : 'Expandir'"
+            color="secondary"
+            hide-details
+        />
         <v-menu :close-on-content-click="false" location="end" offset-y>
             <template v-slot:activator="{ props }">
                 <v-btn icon="mdi-magnify" v-bind="props"></v-btn>
@@ -155,7 +178,8 @@ function toggleTheme() {
                 <div class="ps ps--active-y" style="height: 380px">
                     <v-list :lines="false" density="compact" lines="two">
                         <v-list-subheader
-                            >Enlaces de página rápida</v-list-subheader
+                        >Enlaces de página rápida
+                        </v-list-subheader
                         >
                         <v-list-item
                             v-for="(item, i) in links"
@@ -216,7 +240,13 @@ function toggleTheme() {
         </v-menu>
 
         <template v-slot:append>
-            <settings-dropdown></settings-dropdown>
+            <settings-dropdown :size="45"></settings-dropdown>
         </template>
     </v-app-bar>
 </template>
+
+<style scoped>
+.custom-app-bar {
+  transition: margin 0.2s, border-radius 0.2s;
+}
+</style>

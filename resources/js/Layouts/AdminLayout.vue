@@ -1,14 +1,16 @@
 <script setup>
-import {onMounted} from "vue";
-import AdminDrawer from "../Base/AdminDrawer.vue";
-import AdminHeader from "../Base/AdminHeader.vue";
-import AdminFooter from "../Base/AdminFooter.vue";
+import {onMounted, ref} from "vue";
+import AdminDrawer from "@/base/AdminDrawer.vue";
+import AdminHeader from "@/base/AdminHeader.vue";
+import AdminFooter from "@/base/AdminFooter.vue";
 import {Head} from "@inertiajs/vue3";
 import AOS from "aos";
+import Breadcrumbs from "@/base/Breadcrumbs.vue";
 
-
+const drawer = ref(false);
 defineProps({
     title: String,
+    route: String
 });
 
 onMounted(() => {
@@ -19,16 +21,16 @@ onMounted(() => {
 <template>
     <v-app>
         <Head :title="title"/>
-        <v-layout ref="appRef">
-            <admin-header name="app-bar"></admin-header>
+        <admin-drawer></admin-drawer>
+        <admin-header name="app-bar"></admin-header>
 
-            <admin-drawer></admin-drawer>
-            <v-main style="min-height: 300px;">
-                <slot></slot>
-            </v-main>
+        <v-main style="min-height: 300px;">
+            <breadcrumbs :name="title" :route="route"></breadcrumbs>
+            <slot></slot>
+        </v-main>
 
-            <admin-footer></admin-footer>
-        </v-layout>
+        <admin-footer></admin-footer>
+
     </v-app>
 </template>
 

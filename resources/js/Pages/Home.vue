@@ -85,7 +85,14 @@ function formatDateEs(date) {
 }
 
 function capitalizeTitle(title) {
-    return title.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+    return title
+        .toLowerCase()
+        .replace(/\b\w+/g, (word) => {
+            const preposiciones = [
+                "a", "ante", "bajo", "cabe", "con", "contra", "de", "desde", "durante", "en", "entre", "hacia", "hasta", "mediante", "para", "por", "según", "sin", "so", "sobre", "tras", "versus", "vía"
+            ];
+            return preposiciones.includes(word) ? word : word.charAt(0).toUpperCase() + word.slice(1);
+        });
 }
 </script>
 
@@ -409,11 +416,7 @@ function capitalizeTitle(title) {
                                             <h4
                                                 class="font-weight-medium text-dark hover-primary lh-normal text-wrap two-line-truncate"
                                             >
-                                                {{
-                                                    capitalizeTitle(
-                                                        notice.title
-                                                    )
-                                                }}
+                                                {{ notice.title }}
                                             </h4>
                                         </a>
                                     </div>

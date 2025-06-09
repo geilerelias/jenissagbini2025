@@ -49,7 +49,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <v-footer app class="bg-primary" :absolute="absolute" light>
+    <v-footer  class="bg-primary"  light>
         <v-container class="py-5">
             <div class="container">
                 <v-row class="">
@@ -101,6 +101,8 @@ onMounted(() => {
                                     <v-icon>{{ item.icon }}</v-icon>
                                 </v-btn>
                             </div>
+
+
                         </div>
                     </v-col>
 

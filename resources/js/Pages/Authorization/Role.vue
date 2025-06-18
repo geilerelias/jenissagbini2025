@@ -213,8 +213,8 @@
     </app-layout>
 </template>
 <script>
-import AppLayout from '@/Layouts/AppLayout'
-import BreadCrumbs from "@/components/BreadCrumbs";
+import AppLayout from '@/Layouts/AdminLayout.vue'
+import BreadCrumbs from "@/base/Breadcrumbs.vue";
 
 export default {
     components: {

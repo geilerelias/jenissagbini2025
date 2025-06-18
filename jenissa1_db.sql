@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-06-2025 a las 21:01:22
+-- Tiempo de generación: 11-06-2025 a las 20:44:01
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -78,6 +78,61 @@ CREATE TABLE `businesses` (
   `year` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cache`
+--
+
+CREATE TABLE `cache` (
+  `key` varchar(255) NOT NULL,
+  `value` mediumtext NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cache`
+--
+
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('jenissagbini_cache_1df52b5c9b30bc844adf951db5629bff', 'i:1;', 1749145476),
+('jenissagbini_cache_1df52b5c9b30bc844adf951db5629bff:timer', 'i:1749145476;', 1749145476),
+('jenissagbini_cache_861ce00ec5d1f3a4e6be8c1c5d736a7d', 'i:1;', 1749137980),
+('jenissagbini_cache_861ce00ec5d1f3a4e6be8c1c5d736a7d:timer', 'i:1749137980;', 1749137980),
+('jenissagbini_cache_geradillosarmiento@gmail.com|192.168.20.36', 'i:1;', 1749137980),
+('jenissagbini_cache_geradillosarmiento@gmail.com|192.168.20.36:timer', 'i:1749137980;', 1749137980),
+('jenissagbini_cache_visit_/_127.0.0.1', 'b:1;', 1749138247),
+('jenissagbini_cache_visit_/_192.168.20.36', 'b:1;', 1749139965),
+('jenissagbini_cache_visit_about_192.168.20.36', 'b:1;', 1749139968),
+('jenissagbini_cache_visit_admin/business/all_192.168.20.36', 'b:1;', 1749140079),
+('jenissagbini_cache_visit_admin/entrepreneurship/all_192.168.20.36', 'b:1;', 1749140078),
+('jenissagbini_cache_visit_admin/jury/all_192.168.20.36', 'b:1;', 1749140079),
+('jenissagbini_cache_visit_admin/notices/all_127.0.0.1', 'b:1;', 1749138253),
+('jenissagbini_cache_visit_admin/notices/all_192.168.20.36', 'b:1;', 1749139375),
+('jenissagbini_cache_visit_admin/software/all_192.168.20.36', 'b:1;', 1749140078),
+('jenissagbini_cache_visit_admin/thesis/all_192.168.20.36', 'b:1;', 1749140079),
+('jenissagbini_cache_visit_articles_192.168.20.36', 'b:1;', 1749140087),
+('jenissagbini_cache_visit_contact_192.168.20.36', 'b:1;', 1749139846),
+('jenissagbini_cache_visit_dashboard_192.168.20.36', 'b:1;', 1749139881),
+('jenissagbini_cache_visit_login_192.168.20.36', 'b:1;', 1749139365),
+('jenissagbini_cache_visit_projects_192.168.20.36', 'b:1;', 1749140077),
+('jenissagbini_cache_visit_register_192.168.20.36', 'b:1;', 1749139726),
+('jenissagbini_cache_visit_services_192.168.20.36', 'b:1;', 1749140090),
+('jenissagbini_cache_visit_statistics_127.0.0.1', 'b:1;', 1749139424),
+('jenissagbini_cache_visit_user/profile_192.168.20.36', 'b:1;', 1749139787);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cache_locks`
+--
+
+CREATE TABLE `cache_locks` (
+  `key` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
+  `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -171,6 +226,41 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(3) UNSIGNED NOT NULL,
+  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
+  `available_at` int(10) UNSIGNED NOT NULL,
+  `created_at` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `job_batches`
+--
+
+CREATE TABLE `job_batches` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `total_jobs` int(11) NOT NULL,
+  `pending_jobs` int(11) NOT NULL,
+  `failed_jobs` int(11) NOT NULL,
+  `failed_job_ids` longtext NOT NULL,
+  `options` mediumtext DEFAULT NULL,
+  `cancelled_at` int(11) DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `finished_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `juries`
 --
 
@@ -201,14 +291,31 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_resets_table', 1),
-(3, '2014_10_12_200000_add_two_factor_columns_to_users_table', 1),
-(4, '2019_08_19_000000_create_failed_jobs_table', 1),
-(5, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(6, '2020_05_21_100000_create_teams_table', 1),
-(7, '2020_05_21_200000_create_team_user_table', 1),
-(8, '2021_07_09_225703_create_sessions_table', 1);
+(1, '0001_01_01_000000_create_users_table', 1),
+(2, '0001_01_01_000001_create_cache_table', 1),
+(3, '0001_01_01_000002_create_jobs_table', 1),
+(4, '2020_05_21_100000_create_teams_table', 1),
+(5, '2020_05_21_200000_create_team_user_table', 1),
+(6, '2022_08_19_174103_create_courses_table', 1),
+(7, '2022_08_19_175551_create_contents_table', 1),
+(8, '2022_08_23_221700_create_course_user_table', 1),
+(9, '2022_09_04_052706_create_books_table', 1),
+(10, '2022_09_24_135337_create_notices_table', 1),
+(11, '2022_10_10_141143_create_entrepreneurships_table', 1),
+(12, '2022_10_10_141220_create_software_table', 1),
+(13, '2022_10_10_141258_create_businesses_table', 1),
+(14, '2022_10_10_141356_create_theses_table', 1),
+(15, '2022_10_10_141411_create_juries_table', 1),
+(16, '2022_10_13_160524_create_published_articles_table', 1),
+(17, '2022_10_18_144840_create_documents_table', 1),
+(18, '2022_10_18_192148_create_abouts_table', 1),
+(19, '2022_10_18_213021_create_other_articles_table', 1),
+(20, '2025_04_15_160601_add_two_factor_columns_to_users_table', 1),
+(21, '2025_04_15_160651_create_personal_access_tokens_table', 1),
+(22, '2025_06_04_193024_create_permission_tables', 1),
+(28, '2025_06_04_193806_create_visits_table', 2),
+(29, '2025_06_06_001151_create_subjects_table', 2),
+(30, '2025_06_06_001313_create_subject_user_table', 2);
 
 -- --------------------------------------------------------
 
@@ -219,7 +326,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 CREATE TABLE `model_has_permissions` (
   `permission_id` bigint(20) UNSIGNED NOT NULL,
   `model_type` varchar(255) NOT NULL,
-  `model_id` bigint(20) UNSIGNED NOT NULL
+  `model_id` bigint(20) UNSIGNED NOT NULL,
+  `team_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -231,18 +339,17 @@ CREATE TABLE `model_has_permissions` (
 CREATE TABLE `model_has_roles` (
   `role_id` bigint(20) UNSIGNED NOT NULL,
   `model_type` varchar(255) NOT NULL,
-  `model_id` bigint(20) UNSIGNED NOT NULL
+  `model_id` bigint(20) UNSIGNED NOT NULL,
+  `team_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `model_has_roles`
 --
 
-INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(1, 'App\\Models\\User', 1),
-(1, 'App\\Models\\User', 6),
-(1, 'App\\Models\\User', 1),
-(1, 'App\\Models\\User', 6);
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`, `team_id`) VALUES
+(1, 'App\\Models\\User', 1, 0),
+(1, 'App\\Models\\User', 6, 0);
 
 -- --------------------------------------------------------
 
@@ -268,14 +375,14 @@ CREATE TABLE `notices` (
 --
 
 INSERT INTO `notices` (`id`, `image`, `title`, `city`, `date`, `time`, `description`, `links`, `created_at`, `updated_at`) VALUES
-(5, 'notices/image-1644036270.jpg', 'CONFERENCIA INTERNACIONAL  ¨EMPRESAS 4.0¨', 'Cuenca, Ecuador.', '2020-07-22', '14:00', '<p><span style=\"color: rgb(5, 5, 5);\">El pasado 22 de julio de 2020, la Ingeniera Jenis del Carmen Sagbini Echávez dió la Conferencia \'Empresas 4.0\' en el Seminario Internacional de Innovación Real, Universidad del Azuay, Cuenca, Ecuador.</span></p>', NULL, '2022-02-05 09:44:30', '2022-02-05 09:44:30'),
-(6, 'notices/image-1645019188.jpg', 'DIPLOMADO ¨TRANSFORMACIÓN DIGITAL DE NEGOCIOS¨', 'Valledupar', '2020-09-10', '14:00', '<p class=\"ql-align-justify\"><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">El 10 de septiembre de 2020, en el auditorio Leandro Díaz de la Cámara de Comercio de Valledupar, la ingeniera Jenis del Carmen Sagbini Echávez </span><span style=\"color: rgb(0, 0, 0); letter-spacing: 0.1px;\">entregó los certificados del </span><span style=\"background-color: transparent; color: rgb(0, 0, 0); letter-spacing: 0.00714286em;\">diplomado de TRANSFORMACION DIGITAL DE NEGOCIOS a todos los  empresarios y trabajadores de empresas privadas y públicas de la ciudad, que culminaron satisfactoriamente la formación de dicha temática.</span></p><p><br></p>', 'null', '2022-02-05 09:46:36', '2022-02-16 18:46:28'),
-(7, 'notices/image-1644036533.jpg', 'RECONOCIMIENTO', 'Valledupar', '2019-12-17', '20:00', '<p><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">El 17 de diciembre de 2019, la Universidad Francisco de Paula Santander sede Ocaña, durante el Encuentro de Egresados de Auditoría de Sistemas, dió reconocimiento a la ingeniera Jenis del Carmen Sagbini Echávez por sus logros de impacto internacional.&nbsp; </span></p>', NULL, '2022-02-05 09:48:53', '2022-02-05 09:48:53'),
-(8, 'notices/image-1644036685.jpg', 'TALLER “HABILIDADES GERENCIALES PARA INGENIEROS”', 'Valledupar', '2019-03-14', '08:01', '<p><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">El 14 de marzo de 2019, en la Universidad de Santander UDES de Valledupar, se llevó a cabo el Taller “</span><em style=\"background-color: transparent; color: rgb(0, 0, 0);\">Habilidades Gerenciales para Ingenieros</em><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">” dirigido a egresados del programa de Ingeniería Industrial. </span></p>', 'null', '2022-02-05 09:50:47', '2022-02-05 09:51:25'),
-(9, 'notices/image-1644036811.jpg', 'CURSO “USO DE LAS TIC EN MADRES COMUNITARIAS”', 'Valledupar', '2020-03-14', '14:00', '<p><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">El&nbsp; 14 de marzo de 2019, en las instalaciones del ICBF, se llevó a cabo la ceremonia de graduación de aquellas Madres Comunitarias que lograron los resultados de aprendizaje en el curso “</span><em style=\"background-color: transparent; color: rgb(0, 0, 0);\">Uso de las Tecnologías de la Información y la Comunicación TIC</em><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">”. &nbsp; </span></p>', NULL, '2022-02-05 09:53:31', '2022-02-05 09:53:31'),
-(10, 'notices/image-1644036914.jpg', 'PREMIO A LA “MEJOR PONENCIA”', 'Valledupar', '2018-10-18', '14:00', '<p><span style=\"color: rgb(28, 30, 33);\">SENA, 18 de Octubre de 2018. El proyecto EMPRENDIMIENTO DIGITAL \"SOMOS UNO\" reconocida como Mejor Ponencia en III Simposio de Investigación, Innovación y Desarrollo Tecnológico! Centro de Operación y Mantenimiento Minero COMM SENA Cesar, en el Centro de Convenciones Crispín Villazón de Armas. Proyecto presentado por Aldair Nuñez Florian y orientado por Jenis Sagbini Echávez.</span></p>', NULL, '2022-02-05 09:55:14', '2022-02-05 09:55:14'),
+(5, 'notices/image-1644036270.jpg', 'Conferencia internacional \"empresas 4.0\"', 'Cuenca, Ecuador.', '2020-07-22', '14:00', '<p><span style=\"color: rgb(5, 5, 5);\">El pasado 22 de julio de 2020, la Ingeniera Jenis del Carmen Sagbini Echávez dió la Conferencia \'Empresas 4.0\' en el Seminario Internacional de Innovación Real, Universidad del Azuay, Cuenca, Ecuador.</span></p>', NULL, '2022-02-05 09:44:30', '2022-02-05 09:44:30'),
+(6, 'notices/image-1645019188.jpg', 'Diplomado \"Transformación Digital de Negocios\"', 'Valledupar', '2020-09-10', '14:00', '<p class=\"ql-align-justify\"><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">El 10 de septiembre de 2020, en el auditorio Leandro Díaz de la Cámara de Comercio de Valledupar, la ingeniera Jenis del Carmen Sagbini Echávez </span><span style=\"color: rgb(0, 0, 0); letter-spacing: 0.1px;\">entregó los certificados del </span><span style=\"background-color: transparent; color: rgb(0, 0, 0); letter-spacing: 0.00714286em;\">diplomado de TRANSFORMACION DIGITAL DE NEGOCIOS a todos los  empresarios y trabajadores de empresas privadas y públicas de la ciudad, que culminaron satisfactoriamente la formación de dicha temática.</span></p><p><br></p>', 'null', '2022-02-05 09:46:36', '2022-02-16 18:46:28'),
+(7, 'notices/image-1644036533.jpg', 'Reconocimiento', 'Valledupar', '2019-12-17', '20:00', '<p><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">El 17 de diciembre de 2019, la Universidad Francisco de Paula Santander sede Ocaña, durante el Encuentro de Egresados de Auditoría de Sistemas, dió reconocimiento a la ingeniera Jenis del Carmen Sagbini Echávez por sus logros de impacto internacional.&nbsp; </span></p>', NULL, '2022-02-05 09:48:53', '2022-02-05 09:48:53'),
+(8, 'notices/image-1644036685.jpg', 'Taller “Habilidades Gerenciales para Ingenieros”', 'Valledupar', '2019-03-14', '08:01', '<p><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">El 14 de marzo de 2019, en la Universidad de Santander UDES de Valledupar, se llevó a cabo el Taller “</span><em style=\"background-color: transparent; color: rgb(0, 0, 0);\">Habilidades Gerenciales para Ingenieros</em><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">” dirigido a egresados del programa de Ingeniería Industrial. </span></p>', 'null', '2022-02-05 09:50:47', '2022-02-05 09:51:25'),
+(9, 'notices/image-1644036811.jpg', 'Curso “Uso de las TIC en Madres Comunitarias”', 'Valledupar', '2020-03-14', '14:00', '<p><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">El&nbsp; 14 de marzo de 2019, en las instalaciones del ICBF, se llevó a cabo la ceremonia de graduación de aquellas Madres Comunitarias que lograron los resultados de aprendizaje en el curso “</span><em style=\"background-color: transparent; color: rgb(0, 0, 0);\">Uso de las Tecnologías de la Información y la Comunicación TIC</em><span style=\"background-color: transparent; color: rgb(0, 0, 0);\">”. &nbsp; </span></p>', NULL, '2022-02-05 09:53:31', '2022-02-05 09:53:31'),
+(10, 'notices/image-1644036914.jpg', 'Premio a la “Mejor Ponencia”', 'Valledupar', '2018-10-18', '14:00', '<p><span style=\"color: rgb(28, 30, 33);\">SENA, 18 de Octubre de 2018. El proyecto EMPRENDIMIENTO DIGITAL \"SOMOS UNO\" reconocida como Mejor Ponencia en III Simposio de Investigación, Innovación y Desarrollo Tecnológico! Centro de Operación y Mantenimiento Minero COMM SENA Cesar, en el Centro de Convenciones Crispín Villazón de Armas. Proyecto presentado por Aldair Nuñez Florian y orientado por Jenis Sagbini Echávez.</span></p>', NULL, '2022-02-05 09:55:14', '2022-02-05 09:55:14'),
 (11, 'notices/image-1679785074.jpeg', 'Diplomado de gestión y desarrollo en la tecnología', 'Valledupar - Colombia', '2023-03-15', '17:00', '<p>Durante el mes de marzo 2023, en la Cámara de Comercio de Valledupar, la ingeniera Jenis Sagbini enseñó los módulos ¨Introducción al Desarrollo Tecnológico¨ y ¨Procesos de Desarrollo Tecnológico¨ en el <strong>Diplomado de Gestión y Desarrollo de las Tecnologías.</strong> Esta formación fue dirigida a los empresarios, trabajadores, estudiantes universitarios, docentes universitarios y pequeños emprendedores como una contribución más al desarrollo del talento humano cesarense. Haciendo a la gente exitosa en un mundo cambiante!</p>', 'null', '2023-03-26 03:32:35', '2023-03-26 03:57:54'),
-(12, 'notices/image-1679784934.jpeg', 'DIPLOMADO EN INNOVACION EMPRESARIAL', 'Valledupar', '2023-03-25', '08:00', '<p>El 25 de marzo de 2023,  la Ingeniera Jenis Sagbini enseñó el módulo&nbsp;¨El rol de las Tecnologías en la Innovación Empresarial¨ en el <strong>Diplomado en Innovación Empresarial.</strong> Esta formación fue dirigida a los empresarios, trabajadores, estudiantes universitarios, docentes universitarios y pequeños emprendedores como una contribución más al desarrollo del talento humano. Haciendo a la gente exitosa en un mundo cambiante!</p>', 'null', '2023-03-26 03:54:03', '2023-03-26 03:55:34'),
+(12, 'notices/image-1679784934.jpeg', 'Diplomado en innovación empresarial', 'Valledupar', '2023-03-25', '08:00', '<p>El 25 de marzo de 2023,  la Ingeniera Jenis Sagbini enseñó el módulo&nbsp;¨El rol de las Tecnologías en la Innovación Empresarial¨ en el <strong>Diplomado en Innovación Empresarial.</strong> Esta formación fue dirigida a los empresarios, trabajadores, estudiantes universitarios, docentes universitarios y pequeños emprendedores como una contribución más al desarrollo del talento humano. Haciendo a la gente exitosa en un mundo cambiante!</p>', 'null', '2023-03-26 03:54:03', '2023-03-26 03:55:34'),
 (13, 'notices/image-1706374170.jpg', 'MASTER CLASS \"Tendencias Tecnológicas Emergentes y su impacto en empresas de base tecnológicas\"', 'Valledupar', '2023-07-19', '16:00', '<p>A través del programa Versos 2.0, la ingeniera Jenis Sagbini desarrolló una Master Class titulada: \"Tendencias Tecnológicas Emergentes y su Impacto en Empresas de Base Tecnológicas\". La audiencia estuvo conformada por empresarios y emprendedores adscritos a la Cámara de Comercio de Valledupar. Fue un espacio de conocimiento de experiencias y reflexión para aumentar la productividad en empresas locales!</p>', NULL, '2024-01-27 21:49:30', '2024-01-27 21:49:30'),
 (14, 'notices/image-1725318818.jpeg', 'Socialización del “Diplomado en Tecnología y Programación” ante los estudiantes beneficiados en Valledupar.', 'Valledupar, Cesar.', '2024-08-27', '10:00', '<p>La ingeniera <strong>Jenis Sagbini Echávez</strong> presentó el “<strong>Diplomado en Tecnología y Programación</strong>” a 100 estudiantes seleccionados de los colegios <strong>INSTPECAM, CASD y Alfonso López en Valledupar</strong>. Este diplomado es parte de un convenio interadministrativo <strong>entre la Gobernación del Cesar y la Universidad Popular del Cesar</strong>, con el objetivo de enseñar habilidades digitales como<strong> Programación WEB, Programación Móvil, Analítica de Datos y Seguridad Informática</strong>, ayudando a reducir la brecha digital en la región. En el evento participaron Álvaro Oñate, Director del Programa de Ingeniería de Sistemas, egresados del programa de Ingeniería de Sistemas, la Secretaria de Educación, Miguel Aroca, Asesor TIC del Departamento del Cesar, y rectores de los colegios.</p>', NULL, '2024-09-03 04:13:38', '2024-09-03 04:13:38');
 
@@ -288,7 +395,7 @@ INSERT INTO `notices` (`id`, `image`, `title`, `city`, `date`, `time`, `descript
 CREATE TABLE `other_articles` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `description` varchar(255) NOT NULL,
   `file` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -299,10 +406,10 @@ CREATE TABLE `other_articles` (
 --
 
 INSERT INTO `other_articles` (`id`, `title`, `description`, `file`, `created_at`, `updated_at`) VALUES
-(2, 'LA REALIDAD AUMENTADA EN COMERCIALIZACIÓN DE  PRODUCTOS PARA EL HOGAR: CRECIMIENTO Y  TENDENCIAS EN COLOMBIA', 'La realidad aumentada tiene como objetivo integrar el mundo real con el mundo digital, representando \r\nobjetos del mundo real a través de modelos 3D que una vez trasladados al plano digital permiten una fácil \r\ninteracción entre ambos mundos. Esta tecnología ha surgido como uno de los mayores avances dentro de la \r\nllamada revolución industrial 4.0 que no es más que la digitalización de las industrias para optimizar sus procesos \r\ny ha permitido obtener grandes aportes y beneficios en el camino a la digitalización de las diferentes empresas a \r\ntravés de uso de entornos virtuales o de realidad aumentada para brindar información, conocimiento y mejor \r\nexperiencia de interacción a clientes e interesados. En la presente investigación se hace un estudio sobre lo que ha \r\nrepresentado la realidad aumentada, su tendencia y relación con respecto al marketing de productos para el hogar\r\nen Colombia. La metodología utilizada fue de tipo exploratorio acompañado de tres etapas de investigación. Como \r\nresultado se obtuvieron indicadores donde se resalta el incremento del uso de la tecnología, especialmente los \r\nteléfonos inteligentes, para la compra de productos para el hogar determinando la necesidad creciente en las \r\ndecisiones de los consumidores.', 'others-article/other article-1662332123.pdf', '2022-09-05 03:55:23', '2022-09-05 03:55:23'),
-(3, 'EMPRENDIMIENTO DIGITAL “SOMOS UNO”, PARA LA GESTIÓN DEL SEGUIMIENTO Y CONSOLIDACIÓN EN IGLESIAS CRISTIANAS.', 'A continuación se presenta un emprendimiento digital, que se elaboró desde la convocatoria de la Iteración IX de App.co\r\ny el MINTIC, basado en datos reales, tomados de un estudio de mercado realizado en la ciudad de Valledupar. Se inició\r\ncon el auge que presenta la iglesia cristiana en Colombia, el uso de tecnología por parte de estas organizaciones y la\r\nidentificación de los problemas presentados al momento de tener control y acceso a la información. Se utilizó la\r\nmetodología de Descubrimiento de Negocios planteada por App.co donde se realizó entrevista a 30 iglesias en la ciudad\r\nde Valledupar para validar la hipótesis que inicialmente fue planteada, dada la problemática encontrada.\r\nConsecutivamente se validaron las diferentes hipótesis generadas y se inició el desarrollo de una propuesta de valor\r\nenfocada en penetrar el mercado local con proyecciones a nivel nacional. Como resultado de la investigación, se obtiene\r\nla plataforma web “Somos Uno”, que ha sido dada a conocer a cada iglesia que fue entrevistada, siendo adquirida por dos\r\niglesias cristianas. Los resultados fueron satisfactorios y de gran impacto social.', 'others-article/other article-1662332180.pdf', '2022-09-05 03:56:20', '2022-09-05 03:56:20'),
-(4, 'La investigación aplicada en la sociedad de la información', 'La investigación básica, la investigación aplicada y su desarrollo \r\nexperimental, son opciones que son determinadas por el desarrollo \r\nsocio económico de un país. Los índices y las estadísticas son \r\ncoherentes. Pocos países de América latina disponen de los científicos \r\ny los recursos para hacer investigación básica, pero sí de académicos \r\ne investigadores para hacer las dos últimas actividades técnico \r\ncientíficas de la citada taxonomía.', 'others-article/other article-1662332322.pdf', '2022-09-05 03:58:42', '2022-09-05 03:58:42'),
-(5, 'MEMORIAS DEL SEGUNDO SIMPOSIO DE INVESTIGACIÓN, INNOVACIÓN, DESARROLLO TECNOLÓGICO', 'Los cambios en la forma de hacer las cosas \r\nhoy en día, reflejan la influencia que la \r\ninnovación y la tecnología ejercen sobre el \r\ndiario vivir de las personas en la tierra. Hoy, \r\nel hombre se ve con una mayor necesidad de \r\npreparación y cada vez, será mayor la \r\nexigencia que el mercado laboral tendrá. \r\nQuienes se preparan para laborar y \r\nemprender, deberán ser conscientes de esos \r\ncambios y serán protagonistas de su \r\nformación para enfrentar el quehacer en una \r\ncompetencia fuerte y completamente \r\ntecnológica.', 'others-article/other article-1662332409.pdf', '2022-09-05 04:00:09', '2022-09-05 04:00:09');
+(2, 'LA REALIDAD AUMENTADA EN COMERCIALIZACIÓN DE  PRODUCTOS PARA EL HOGAR: CRECIMIENTO Y  TENDENCIAS EN COLOMBIA', 'La realidad aumentada tiene como objetivo integrar el mundo real con el mundo digital, representando \r\nobjetos del mundo real a través de modelos 3D que una vez trasladados al plano digital permiten una fácil \r\ninteracción entre ambos mundos. Esta tecnolo', 'others-article/other article-1662332123.pdf', '2022-09-05 03:55:23', '2022-09-05 03:55:23'),
+(3, 'EMPRENDIMIENTO DIGITAL “SOMOS UNO”, PARA LA GESTIÓN DEL SEGUIMIENTO Y CONSOLIDACIÓN EN IGLESIAS CRISTIANAS.', 'A continuación se presenta un emprendimiento digital, que se elaboró desde la convocatoria de la Iteración IX de App.co\r\ny el MINTIC, basado en datos reales, tomados de un estudio de mercado realizado en la ciudad de Valledupar. Se inició\r\ncon el auge que', 'others-article/other article-1662332180.pdf', '2022-09-05 03:56:20', '2022-09-05 03:56:20'),
+(4, 'La investigación aplicada en la sociedad de la información', 'La investigación básica, la investigación aplicada y su desarrollo \r\nexperimental, son opciones que son determinadas por el desarrollo \r\nsocio económico de un país. Los índices y las estadísticas son \r\ncoherentes. Pocos países de América latina disponen d', 'others-article/other article-1662332322.pdf', '2022-09-05 03:58:42', '2022-09-05 03:58:42'),
+(5, 'MEMORIAS DEL SEGUNDO SIMPOSIO DE INVESTIGACIÓN, INNOVACIÓN, DESARROLLO TECNOLÓGICO', 'Los cambios en la forma de hacer las cosas \r\nhoy en día, reflejan la influencia que la \r\ninnovación y la tecnología ejercen sobre el \r\ndiario vivir de las personas en la tierra. Hoy, \r\nel hombre se ve con una mayor necesidad de \r\npreparación y cada vez, s', 'others-article/other article-1662332409.pdf', '2022-09-05 04:00:09', '2022-09-05 04:00:09');
 
 -- --------------------------------------------------------
 
@@ -327,6 +434,18 @@ INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `password_reset_tokens`
+--
+
+CREATE TABLE `password_reset_tokens` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `permissions`
 --
 
@@ -343,54 +462,30 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(23, 'edit articles', 'sanctum', '2022-01-04 13:28:29', '2022-01-04 13:28:29'),
-(24, 'edit notices', 'sanctum', '2022-01-04 13:31:55', '2022-01-04 13:31:55'),
-(25, 'view dashboard', 'sanctum', '2022-01-04 13:32:03', '2022-01-04 13:32:03'),
-(26, 'create rol', 'sanctum', '2022-01-04 13:32:12', '2022-01-04 13:32:12'),
-(27, 'edit rol', 'sanctum', '2022-01-04 13:32:21', '2022-01-04 15:03:40'),
-(28, 'view notices', 'sanctum', '2022-01-04 13:32:33', '2022-01-04 13:32:33'),
-(29, 'view services', 'sanctum', '2022-01-04 13:32:44', '2022-01-04 13:32:44'),
-(30, 'view gallery', 'sanctum', '2022-01-04 13:32:53', '2022-01-04 13:32:53'),
-(31, 'view user', 'sanctum', '2022-01-04 13:33:01', '2022-01-04 13:33:01'),
-(32, 'view person', 'sanctum', '2022-01-04 13:33:12', '2022-01-04 13:33:12'),
-(33, 'view rol', 'sanctum', '2022-01-04 13:33:22', '2022-01-04 15:03:47'),
-(34, 'view permission', 'sanctum', '2022-01-04 13:33:33', '2022-01-04 13:33:33'),
-(35, 'edit person', 'sanctum', '2022-01-04 13:33:45', '2022-01-04 13:33:45'),
-(36, 'destroy person', 'sanctum', '2022-01-04 13:33:58', '2022-01-04 13:33:58'),
-(37, 'create person', 'sanctum', '2022-01-04 13:34:07', '2022-01-04 13:34:07'),
-(38, 'example', 'sanctum', '2022-01-04 14:11:12', '2022-01-04 14:11:12'),
-(39, 'assign permissions', 'sanctum', '2022-01-04 15:02:26', '2022-01-04 15:02:26'),
-(40, 'get permissions', 'sanctum', '2022-01-04 15:02:49', '2022-01-04 15:02:49'),
-(41, 'destroy rol', 'sanctum', '2022-01-04 15:04:15', '2022-01-04 15:04:15'),
-(42, 'assign roles', 'sanctum', '2022-01-05 02:25:27', '2022-01-05 02:25:27'),
-(43, 'remove roles', 'sanctum', '2022-01-05 02:25:59', '2022-01-05 02:25:59'),
-(44, 'view project', 'sanctum', '2022-02-03 10:18:41', '2022-02-03 10:18:41'),
-(45, 'view articles', 'sanctum', '2022-02-03 10:19:56', '2022-02-03 10:19:56'),
-(46, 'view about', 'sanctum', '2022-02-03 10:20:07', '2022-02-03 10:20:07'),
-(23, 'edit articles', 'sanctum', '2022-01-04 13:28:29', '2022-01-04 13:28:29'),
-(24, 'edit notices', 'sanctum', '2022-01-04 13:31:55', '2022-01-04 13:31:55'),
-(25, 'view dashboard', 'sanctum', '2022-01-04 13:32:03', '2022-01-04 13:32:03'),
-(26, 'create rol', 'sanctum', '2022-01-04 13:32:12', '2022-01-04 13:32:12'),
-(27, 'edit rol', 'sanctum', '2022-01-04 13:32:21', '2022-01-04 15:03:40'),
-(28, 'view notices', 'sanctum', '2022-01-04 13:32:33', '2022-01-04 13:32:33'),
-(29, 'view services', 'sanctum', '2022-01-04 13:32:44', '2022-01-04 13:32:44'),
-(30, 'view gallery', 'sanctum', '2022-01-04 13:32:53', '2022-01-04 13:32:53'),
-(31, 'view user', 'sanctum', '2022-01-04 13:33:01', '2022-01-04 13:33:01'),
-(32, 'view person', 'sanctum', '2022-01-04 13:33:12', '2022-01-04 13:33:12'),
-(33, 'view rol', 'sanctum', '2022-01-04 13:33:22', '2022-01-04 15:03:47'),
-(34, 'view permission', 'sanctum', '2022-01-04 13:33:33', '2022-01-04 13:33:33'),
-(35, 'edit person', 'sanctum', '2022-01-04 13:33:45', '2022-01-04 13:33:45'),
-(36, 'destroy person', 'sanctum', '2022-01-04 13:33:58', '2022-01-04 13:33:58'),
-(37, 'create person', 'sanctum', '2022-01-04 13:34:07', '2022-01-04 13:34:07'),
-(38, 'example', 'sanctum', '2022-01-04 14:11:12', '2022-01-04 14:11:12'),
-(39, 'assign permissions', 'sanctum', '2022-01-04 15:02:26', '2022-01-04 15:02:26'),
-(40, 'get permissions', 'sanctum', '2022-01-04 15:02:49', '2022-01-04 15:02:49'),
-(41, 'destroy rol', 'sanctum', '2022-01-04 15:04:15', '2022-01-04 15:04:15'),
-(42, 'assign roles', 'sanctum', '2022-01-05 02:25:27', '2022-01-05 02:25:27'),
-(43, 'remove roles', 'sanctum', '2022-01-05 02:25:59', '2022-01-05 02:25:59'),
-(44, 'view project', 'sanctum', '2022-02-03 10:18:41', '2022-02-03 10:18:41'),
-(45, 'view articles', 'sanctum', '2022-02-03 10:19:56', '2022-02-03 10:19:56'),
-(46, 'view about', 'sanctum', '2022-02-03 10:20:07', '2022-02-03 10:20:07');
+(23, 'edit articles', 'sanctum', '2022-01-04 18:28:29', '2022-01-04 18:28:29'),
+(24, 'edit notices', 'sanctum', '2022-01-04 18:31:55', '2022-01-04 18:31:55'),
+(25, 'view dashboard', 'sanctum', '2022-01-04 18:32:03', '2022-01-04 18:32:03'),
+(26, 'create rol', 'sanctum', '2022-01-04 18:32:12', '2022-01-04 18:32:12'),
+(27, 'edit rol', 'sanctum', '2022-01-04 18:32:21', '2022-01-04 20:03:40'),
+(28, 'view notices', 'sanctum', '2022-01-04 18:32:33', '2022-01-04 18:32:33'),
+(29, 'view services', 'sanctum', '2022-01-04 18:32:44', '2022-01-04 18:32:44'),
+(30, 'view gallery', 'sanctum', '2022-01-04 18:32:53', '2022-01-04 18:32:53'),
+(31, 'view user', 'sanctum', '2022-01-04 18:33:01', '2022-01-04 18:33:01'),
+(32, 'view person', 'sanctum', '2022-01-04 18:33:12', '2022-01-04 18:33:12'),
+(33, 'view rol', 'sanctum', '2022-01-04 18:33:22', '2022-01-04 20:03:47'),
+(34, 'view permission', 'sanctum', '2022-01-04 18:33:33', '2022-01-04 18:33:33'),
+(35, 'edit person', 'sanctum', '2022-01-04 18:33:45', '2022-01-04 18:33:45'),
+(36, 'destroy person', 'sanctum', '2022-01-04 18:33:58', '2022-01-04 18:33:58'),
+(37, 'create person', 'sanctum', '2022-01-04 18:34:07', '2022-01-04 18:34:07'),
+(38, 'example', 'sanctum', '2022-01-04 19:11:12', '2022-01-04 19:11:12'),
+(39, 'assign permissions', 'sanctum', '2022-01-04 20:02:26', '2022-01-04 20:02:26'),
+(40, 'get permissions', 'sanctum', '2022-01-04 20:02:49', '2022-01-04 20:02:49'),
+(41, 'destroy rol', 'sanctum', '2022-01-04 20:04:15', '2022-01-04 20:04:15'),
+(42, 'assign roles', 'sanctum', '2022-01-05 07:25:27', '2022-01-05 07:25:27'),
+(43, 'remove roles', 'sanctum', '2022-01-05 07:25:59', '2022-01-05 07:25:59'),
+(44, 'view project', 'sanctum', '2022-02-03 15:18:41', '2022-02-03 15:18:41'),
+(45, 'view articles', 'sanctum', '2022-02-03 15:19:56', '2022-02-03 15:19:56'),
+(46, 'view about', 'sanctum', '2022-02-03 15:20:07', '2022-02-03 15:20:07');
 
 -- --------------------------------------------------------
 
@@ -406,6 +501,7 @@ CREATE TABLE `personal_access_tokens` (
   `token` varchar(64) NOT NULL,
   `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -446,6 +542,7 @@ INSERT INTO `published_articles` (`id`, `title`, `description`, `year`, `country
 
 CREATE TABLE `roles` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `team_id` bigint(20) UNSIGNED DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `guard_name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -456,13 +553,10 @@ CREATE TABLE `roles` (
 -- Volcado de datos para la tabla `roles`
 --
 
-INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'sanctum', NULL, NULL),
-(2, 'user', 'sanctum', NULL, NULL),
-(5, 'student', 'sanctum', NULL, NULL),
-(1, 'admin', 'sanctum', NULL, NULL),
-(2, 'user', 'sanctum', NULL, NULL),
-(5, 'student', 'sanctum', NULL, NULL);
+INSERT INTO `roles` (`id`, `team_id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'admin', 'sanctum', NULL, NULL),
+(2, NULL, 'user', 'sanctum', NULL, NULL),
+(5, NULL, 'student', 'sanctum', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -483,9 +577,11 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (23, 1),
 (24, 1),
 (25, 1),
+(25, 2),
+(25, 5),
 (26, 1),
 (27, 1),
-(28, 1),
+(28, 2),
 (29, 1),
 (30, 1),
 (31, 1),
@@ -495,7 +591,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (35, 1),
 (36, 1),
 (37, 1),
-(38, 1),
 (39, 1),
 (40, 1),
 (41, 1),
@@ -503,30 +598,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (43, 1),
 (44, 1),
 (45, 1),
-(46, 1),
-(23, 1),
-(24, 1),
-(25, 1),
-(26, 1),
-(27, 1),
-(28, 1),
-(29, 1),
-(30, 1),
-(31, 1),
-(32, 1),
-(33, 1),
-(34, 1),
-(35, 1),
-(36, 1),
-(37, 1),
-(38, 1),
-(39, 1),
-(40, 1),
-(41, 1),
-(42, 1),
-(43, 1),
-(44, 1),
-(45, 1),
+(45, 2),
 (46, 1);
 
 -- --------------------------------------------------------
@@ -540,7 +612,7 @@ CREATE TABLE `sessions` (
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `ip_address` varchar(45) DEFAULT NULL,
   `user_agent` text DEFAULT NULL,
-  `payload` text NOT NULL,
+  `payload` longtext NOT NULL,
   `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -549,23 +621,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('4XbxyZyrsWpbdWPgNIp12iqOODu9nOZKpYfxAd6S', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaVc3RDNRd3E1eGh4dmJyZldKRXB6U3RzTGE3cFNIcTNyTmZsTmQ5ZiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1748570585),
-('82xQMVbcE1HT5lut5srapnnE58c1tIVLizAM8u7q', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiR1V1WWE4QnpCa3FYOExaOFRSWVF1R21zUG5ld2E4Y1BkYWZabUZnTiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1748736467),
-('9vbLKLr76UQn3xvM9N2mzI6Q5dsfJuuqk2A0YJb1', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiVExZRWU4VThROWgzRFRXeUtHRFA1RktKT0RLUmtqTDd4Y1U3cnpXYSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjk7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTIkWGVtdktZdVlQTzVmWGMvR0tJSWhNdXczaE1scWovOWgydHd6QmM3bjlXRmxjWkVKdXYwQXEiO3M6MzoidXJsIjthOjE6e3M6ODoiaW50ZW5kZWQiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEyJFhlbXZLWXVZUE81ZlhjL0dLSUloTXV3M2hNbHFqLzloMnR3ekJjN245V0ZsY1pFSnV2MEFxIjt9', 1748838031),
-('awna8UvcElpCLrhW4lYUFC7izJjzLBthz0v2TIeK', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiMGRpaWZNTFVwandZR29qODNobkg1WWI4S2ljMldWSzdtWGtHRkw1SiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1749062734),
-('D6HGtXlUOt33a83ycdAa39rYTixSTC82XTAylMy5', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVFFnMllad0ZyNkpRSWV1b0NETGE3Mm5YbEZUaDdlZTNKOTk1aHlsUyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1748684943),
-('ebupOTjjDAsGhCYsiHZTTXsoF2I18purbCPrb612', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiQURtOThJeHlnS0E3Rm5tQzZmWEtwSXpFUDYzTTRpNkpaNDBiOTlxeCI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6OTtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEyJFhlbXZLWXVZUE81ZlhjL0dLSUloTXV3M2hNbHFqLzloMnR3ekJjN245V0ZsY1pFSnV2MEFxIjtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czozMjoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2NoZWNrLWF1dGgiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1748875161),
-('eHh4kHUTEzFWjGaEyVfmY9cgVQouFhF616LkbbOW', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoic2hlaUtQa3ZVbkFLa2tCNW9RVzBZTDZZV2FTQ0xUMnZSNG5sbWJVUyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1749054465),
-('f3znAq86IthnCQU7kQFxibBHiMjbkmNAqXSgzVwi', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoieFB2M1h1dE93U3JNbFZiQVBCeHJsN1JjUHE3YzhLdUlsQkgxeFNseiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMS9zdG9yYWdlL25vdGljZXMvaW1hZ2UtMTY0NTAxOTE4OC5qcGciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1748823484),
-('FTdsd0gv47mB0DGfxm08iwUv3LN4uIj5g46M2F6I', NULL, '192.168.20.20', 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZ2VQRTR1S09ScWIwdWliMlliMFpPaU9RdHRXa2Y4SHcydEt5RkRRaCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjU6Imh0dHA6Ly8xOTIuMTY4LjIwLjIwOjgwMDAiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1748965948),
-('idSnoH1OQYPRbJAPiRD0JGWoRtt6JJW5e9m0KRm3', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZmp1SEU5R09VUXJQYXlmTUxBQmVxRzk3RTBiSnV2c3dlRm9FdzdObyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1748974944),
-('NXLNm6ieLbmIUew5FJPxVpuatj60zpmDTQ3WQ3Vm', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiWlhadFdIQzI2aEtuR1dPTDJMYWlMTHJiOHJ3WGRrMEViSkx0dlJPSCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1748992477),
-('qJ16VNF2kgkl6h7b0UxM8Qje6rezk4iRUcmOS3Ag', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiM2xKVlJPZEhDQVhIeW1rejVZVXlXbGFXWUZDWEJqc0V4M3RncG80OSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1748464335),
-('SY3W6jqgGrlbtLcw7N11oFOq5lVfNrrqq8Gxl6Ez', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoia01xQXo0TVNlNHBMcFo3OWRuT3RxYmhISWdGUkpjQkhlUFhZNjdDaiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1748560677),
-('x1d8SVbXQAVOa1TXe5Edi1URGjpeRAwltcEDcG0t', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiMVRuMkRrZnhkSlV1MGdZWGdXMktKQXo3TzdteWxWTjVCTzJuRFIwQiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hYm91dCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjE6e3M6ODoiaW50ZW5kZWQiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9zZXJ2aWNlcyI7fX0=', 1748965630),
-('YhZQGW0rtm3k8qnjypnC5sLIwe8tTvFG3Tpamx1a', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiUVl6ZmwwYmo2a0R1SjVMdlFid1lONVNuUzFTUTBBaHpFMzBub3NaTCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1748992476),
-('YjEzC8lf8yPlJhLb35req7FTMKlmK0GjjTFfxMVl', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNlJCRWNSZGhKNGFuQzQyQmxZN2tpM0d0TEpkM2huQXNudEp2Y1RvZiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1748832869),
-('YpF9mxGtFnrUy6kXURSNDajk2CLXSJiSKNzIvrcv', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQlpuY1RyVFZWa2V0dXBEa2NlWnBWMFhzdFNXUXR5UGJCRGZOOEc2UCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1748734405);
+('559I2pXeDcsBYJ0bMpHazxrUv1wFrjRw4hORd2sR', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiblZBbkRwTnh3NVhvRXVsNG50NFpyTHhaMnhnOTJnYWRJWGJzcjBmaCI7czo4OiJ2aXNpdF9pZCI7aToyNTtzOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM2OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4vc3ViamVjdHMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMiRMUk5kTjMwcmVVelh5L0Zzek13ZDcuVXprZmxRajRCYU5JZ3FXUmVER2szbm5lSHo4Q1dDSyI7fQ==', 1749600591),
+('lyAzBGd9eMEQe4NayVUVzeDUkWPHnFnFqO75sBI9', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiZ09pUzZsbmZaa2NmMVAySE14T2dBUTZaSE9lTktCY01KNFduMTF3cCI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjg6InZpc2l0X2lkIjtpOjE1O3M6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM2OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4vc3ViamVjdHMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMiRMUk5kTjMwcmVVelh5L0Zzek13ZDcuVXprZmxRajRCYU5JZ3FXUmVER2szbm5lSHo4Q1dDSyI7fQ==', 1749503984);
 
 -- --------------------------------------------------------
 
@@ -580,6 +637,43 @@ CREATE TABLE `software` (
   `state` varchar(255) NOT NULL,
   `entity` varchar(255) NOT NULL,
   `year` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `subjects`
+--
+
+CREATE TABLE `subjects` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `subjects`
+--
+
+INSERT INTO `subjects` (`id`, `name`, `description`, `image_path`, `created_at`, `updated_at`) VALUES
+(1, 'Ejemplo', 'Ejemplo', NULL, '2025-06-08 02:39:48', '2025-06-08 02:39:48');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `subject_user`
+--
+
+CREATE TABLE `subject_user` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `subject_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -658,9 +752,10 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `two_factor_secret` text DEFAULT NULL,
   `two_factor_recovery_codes` text DEFAULT NULL,
+  `two_factor_confirmed_at` timestamp NULL DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `current_team_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `profile_photo_path` text DEFAULT NULL,
+  `profile_photo_path` varchar(2048) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -669,16 +764,64 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
-(1, 'Geiler Elias Radillo', 'geilerelias@gmail.com', '2022-02-01 21:51:25', '$2y$10$hbKeAU3Igey74jGsSd.7BeUhUP5r7NfwGTI8FDyZDbJlPecuvlZfm', NULL, NULL, 'qjb0YNHWCGA9Jn8IoRFzDTmj9kWEJnp4GI5Qu6QmGUVYwDC7LhaJ3cojtTVw', 1, NULL, '2022-01-28 06:10:57', '2022-02-01 21:51:25'),
-(2, 'Ledis Sarmiento', 'ledisbersage@gmail.com', NULL, '$2y$10$6YpVCIhouQIsLhZNeE2my.E8lTdXEtMRqmSpUIkEVMM7hWzlbhjkW', NULL, NULL, 'sxwkcUYq6X8GSKk3aN1B1dJrkJbCOg4G8Y3z1uniRcughFdcHUM5pFQ0j34k', 2, NULL, '2022-01-30 06:16:53', '2022-01-30 06:17:18'),
-(3, 'Usuario comun', 'user@mail.com', NULL, '$2y$10$Z3OiDDfwPyEuKHKQ60PlLuHlUItGDNIddv2Gx5dzjENjl2o5QMcKq', NULL, NULL, NULL, 3, NULL, '2022-01-30 06:20:34', '2022-01-30 06:25:03'),
-(4, 'example', 'example@mail.com', NULL, '$2y$10$8WB1kdJUz/NrjNJ62WEYXOTOwAVUM8KADgYYgY.aCA/NmZ159TpLS', NULL, NULL, NULL, 4, NULL, '2022-01-30 06:25:39', '2022-01-30 06:27:09'),
-(5, 'other user', 'otheruser@mail.com', NULL, '$2y$10$sGpywhfNyf/tEhZGg1kwjOtzNcQvrQtXtTy1PSpmrNuQkViKZc2PS', NULL, NULL, NULL, 5, NULL, '2022-01-30 06:28:12', '2022-01-30 06:28:16'),
-(6, 'Jenis Sagbini', 'contacto@jenissagbini.com', '2022-02-01 22:58:14', '$2y$10$oFsOHaxcTtvENDQB4aVZgObdecwaCLbfvqbplQA0Q3es0JiYuTOl.', NULL, NULL, 'Xs0PDPy7NnbZoUlD3P0CLnaDb5GS2ZDNAag0fqMDO8ixrLsTvQGovWTihDSU', 6, NULL, '2022-02-01 22:57:47', '2022-02-05 16:42:59'),
-(7, 'Juanchopolo', 'Juanchopolo@gmail.com', NULL, '$2y$10$yCk.aIe/2MPDE6tStr/dXOA68XtkR7WUQ.v.fHkyaG9jFJs69cVFO', NULL, NULL, NULL, NULL, NULL, '2022-11-23 03:00:59', '2022-11-23 03:00:59'),
-(8, 'anonymo', 'memate7381@amxyy.com', NULL, '$2y$10$CKaXEdAECHFeiBptoMmWTeJ0JBxr8EU0KXNzXFW8fdWAwY1ygkOQm', NULL, NULL, NULL, NULL, NULL, '2024-08-23 02:39:49', '2024-08-23 02:39:49'),
-(9, 'Geiler Elias Radillo Sarmiento', 'geilerelias@mail.com', NULL, '$2y$12$XemvKYuYPO5fXc/GKIIhMuw3hMlqj/9h2twzBc7n9WFlcZEJuv0Aq', NULL, NULL, 'aLlTniKhIReoGcIgFxj0Eb4XlJjlN0f3BOr5nsbavRXk149M5mUSS6EYoffk', NULL, NULL, '2025-05-27 22:19:47', '2025-05-27 22:19:47');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
+(1, 'Geiler Elias Radillo', 'geilerelias@gmail.com', '2022-02-01 21:51:25', '$2y$12$LRNdN30reUzXy/FszMwd7.UzkflQj4BaNIgqWReDGk3nneHz8CWCK', NULL, NULL, NULL, '6eZ3zCO9w1tdJS2tm4vZjPJoh5AG4IMzF4ZRmNb4d2jPC66uSbtNvQdGQw12', 1, NULL, '2022-01-28 06:10:57', '2025-06-05 18:28:03'),
+(2, 'Ledis Sarmiento', 'ledisbersage@gmail.com', NULL, '$2y$10$6YpVCIhouQIsLhZNeE2my.E8lTdXEtMRqmSpUIkEVMM7hWzlbhjkW', NULL, NULL, NULL, 'sxwkcUYq6X8GSKk3aN1B1dJrkJbCOg4G8Y3z1uniRcughFdcHUM5pFQ0j34k', 2, NULL, '2022-01-30 06:16:53', '2022-01-30 06:17:18'),
+(3, 'Usuario comun', 'user@mail.com', NULL, '$2y$10$Z3OiDDfwPyEuKHKQ60PlLuHlUItGDNIddv2Gx5dzjENjl2o5QMcKq', NULL, NULL, NULL, NULL, 3, NULL, '2022-01-30 06:20:34', '2022-01-30 06:25:03'),
+(4, 'example', 'example@mail.com', NULL, '$2y$10$8WB1kdJUz/NrjNJ62WEYXOTOwAVUM8KADgYYgY.aCA/NmZ159TpLS', NULL, NULL, NULL, NULL, 4, NULL, '2022-01-30 06:25:39', '2022-01-30 06:27:09'),
+(5, 'other user', 'otheruser@mail.com', NULL, '$2y$10$sGpywhfNyf/tEhZGg1kwjOtzNcQvrQtXtTy1PSpmrNuQkViKZc2PS', NULL, NULL, NULL, NULL, 5, NULL, '2022-01-30 06:28:12', '2022-01-30 06:28:16'),
+(6, 'Jenis Sagbini', 'contacto@jenissagbini.com', '2022-02-01 22:58:14', '$2y$10$oFsOHaxcTtvENDQB4aVZgObdecwaCLbfvqbplQA0Q3es0JiYuTOl.', NULL, NULL, NULL, 'Xs0PDPy7NnbZoUlD3P0CLnaDb5GS2ZDNAag0fqMDO8ixrLsTvQGovWTihDSU', 6, NULL, '2022-02-01 22:57:47', '2022-02-05 16:42:59'),
+(7, 'Juanchopolo', 'Juanchopolo@gmail.com', NULL, '$2y$10$yCk.aIe/2MPDE6tStr/dXOA68XtkR7WUQ.v.fHkyaG9jFJs69cVFO', NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-23 03:00:59', '2022-11-23 03:00:59'),
+(8, 'anonymo', 'memate7381@amxyy.com', NULL, '$2y$10$CKaXEdAECHFeiBptoMmWTeJ0JBxr8EU0KXNzXFW8fdWAwY1ygkOQm', NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-23 02:39:49', '2024-08-23 02:39:49'),
+(10, 'Geiler Radillo', 'geradillosarmiento@gmail.com', NULL, '$2y$12$axRqAozS4XtRBeElrqsGxOHA4dUbPMN1sfT3yjtLllqi1iMoeWVm.', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-05 20:39:46', '2025-06-05 20:39:46');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `visits`
+--
+
+CREATE TABLE `visits` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `user_agent` text DEFAULT NULL,
+  `visited_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `left_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `visits`
+--
+
+INSERT INTO `visits` (`id`, `ip_address`, `url`, `user_agent`, `visited_at`, `left_at`, `created_at`, `updated_at`) VALUES
+(1, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-07 14:20:02', '2025-06-07 19:20:02', NULL, NULL),
+(2, '127.0.0.1', 'statistics', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-07 14:21:13', '2025-06-07 19:21:13', NULL, NULL),
+(3, '127.0.0.1', 'api/stats', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-07 14:21:15', '2025-06-07 19:21:15', NULL, NULL),
+(4, '127.0.0.1', 'api/visitors', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-07 14:21:16', '2025-06-07 19:21:16', NULL, NULL),
+(5, '127.0.0.1', 'diagnostic-db', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-07 14:33:12', '2025-06-07 19:33:12', NULL, NULL),
+(6, '127.0.0.1', 'dashboard', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-07 21:47:59', '2025-06-08 02:47:59', NULL, NULL),
+(7, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-08 02:06:36', '2025-06-08 07:06:36', NULL, NULL),
+(8, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-08 02:14:13', '2025-06-08 07:14:13', NULL, NULL),
+(9, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-08 02:15:58', '2025-06-08 07:15:58', NULL, NULL),
+(10, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-08 02:34:08', '2025-06-08 07:34:08', NULL, NULL),
+(11, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-08 05:18:05', '2025-06-08 10:18:05', NULL, NULL),
+(12, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-09 17:26:41', '2025-06-09 22:26:41', NULL, NULL),
+(13, '127.0.0.1', '/', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-09 17:58:33', '2025-06-09 22:58:33', NULL, NULL),
+(14, '127.0.0.1', 'admin/notices/all', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-09 17:58:46', '2025-06-09 22:58:46', NULL, NULL),
+(15, '127.0.0.1', 'dashboard', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-09 21:19:44', '2025-06-10 02:19:44', NULL, NULL),
+(16, '127.0.0.1', '/', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-10 23:27:44', '2025-06-11 04:27:44', NULL, NULL),
+(17, '127.0.0.1', 'admin/notices/all', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-10 23:28:14', '2025-06-11 04:28:14', NULL, NULL),
+(18, '127.0.0.1', 'dashboard', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-10 23:28:22', '2025-06-11 04:28:22', NULL, NULL),
+(19, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-10 23:56:26', '2025-06-11 04:56:26', NULL, NULL),
+(20, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-11 00:08:49', '2025-06-11 05:08:49', NULL, NULL),
+(21, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-11 00:08:54', '2025-06-11 05:08:54', NULL, NULL),
+(22, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-11 00:09:21', '2025-06-11 05:09:21', NULL, NULL),
+(23, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-11 00:09:30', '2025-06-11 05:09:30', NULL, NULL),
+(24, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-11 00:09:32', '2025-06-11 05:09:32', NULL, NULL),
+(25, '127.0.0.1', 'admin/subjects', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', '2025-06-11 00:09:51', '2025-06-11 05:09:51', NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -701,6 +844,18 @@ ALTER TABLE `books`
 --
 ALTER TABLE `businesses`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `cache`
+--
+ALTER TABLE `cache`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Indices de la tabla `cache_locks`
+--
+ALTER TABLE `cache_locks`
+  ADD PRIMARY KEY (`key`);
 
 --
 -- Indices de la tabla `contents`
@@ -743,6 +898,19 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indices de la tabla `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobs_queue_index` (`queue`);
+
+--
+-- Indices de la tabla `job_batches`
+--
+ALTER TABLE `job_batches`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `juries`
 --
 ALTER TABLE `juries`
@@ -758,8 +926,19 @@ ALTER TABLE `migrations`
 -- Indices de la tabla `model_has_permissions`
 --
 ALTER TABLE `model_has_permissions`
-  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
-  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
+  ADD PRIMARY KEY (`team_id`,`permission_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_permission_id_foreign` (`permission_id`),
+  ADD KEY `model_has_permissions_team_foreign_key_index` (`team_id`);
+
+--
+-- Indices de la tabla `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD PRIMARY KEY (`team_id`,`role_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`),
+  ADD KEY `model_has_roles_role_id_foreign` (`role_id`),
+  ADD KEY `model_has_roles_team_foreign_key_index` (`team_id`);
 
 --
 -- Indices de la tabla `notices`
@@ -774,10 +953,17 @@ ALTER TABLE `other_articles`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `password_resets`
+-- Indices de la tabla `password_reset_tokens`
 --
-ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`);
+ALTER TABLE `password_reset_tokens`
+  ADD PRIMARY KEY (`email`);
+
+--
+-- Indices de la tabla `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
 
 --
 -- Indices de la tabla `personal_access_tokens`
@@ -794,6 +980,21 @@ ALTER TABLE `published_articles`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `roles_team_id_name_guard_name_unique` (`team_id`,`name`,`guard_name`),
+  ADD KEY `roles_team_foreign_key_index` (`team_id`);
+
+--
+-- Indices de la tabla `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`role_id`),
+  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
+
+--
 -- Indices de la tabla `sessions`
 --
 ALTER TABLE `sessions`
@@ -806,6 +1007,21 @@ ALTER TABLE `sessions`
 --
 ALTER TABLE `software`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `subjects`
+--
+ALTER TABLE `subjects`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `subject_user`
+--
+ALTER TABLE `subject_user`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `subject_user_user_id_foreign` (`user_id`),
+  ADD KEY `subject_user_subject_id_foreign` (`subject_id`),
+  ADD KEY `subject_user_role_id_foreign` (`role_id`);
 
 --
 -- Indices de la tabla `teams`
@@ -833,6 +1049,14 @@ ALTER TABLE `theses`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- Indices de la tabla `visits`
+--
+ALTER TABLE `visits`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `visits_ip_address_index` (`ip_address`),
+  ADD KEY `visits_visited_at_index` (`visited_at`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -893,6 +1117,12 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `juries`
 --
 ALTER TABLE `juries`
@@ -902,7 +1132,7 @@ ALTER TABLE `juries`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `notices`
@@ -917,6 +1147,12 @@ ALTER TABLE `other_articles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT de la tabla `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
@@ -929,9 +1165,27 @@ ALTER TABLE `published_articles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de la tabla `software`
 --
 ALTER TABLE `software`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `subjects`
+--
+ALTER TABLE `subjects`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `subject_user`
+--
+ALTER TABLE `subject_user`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -956,7 +1210,13 @@ ALTER TABLE `theses`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `visits`
+--
+ALTER TABLE `visits`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Restricciones para tablas volcadas
@@ -974,6 +1234,33 @@ ALTER TABLE `contents`
 ALTER TABLE `course_user`
   ADD CONSTRAINT `course_user_course_id_foreign` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
   ADD CONSTRAINT `course_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `subject_user`
+--
+ALTER TABLE `subject_user`
+  ADD CONSTRAINT `subject_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `subject_user_subject_id_foreign` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `subject_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

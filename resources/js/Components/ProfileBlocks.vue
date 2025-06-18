@@ -1,16 +1,16 @@
 <script setup>
-import { useDisplay } from "vuetify/framework";
-import { defineProps } from "vue";
+import {useDisplay} from "vuetify/framework";
+import {defineProps} from "vue";
 
-const { mobile, smAndDown } = useDisplay();
+const {mobile, smAndDown} = useDisplay();
 
 const props = defineProps({
-    icon: { type: String, required: true },
-    order: { type: String, required: true },
-    image: { type: String, required: true },
-    title: { type: String, required: true },
-    subtitle: { type: String, default: "" },
-    description: { type: String, default: "" },
+    icon: {type: String, required: true},
+    order: {type: String, required: true},
+    image: {type: String, required: true},
+    title: {type: String, required: true},
+    subtitle: {type: String, default: ""},
+    description: {type: String, default: ""},
     items: {
         type: Array,
         required: true,
@@ -23,22 +23,19 @@ const props = defineProps({
     <section class="bg-surface">
         <v-container class="profile-blocks py-md-12 py-5">
             <v-row align="center" justify="space-between">
-                <v-col
-                    :order="order"
-                    class="position-relative"
-                    cols="12"
-                    md="5"
+                <v-col v-if="!mobile"
+                       :order="order"
+                       class="position-relative"
+                       cols="12"
+                       md="5"
                 >
                     <div
-                        :data-aos="mobile ? 'fade-up' : 'fade-right'"
                         class="hover-card"
-                        data-aos-delay="200"
-                        data-aos-duration="1000"
                     >
                         <v-img
                             :src="image"
                             alt="profile-visual"
-                            class="zoom-in rounded-lg"
+                            class="zoom-in rounded-lg bg-gradient"
                             cover
                             rounded="lg"
                             aspect-ratio="4/5"
@@ -56,7 +53,7 @@ const props = defineProps({
                     <v-card
                         :class="
                             smAndDown
-                                ? 'position-relative mt-n20 w-50 h-100 ml-auto '
+                                ? 'mt-n20 w-50 h-100 ml-auto '
                                 : ' business-box position-absolute'
                         "
                         class="bg-primary py-4 py-md-6 px-md-3 rounded-md text-center text-lg-start"
@@ -70,19 +67,24 @@ const props = defineProps({
                         </p>
                     </v-card>
                 </v-col>
-
+                <v-col md="6" cols="12" class="" v-if="mobile">
+                    <div class="position-relative profile">
+                        <img :src="image"
+                             alt="profile-banner" class="w-100 rounded-md bg-gradient">
+                        <div
+                            class="pa-4 text-center mr-2  bg-primary rounded-shaped  px-6 text-h4 text-dark position-absolute profile-tag font-weight-medium">
+                            <p class="text-subtitle-1 font-weight-bold">
+                                {{ subtitle }}
+                            </p>
+                        </div>
+                    </div>
+                </v-col>
                 <v-col class="mt-10" cols="12" md="6">
                     <div
                         class="text-center text-md-start"
-                        data-aos="fade-up"
-                        data-aos-delay="200"
-                        data-aos-duration="1000"
                     >
                         <h2
-                            :data-aos="mobile ? 'fade-up' : 'fade-right'"
                             class="text-h4 font-weight-bold text-dark text-primary mb-4"
-                            data-aos-delay="200"
-                            data-aos-duration="1000"
                         >
                             <span class="font-weight-light">
                                 {{
@@ -95,9 +97,9 @@ const props = defineProps({
                                     })()
                                 }}
                             </span>
-                            <br />
+                            <br/>
                             <span
-                                class="text-secondary ml-16 font-weight-bold font-weight-black"
+                                class="text-secondary ml-0 ml-md-16 font-weight-bold font-weight-black"
                             >
                                 {{
                                     (() => {
@@ -112,10 +114,10 @@ const props = defineProps({
                         </h2>
 
                         <v-responsive
-                            class="rounded-lg bg-primary mr-auto mb-4"
+                            class="rounded-lg bg-primary mr-md-auto mx-auto mx-md-0 mb-4"
                             style="max-width: 100px"
                         >
-                            <v-divider class="pb-1 rounded-lg" light />
+                            <v-divider class="pb-1 rounded-lg" light/>
                         </v-responsive>
 
                         <p class="text-muted text-body-1 text-justify">
@@ -128,8 +130,6 @@ const props = defineProps({
                                 :data-aos-delay="index * 100"
                                 class="d-flex justify-start align-center"
                                 cols="12"
-                                data-aos="fade-up"
-                                data-aos-duration="1000"
                                 md="6"
                                 sm="6"
                             >
@@ -144,7 +144,7 @@ const props = defineProps({
                                         {{ icon }}
                                     </v-icon>
                                 </v-btn>
-                                <div class="d-flex flex-column">
+                                <div class="d-flex flex-column text-left">
                                     <div class="text-description">
                                         {{ value }}
                                     </div>
@@ -159,6 +159,67 @@ const props = defineProps({
 </template>
 
 <style scoped>
+
+.bg-gradient {
+    background: radial-gradient(
+        circle,
+        #d9d9d9,
+        #808080
+    ); /* Gradiente radial del centro hacia los lados */
+    height: 100%; /* Asegura que el gradiente cubra todo el contenedor */
+    width: 100%;
+}
+
+.bg-gradient-black {
+    background: linear-gradient(to right, #000000, #1a1a1a, #565656);
+}
+
+.bg-gradient-white {
+    background: linear-gradient(to right, #818181, #a9a9a9, #d4d4d4);
+}
+
+.position-relative {
+    position: relative !important;
+}
+
+.profile .profile-tag {
+    bottom: 35px;
+    right: -45px;
+}
+
+@media screen and (max-width: 991px) {
+    .profile .profile-tag {
+        right: 0;
+    }
+}
+
+.profile .email:before, .profile .phone:before {
+    background-color: rgb(var(--v-theme-primary));
+    content: "";
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: -11px;
+    width: 50px
+}
+
+.w-100 {
+    width: 100% !important;
+}
+
+.rounded-md {
+    border-radius: 8px !important;
+}
+
+.v-locale--is-ltr .rounded-be-0 {
+    border-bottom-right-radius: 0 !important;
+}
+
+img {
+    border-style: none;
+}
+
+
 @media screen and (max-width: 991px) {
     .profile-blocks .business-box {
         max-width: 115px;

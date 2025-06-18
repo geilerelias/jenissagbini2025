@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import AppLayout from "@/Layouts/AppLayout";
+import AppLayout from "@/Layouts/AdminLayout.vue";
 
 export default {
     name: "Create",

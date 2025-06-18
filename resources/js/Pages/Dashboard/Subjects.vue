@@ -3,6 +3,7 @@ import {onMounted, ref, shallowRef, watch} from 'vue';
 import {useForm, usePage} from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import {useDate} from 'vuetify';
+import axios from 'axios';
 
 const page = usePage();
 const subjects = ref(page.props.subjects || []);
@@ -54,9 +55,8 @@ watch(() => form.image, (image) => {
 });
 
 
-const DEFAULT_RECORD = {title: '', author: '', genre: '', year: adapter.getYear(adapter.date()), pages: 1}
+const DEFAULT_RECORD = {name: '', description: '', image_path: ''}
 
-const books = ref([])
 const record = ref(DEFAULT_RECORD)
 const isEditing = shallowRef(false)
 
@@ -74,53 +74,60 @@ function add() {
 function edit(id) {
     isEditing.value = true
 
-    const found = books.value.find(book => book.id === id)
+    const found = subjects.value.find(subject => subject.id === id)
 
     record.value = {
         id: found.id,
-        title: found.title,
-        author: found.author,
-        genre: found.genre,
-        year: found.year,
-        pages: found.pages,
+        name: found.name,
+        description: found.description,
+        image_path: found.image_path
     }
 
     dialog.value = true
 }
 
 function remove(id) {
-    const index = books.value.findIndex(book => book.id === id)
-    books.value.splice(index, 1)
+    const index = subjects.value.findIndex(subject => subject.id === id)
+    subjects.value.splice(index, 1)
 }
 
 function save() {
     if (isEditing.value) {
-        const index = books.value.findIndex(book => book.id === record.value.id)
-        books.value[index] = record.value
+        const index = subjects.value.findIndex(subject => subject.id === record.value.id)
+        subjects.value[index] = record.value
     } else {
-        record.value.id = books.value.length + 1
-        books.value.push(record.value)
+        record.value.id = subjects.value.length + 1
+        subjects.value.push(record.value)
     }
 
     dialog.value = false
 }
 
-function reset() {
-    dialog.value = false
-    record.value = DEFAULT_RECORD
-    books.value = [
-        {id: 1, title: 'To Kill a Mockingbird', author: 'Harper Lee', genre: 'Fiction', year: 1960, pages: 281},
-        {id: 2, title: '1984', author: 'George Orwell', genre: 'Dystopian', year: 1949, pages: 328},
-        {id: 3, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', genre: 'Fiction', year: 1925, pages: 180},
-        {id: 4, title: 'Sapiens', author: 'Yuval Noah Harari', genre: 'Non-Fiction', year: 2011, pages: 443},
-        {id: 5, title: 'Dune', author: 'Frank Herbert', genre: 'Sci-Fi', year: 1965, pages: 412},
-    ]
+const reset = () => {
+    dialog.value = false;
+    form.reset();
+    axios.get(route('subjects.index'))
+        .then(response => {
+            // Si la respuesta es un array directo
+            if (Array.isArray(response.data)) {
+                subjects.value = response.data;
+            } else if (response.data.subjects && Array.isArray(response.data.subjects)) {
+                // Si la respuesta es { subjects: [...] }
+                subjects.value = response.data.subjects;
+            } else {
+                subjects.value = [];
+            }
+        })
+        .catch(() => {
+            subjects.value = [];
+        });
 }
 
 </script>
 
 <template>
     <admin-layout title="Asignaturas" route="subjects.index">
+<!--
         <v-container>
             <v-btn color="primary" class="mb-4" @click="dialog = true">
                 Agregar asignatura
@@ -196,91 +203,83 @@ function reset() {
                 </template>
             </v-data-table>
         </v-container>
+-->
 
+        <v-container>
+            <v-card border rounded="lg">
+                <v-data-table
+                    :headers="headers"
+                    :hide-default-footer="subjects.length < 11"
+                    :items="subjects"
+                >
+                    <template v-slot:top>
+                        <v-toolbar flat>
+                            <v-toolbar-title>
+                                <v-icon color="medium-emphasis" icon="mdi-subject-multiple" size="x-small" start></v-icon>
+                                Gestión de asignaturas
 
-        <v-sheet border rounded>
-            <v-data-table
-                :headers="headers"
-                :hide-default-footer="books.length < 11"
-                :items="books"
-            >
-                <template v-slot:top>
-                    <v-toolbar flat>
-                        <v-toolbar-title>
-                            <v-icon color="medium-emphasis" icon="mdi-book-multiple" size="x-small" start></v-icon>
+                            </v-toolbar-title>
 
-                            Popular books
-                        </v-toolbar-title>
+                            <v-btn
+                                class="me-2"
+                                prepend-icon="mdi-plus"
+                                rounded="lg"
+                                text="Agregar"
+                                border
+                                @click="add"
+                            ></v-btn>
+                        </v-toolbar>
+                    </template>
 
+                    <template v-slot:item.name="{ value }">
+                        <v-chip :text="value" border="thin opacity-25" prepend-icon="mdi-subject" label>
+                            <template v-slot:prepend>
+                                <v-icon color="medium-emphasis"></v-icon>
+                            </template>
+                        </v-chip>
+                    </template>
+
+                    <template v-slot:item.actions="{ item }">
+                        <div class="d-flex ga-2 justify-end">
+                            <v-icon color="medium-emphasis" icon="mdi-pencil" size="small"
+                                    @click="edit(item.id)"></v-icon>
+
+                            <v-icon color="medium-emphasis" icon="mdi-delete" size="small"
+                                    @click="remove(item.id)"></v-icon>
+                        </div>
+                    </template>
+
+                    <template v-slot:no-data>
                         <v-btn
-                            class="me-2"
-                            prepend-icon="mdi-plus"
+                            prepend-icon="mdi-backup-restore"
                             rounded="lg"
-                            text="Add a Book"
+                            text="Reset data"
+                            variant="text"
                             border
-                            @click="add"
+                            @click="reset"
                         ></v-btn>
-                    </v-toolbar>
-                </template>
-
-                <template v-slot:item.title="{ value }">
-                    <v-chip :text="value" border="thin opacity-25" prepend-icon="mdi-book" label>
-                        <template v-slot:prepend>
-                            <v-icon color="medium-emphasis"></v-icon>
-                        </template>
-                    </v-chip>
-                </template>
-
-                <template v-slot:item.actions="{ item }">
-                    <div class="d-flex ga-2 justify-end">
-                        <v-icon color="medium-emphasis" icon="mdi-pencil" size="small" @click="edit(item.id)"></v-icon>
-
-                        <v-icon color="medium-emphasis" icon="mdi-delete" size="small"
-                                @click="remove(item.id)"></v-icon>
-                    </div>
-                </template>
-
-                <template v-slot:no-data>
-                    <v-btn
-                        prepend-icon="mdi-backup-restore"
-                        rounded="lg"
-                        text="Reset data"
-                        variant="text"
-                        border
-                        @click="reset"
-                    ></v-btn>
-                </template>
-            </v-data-table>
-        </v-sheet>
+                    </template>
+                </v-data-table>
+            </v-card>
+        </v-container>
 
         <v-dialog v-model="dialog" max-width="500">
             <v-card
-                :subtitle="`${isEditing ? 'Update' : 'Create'} your favorite book`"
-                :title="`${isEditing ? 'Edit' : 'Add'} a Book`"
+                :subtitle="`${isEditing ? 'Update' : 'Create'} your favorite subject`"
+                :title="`${isEditing ? 'Edit' : 'Add'} a subject`"
             >
                 <template v-slot:text>
                     <v-row>
                         <v-col cols="12">
-                            <v-text-field v-model="record.title" label="Title"></v-text-field>
+                            <v-text-field v-model="record.name" label="Title"></v-text-field>
                         </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-text-field v-model="record.author" label="Author"></v-text-field>
+                            <v-text-field v-model="record.description" label="Author"></v-text-field>
                         </v-col>
 
-                        <v-col cols="12" md="6">
-                            <v-select v-model="record.genre" :items="['Fiction', 'Dystopian', 'Non-Fiction', 'Sci-Fi']"
-                                      label="Genre"></v-select>
-                        </v-col>
 
-                        <v-col cols="12" md="6">
-                            <v-number-input v-model="record.year" :max="adapter.getYear(adapter.date())" :min="1"
-                                            label="Year"></v-number-input>
-                        </v-col>
 
-                        <v-col cols="12" md="6">
-                            <v-number-input v-model="record.pages" :min="1" label="Pages"></v-number-input>
-                        </v-col>
                     </v-row>
                 </template>
 
@@ -304,3 +303,4 @@ function reset() {
     object-fit: cover;
 }
 </style>
+

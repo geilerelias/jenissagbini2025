@@ -9,8 +9,6 @@ import {useAuthLinksStore} from "../stores/authLinks.js";
 
 import {useDisplay} from 'vuetify';
 
-import bg from "@images/bg/bg-about.jpg";
-
 
 const {mdAndUp} = useDisplay()
 
@@ -82,104 +80,108 @@ function logout() {
         v-model="drawer"
         :rail="rail"
         :expand-on-hover="rail"
-        style="box-shadow: rgb(0 0 0 / 20%) -20px 1px 17px 8px, rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;"
     >
+        <v-toolbar class="d-flex ga-2 px-2">
+            <v-btn variant="text" icon
+                   @click="goBack"
+            >
+                <v-icon icon="mdi-arrow-left"></v-icon>
+                <v-tooltip
+                    activator="parent"
+                >
+                    Regresar
+                </v-tooltip>
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn icon variant="text" @click="logout">
+                <v-icon icon="mdi-power"></v-icon>
+                <v-tooltip
+                    activator="parent"
+                    color="primary"
+                >
+                    cerrar sesión
+                </v-tooltip>
+            </v-btn>
+            <v-btn @click="navigateTo(route('profile.show'))" icon variant="text">
+                <v-icon icon="mdi-dots-vertical"></v-icon>
+                <v-tooltip
+                    activator="parent"
+                >
+                    Perfil de usuario
+                </v-tooltip>
+            </v-btn>
+
+        </v-toolbar>
+        <v-sheet
+            class="pa-4"
+            color="grey-lighten-4"
+        >
+            <v-avatar
+                border
+                class="mb-4"
+                size="65"
+                :image="$page.props.auth.user.profile_photo_url"
+            ></v-avatar>
+
+            <div>
+                <h3>{{ $page.props.auth.user.name }}</h3>
+                <h3>
+                    {{ $page.props.auth.user.email }}
+                </h3>
+            </div>
+        </v-sheet>
 
 
         <v-divider></v-divider>
 
+        <v-list>
+            <template v-if="$page.props.auth.user===null">
+                <v-divider></v-divider>
+                <v-list-subheader>Authentication</v-list-subheader>
+                <Link v-for="item in listNotAuthenticated"
+                      :key="item.title"
+                      :href="item.route">
+                    <v-list-item>
+                        <template v-slot:prepend>
+                            <v-icon :icon="item.icon"></v-icon>
+                        </template>
+                        <v-list-item-title v-text="item.title"></v-list-item-title>
+                    </v-list-item>
+                </Link>
+            </template>
 
+            <v-list-subheader>Admin</v-list-subheader>
 
-            <v-toolbar  density="compact" class="d-flex ga-2 px-2">
-                <v-btn variant="text" icon
-                       @click="goBack"
-                >
-                    <v-icon icon="mdi-arrow-left"></v-icon>
-                    <v-tooltip
-                        activator="parent"
-                    >
-                        Regresar
-                    </v-tooltip>
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-btn  icon variant="text" @click="logout">
-                    <v-icon icon="mdi-power"></v-icon>
-                    <v-tooltip
-                        activator="parent"
-                    >
-                        cerrar sesión
-                    </v-tooltip>
-                </v-btn>
-                <v-btn @click="navigateTo(route('profile.show'))" icon variant="text">
-                    <v-icon icon="mdi-dots-vertical"></v-icon>
-                    <v-tooltip
-                        activator="parent"
-                    >
-                        Perfil de usuario
-                    </v-tooltip>
-                </v-btn>
+            <v-list-item
+                v-for="(item, i) in links" :key="i"
+                :active="route().current(item.route)"
+                :class="route().current(item.route)?'active bg-primary':''"
+                :dark="route().current(item.route)"
+                :prepend-icon="item.icon"
+                :title="item.title"
+                class="text-decoration-none mr-1"
+                rounded="e-xl"
+                @click="navigateTo(route(item.route))"
+            >
 
-            </v-toolbar>
-            <v-list>
-                <v-list-item
-                    :prepend-avatar="$page.props.auth.user.profile_photo_url"
-                    :subtitle="$page.props.auth.user.email"
-                    :title="$page.props.auth.user.name"
-                ></v-list-item>
-            </v-list>
+            </v-list-item>
 
+            <v-list-subheader>Gestión de plataforma</v-list-subheader>
 
-            <v-divider></v-divider>
+            <v-list-item
+                v-for="(item, i) in managementLinks" :key="i"
+                :active="route().current(item.route)"
+                :class="route().current(item.route)?'active bg-primary':''"
+                :dark="route().current(item.route)"
+                :prepend-icon="item.icon"
+                :title="item.title"
+                class="text-decoration-none mr-1"
+                rounded="e-xl"
+                @click="navigateTo(route(item.route))"
+            >
 
-            <v-list>
-                <template v-if="$page.props.auth.user===null">
-                    <v-divider></v-divider>
-                    <v-list-subheader>Authentication</v-list-subheader>
-                    <Link v-for="item in listNotAuthenticated"
-                          :key="item.title"
-                          :href="item.route">
-                        <v-list-item>
-                            <template v-slot:prepend>
-                                <v-icon :icon="item.icon"></v-icon>
-                            </template>
-                            <v-list-item-title v-text="item.title"></v-list-item-title>
-                        </v-list-item>
-                    </Link>
-                </template>
-
-                <v-list-subheader>Admin</v-list-subheader>
-
-                <v-list-item
-                    v-for="(item, i) in links" :key="i"
-                    :active="route().current(item.route)"
-                    :class="route().current(item.route)?'active bg-primary':''"
-                    :dark="route().current(item.route)"
-                    :prepend-icon="item.icon"
-                    :title="item.title"
-                    class="text-decoration-none mr-1"
-                    rounded="e-xl"
-                    @click="navigateTo(route(item.route))"
-                >
-
-                </v-list-item>
-
-                <v-list-subheader>Gestión de plataforma</v-list-subheader>
-
-                <v-list-item
-                    v-for="(item, i) in managementLinks" :key="i"
-                    :active="route().current(item.route)"
-                    :class="route().current(item.route)?'active bg-primary':''"
-                    :dark="route().current(item.route)"
-                    :prepend-icon="item.icon"
-                    :title="item.title"
-                    class="text-decoration-none mr-1"
-                    rounded="e-xl"
-                    @click="navigateTo(route(item.route))"
-                >
-
-                </v-list-item>
-            </v-list>
-
+            </v-list-item>
+        </v-list>
 
 
     </v-navigation-drawer>

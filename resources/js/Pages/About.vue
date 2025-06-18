@@ -12,14 +12,14 @@ import slide3 from "@images/slides/DSC_9785.PNG";
 import slide4 from "@images/slides/DSC_9816.PNG";
 import bgAbout from "@images/bg/bg-about.jpg";
 
-import img9785 from "@images/bg/DSC_9785.JPG";
-import img9732 from "@images/bg/DSC_9732.JPG";
-import img9783 from "@images/bg/DSC_9783.JPG";
-import img9874 from "@images/bg/DSC_9874.JPG";
-import img9774 from "@images/bg/DSC_9774.JPG";
-import img9688 from "@images/bg/DSC_9688.JPG";
-import img9724 from "@images/bg/DSC_9724.JPG";
-import img9625 from "@images/bg/DSC_9625.JPG";
+import img9785 from "@images/profile/DSC_9785.png";
+import img9732 from "@images/profile/DSC_9732.png";
+import img9783 from "@images/profile/DSC_9783.png";
+import img9874 from "@images/profile/DSC_9874.png";
+import img9774 from "@images/profile/DSC_9774.png";
+import img9688 from "@images/profile/DSC_9688.png";
+import img9724 from "@images/profile/DSC_9724.png";
+import img9625 from "@images/profile/DSC_9625.png";
 
 
 const {
@@ -447,8 +447,8 @@ const navigateTo = ref(null)
         </section>
 
 
-        <section class="container py-md-15 py-8">
-            <div v-for="(item, index) in jenisSagbiniProfile" :key="index">
+        <section class="container py-md-15 py-8 ">
+            <v-card rounded="lg" variant="outlined" v-for="(item, index) in jenisSagbiniProfile" :key="index" class="border my-4">
                 <ProfileBlocks
                     :order="index % 2 !== 0 ? 'last' : 'first'"
                     :icon="item.icon"
@@ -458,7 +458,7 @@ const navigateTo = ref(null)
                     :description="item.description"
                     :items="item.details"
                 />
-            </div>
+            </v-card>
 
             <v-container class="py-6 py-lg-12 text-center">
                 <v-icon size="30" class="mb-2"
@@ -618,13 +618,15 @@ const navigateTo = ref(null)
                         <v-col
                             v-for="(pilar, index) in pilaresCorporativos"
                             :key="index"
-                            class="v-col-sm-6 v-col-md-4 v-col-12"
-                        >
+                            class="h-100 bg-green"
+                            style="min-height: 100% !important;"
+                            sm="6" md="4" cols="12">
                             <v-card
                                 :data-aos="mobile ? 'fade-up' : 'fade-up'"
-                                class="elevation-0 text-center py-md-15 py-6 px-md-8 px-4 rounded-md aos-init aos-animate"
+                                class="elevation-0 text-center py-md-15 py-6 px-md-8 px-4 fill-height bg-red rounded-md aos-init aos-animate"
                                 data-aos-delay="200"
                                 data-aos-duration="1000"
+                                style="min-height: 100% !important;"
                             >
                                 <v-avatar color="secondary" size="68">
                                     <v-icon :icon="pilar.icon" size="40">

@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <admin-layout>
         <bread-crumbs name="Permission" :items="items"></bread-crumbs>
 
         <v-container class="d-flex justify-center">
@@ -122,16 +122,16 @@
             </v-card>
         </v-container>
 
-    </app-layout>
+    </admin-layout>
 </template>
 <script>
-import AppLayout from '@/Layouts/AppLayout'
-import BreadCrumbs from "@/components/BreadCrumbs";
+import BreadCrumbs from "@/base/Breadcrumbs.vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 export default {
     name: "Permission",
     components: {
-        AppLayout,
+        AdminLayout,
         BreadCrumbs,
     },
     props: ['data', 'errors'],

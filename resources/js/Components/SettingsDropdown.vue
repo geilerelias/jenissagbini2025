@@ -85,7 +85,7 @@ const goToHome = () => {
 
     <!-- Settings Dropdown -->
 
-    <div v-if="$page.props.auth.user !== null" class="text-center ">
+    <div v-bind="$attrs" v-if="$page.props.auth.user !== null" class="text-center ">
         <v-menu :close-on-content-click="false" location="end" offset-y>
             <template v-slot:activator="{ props }">
                 <v-btn
@@ -96,9 +96,6 @@ const goToHome = () => {
                     :size="size"
                     v-bind="props"
                     variant="tonal"
-                    :data-aos="mobile ? 'fade-up' : 'fade-right'"
-                    data-aos-delay="200"
-                    data-aos-duration="1000"
                 >
                     <v-avatar :size="size-5">
                         <v-img

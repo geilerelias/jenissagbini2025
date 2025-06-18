@@ -1,13 +1,10 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\SubjectController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 use App\Http\Controllers\EntrepreneurshipController;
 use App\Http\Controllers\JuryController;
 use App\Http\Controllers\NoticeController;
@@ -16,17 +13,22 @@ use App\Http\Controllers\PublishedArticleController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SoftwareController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ThesisController;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\AnalyticsController;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Request;
+use Inertia\Inertia;
 
+Route::get('/test-error', function () {
+    // Lanza un error para probar el manejo de errores
+    abort(403);
+})->name('test.error');
 
 Route::get('/diagnostic-db', function () {
     try {
@@ -108,13 +110,16 @@ Route::get('/check-role', function (Request $request) {
 Route::get('/clear-cache', function () {
     try {
         $exitCode = Artisan::call('cache:clear');
+        $exitCode = Artisan::call('route:clear');
+        $exitCode = Artisan::call('view:clear');
         $exitCode = Artisan::call('config:cache');
+
         return 'DONE'; //Return anything
     } catch (Throwable $th) {
         //throw $th;
+        return $th; //Return anything
     }
 });
-
 
 
 Route::get('/welcome', function () {
@@ -135,16 +140,12 @@ Route::get('/services', fn() => Inertia::render('Services'))->name('services');
 Route::get('/contact', fn() => Inertia::render('Contact'))->name('contact');
 
 
-
-
-
 Route::get('/statistics', [AnalyticsController::class, 'index'])->name('statistics.admin');
 
 Route::prefix('api')->group(function () {
     Route::get('/stats', [AnalyticsController::class, 'stats']);
     Route::get('/visitors', [AnalyticsController::class, 'visitors']);
 });
-
 
 
 Route::middleware([
@@ -229,7 +230,6 @@ Route::prefix('admin')->group(function () {
 });
 
 
-
 Route::get('/storage-view/{folder?}', function ($folder = null) {
     $basePath = storage_path('app');
     $path = $folder ? $basePath . '/' . $folder : $basePath;
@@ -266,7 +266,6 @@ Route::get('/storage-file/{folder}/{filename}', function ($folder, $filename) {
 
     return Response::make($file, 200)->header("Content-Type", $mimeType);
 })->where(['folder' => '[a-zA-Z0-9_\-]+', 'filename' => '.+']);
-
 
 
 Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {

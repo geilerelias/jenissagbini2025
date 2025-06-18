@@ -151,11 +151,10 @@
 <script>
 import PictureInput from "vue-picture-input";
 import moment from "moment";
-import format from "date-fns/format";
 import links from "../Links.vue";
 
-import AppLayout from '@/Layouts/AppLayout'
-import BreadCrumbs from "@/components/BreadCrumbs";
+import AppLayout from '@/Layouts/AppLayout.vue'
+import BreadCrumbs from "@/base/Breadcrumbs.vue";
 
 moment.locale("es");
 

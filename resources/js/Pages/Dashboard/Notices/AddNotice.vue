@@ -157,7 +157,6 @@
 <script>
 import PictureInput from "vue-picture-input";
 import moment from "moment";
-import format from "date-fns/format";
 import links from "../Links.vue";
 
 moment.locale("es");

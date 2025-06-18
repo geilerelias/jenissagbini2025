@@ -77,10 +77,9 @@
 
 <script>
 import moment from "moment";
-import format from "date-fns/format";
 
-import AppLayout from '@/Layouts/AppLayout'
-import BreadCrumbs from "@/components/BreadCrumbs";
+import AppLayout from '@/Layouts/AdminLayout.vue'
+import BreadCrumbs from "@/base/Breadcrumbs.vue";
 
 moment.locale("es");
 

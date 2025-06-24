@@ -618,23 +618,21 @@ const navigateTo = ref(null)
                         <v-col
                             v-for="(pilar, index) in pilaresCorporativos"
                             :key="index"
-                            class="h-100 bg-green"
-                            style="min-height: 100% !important;"
-                            sm="6" md="4" cols="12">
+                            class="d-flex"
+                            sm="6" md="4" cols="12"
+                            style="min-height: 100%;"
+                        >
                             <v-card
                                 :data-aos="mobile ? 'fade-up' : 'fade-up'"
-                                class="elevation-0 text-center py-md-15 py-6 px-md-8 px-4 fill-height bg-red rounded-md aos-init aos-animate"
+                                class="elevation-0 text-center py-md-15 py-6 px-md-8 px-4 fill-height  rounded-md aos-init aos-animate d-flex flex-column justify-between"
                                 data-aos-delay="200"
                                 data-aos-duration="1000"
-                                style="min-height: 100% !important;"
+                                style="width: 100%; min-height: 200px; height: 100%;"
                             >
-                                <v-avatar color="secondary" size="68">
-                                    <v-icon :icon="pilar.icon" size="40">
-                                    </v-icon>
+                                <v-avatar color="secondary" size="68" class="mx-auto mb-4">
+                                    <v-icon :icon="pilar.icon" size="40"></v-icon>
                                 </v-avatar>
-                                <h4
-                                    class="text-h5 text-dark font-weight-bold my-sm-6 my-4 px-md-6"
-                                >
+                                <h4 class="text-h6 text-dark font-weight-bold my-sm-6 my-4 px-md-6">
                                     {{ pilar.title }}
                                 </h4>
                                 <p class="text-muted mb-sm-6 mb-4">

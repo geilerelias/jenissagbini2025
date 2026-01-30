@@ -1,6 +1,6 @@
 <script setup>
-import {Link} from '@inertiajs/vue3';
-import name from '@images/favicon/favicon-96x96.png';
+import { Link } from "@inertiajs/vue3";
+import name from "@images/favicon/favicon-96x96.png";
 </script>
 
 <template>
@@ -13,8 +13,9 @@ import name from '@images/favicon/favicon-96x96.png';
                 data-aos="fade-down"
                 data-aos-delay="200"
                 data-aos-duration="1000"
-                style="height: 100px;object-fit: contain;width: 80vw;"
+                style="height: 100px; object-fit: contain; width: 80vw"
             />
         </div>
     </Link>
 </template>
+n

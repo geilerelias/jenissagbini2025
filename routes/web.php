@@ -77,7 +77,7 @@ Route::middleware(['auth:sanctum', 'can:assign permissions'])->get('/clear-permi
 
     return response()->json([
         'status' => 'success',
-        'message' => 'Cache de permisos y optimización limpiados correctamente.'
+        'message' => 'Cache de permisos y optimización limpiados correctamente.',
     ]);
 });
 
@@ -114,13 +114,34 @@ Route::get('/clear-cache', function () {
         $exitCode = Artisan::call('view:clear');
         $exitCode = Artisan::call('config:cache');
 
-        return 'DONE'; //Return anything
+        return 'DONE'; // Return anything
     } catch (Throwable $th) {
-        //throw $th;
-        return $th; //Return anything
+        // throw $th;
+        return $th; // Return anything
     }
 });
 
+Route::get('/storage-link', function () {
+    Artisan::call('storage:link');
+
+    return 'Enlace de storage creado correctamente';
+});
+
+Route::get('/crear-enlace-storage', function () {
+
+    $origen = storage_path('app/public');
+    $destino = public_path('../../laravel/storage');
+
+    if (file_exists($destino)) {
+        return 'El enlace o carpeta ya existe';
+    }
+
+    if (symlink($origen, $destino)) {
+        return 'Enlace creado correctamente';
+    }
+
+    return 'El hosting no permite enlaces simbólicos';
+});
 
 Route::get('/welcome', function () {
     return Inertia::render('Welcome', [
@@ -131,14 +152,13 @@ Route::get('/welcome', function () {
     ]);
 });
 
-Route::get('/', fn() => Inertia::render('Home'))->name('home');
-Route::get('/notices/{id}', fn($id) => Inertia::render('NoticeDetail', ['id' => $id]))->name('notices.detail');
-Route::get('/about', fn() => Inertia::render('About'))->name('about');
-Route::get('/projects', fn() => Inertia::render('Projects'))->name('projects');
-Route::get('/articles', fn() => Inertia::render('Articles'))->name('articles');
-Route::get('/services', fn() => Inertia::render('Services'))->name('services');
-Route::get('/contact', fn() => Inertia::render('Contact'))->name('contact');
-
+Route::get('/', fn () => Inertia::render('Home'))->name('home');
+Route::get('/notices/{id}', fn ($id) => Inertia::render('NoticeDetail', ['id' => $id]))->name('notices.detail');
+Route::get('/about', fn () => Inertia::render('About'))->name('about');
+Route::get('/projects', fn () => Inertia::render('Projects'))->name('projects');
+Route::get('/articles', fn () => Inertia::render('Articles'))->name('articles');
+Route::get('/services', fn () => Inertia::render('Services'))->name('services');
+Route::get('/contact', fn () => Inertia::render('Contact'))->name('contact');
 
 Route::get('/statistics', [AnalyticsController::class, 'index'])->name('statistics.admin');
 
@@ -146,7 +166,6 @@ Route::prefix('api')->group(function () {
     Route::get('/stats', [AnalyticsController::class, 'stats']);
     Route::get('/visitors', [AnalyticsController::class, 'visitors']);
 });
-
 
 Route::middleware([
     'auth:sanctum',
@@ -159,31 +178,30 @@ Route::middleware([
 });
 
 Route::prefix('admin')->group(function () {
-    //Asignaturas
+    // Asignaturas
     Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::resource('subjects', SubjectController::class);
     });
 
-    //notices
+    // notices
     Route::get('notices/all', [NoticeController::class, 'all']);
     Route::middleware(['auth:sanctum', 'verified', 'can:view notices'])->group(function () {
         Route::resource('notices', NoticeController::class)->except(['update']);
         Route::post('notices/update/{id}', [NoticeController::class, 'update']);
     });
 
-    //quien soy
+    // quien soy
     Route::get('about/all', [AboutController::class, 'all']);
     Route::middleware(['auth:sanctum', 'verified', 'can:view about'])->group(function () {
         Route::resource('about', AboutController::class)->except(['update']);
         Route::post('about/update/{id}', [AboutController::class, 'update']);
     });
 
-
     // Artículos
     Route::get('publishedArticle/all', [PublishedArticleController::class, 'all']);
     Route::get('othersArticle/all', [OtherArticleController::class, 'all']);
     Route::middleware(['auth:sanctum', 'verified', 'can:view articles'])->group(function () {
-        Route::get('articles', fn() => Inertia::render('Dashboard/Articles/MainArticle'))->name('articles.admin');
+        Route::get('articles', fn () => Inertia::render('Dashboard/Articles/MainArticle'))->name('articles.admin');
         Route::resource('articles/published', PublishedArticleController::class)->except(['update']);
         Route::post('articles/published/update/{id}', [PublishedArticleController::class, 'update']);
         Route::resource('articles/others', OtherArticleController::class)->except(['update']);
@@ -197,7 +215,7 @@ Route::prefix('admin')->group(function () {
     Route::get('thesis/all', [ThesisController::class, 'all']);
     Route::get('jury/all', [JuryController::class, 'all']);
     Route::middleware(['auth:sanctum', 'verified', 'can:view project'])->group(function () {
-        Route::get('project', fn() => Inertia::render('Dashboard/Projects/MainProjects'))->name('project.admin');
+        Route::get('project', fn () => Inertia::render('Dashboard/Projects/MainProjects'))->name('project.admin');
         Route::resources([
             'entrepreneurship' => EntrepreneurshipController::class,
             'software' => SoftwareController::class,
@@ -207,9 +225,9 @@ Route::prefix('admin')->group(function () {
         ]);
     });
 
-    //services
+    // services
     Route::middleware(['auth:sanctum', 'verified', 'can:view services'])->group(function () {
-        Route::get('services', fn() => Inertia::render('Dashboard/Services/Services'))->name('services.admin');
+        Route::get('services', fn () => Inertia::render('Dashboard/Services/Services'))->name('services.admin');
     });
 
     // API resources
@@ -229,12 +247,11 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-
 Route::get('/storage-view/{folder?}', function ($folder = null) {
     $basePath = storage_path('app');
-    $path = $folder ? $basePath . '/' . $folder : $basePath;
+    $path = $folder ? $basePath.'/'.$folder : $basePath;
 
-    if (!File::exists($path) || !File::isDirectory($path)) {
+    if (! File::exists($path) || ! File::isDirectory($path)) {
         abort(404, 'Directorio no encontrado');
     }
 
@@ -242,7 +259,7 @@ Route::get('/storage-view/{folder?}', function ($folder = null) {
     foreach (File::allFiles($path) as $file) {
         $files[] = [
             'name' => $file->getFilename(),
-            'relative_path' => str_replace($basePath . '/', '', $file->getPathname()),
+            'relative_path' => str_replace($basePath.'/', '', $file->getPathname()),
             'size' => $file->getSize(),
             'last_modified' => date('Y-m-d H:i:s', $file->getMTime()),
         ];
@@ -257,53 +274,52 @@ Route::get('/storage-view/{folder?}', function ($folder = null) {
 Route::get('/storage-file/{folder}/{filename}', function ($folder, $filename) {
     $path = storage_path("app/{$folder}/{$filename}");
 
-    if (!File::exists($path)) {
+    if (! File::exists($path)) {
         abort(404, 'Archivo no encontrado');
     }
 
     $mimeType = File::mimeType($path);
     $file = File::get($path);
 
-    return Response::make($file, 200)->header("Content-Type", $mimeType);
+    return Response::make($file, 200)->header('Content-Type', $mimeType);
 })->where(['folder' => '[a-zA-Z0-9_\-]+', 'filename' => '.+']);
-
 
 Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
     try {
         $path = storage_path("app/{$folder}/{$filename}");
 
-        //si no se encuentra lanzamos un error 404.
-        if (!File::exists($path)) {
+        // si no se encuentra lanzamos un error 404.
+        if (! File::exists($path)) {
             abort(404, 'Archivo no encontrado');
         }
 
         $file = File::get($path);
         $type = File::mimeType($path);
 
-        return Response::make($file, 200)->header("Content-Type", $type);
+        return Response::make($file, 200)->header('Content-Type', $type);
     } catch (Throwable $th) {
         return $th->getMessage();
     }
 });
 
-Route::get('/src/{page?}/{folder?}/{sub?}/{filename}', function ($page = "null", $folder = "null", $sub = "null", $filename) {
+Route::get('/src/{page?}/{folder?}/{sub?}/{filename}', function ($page, $folder, $sub, $filename) {
     try {
         $path = '';
-        if ($page == "null") {
-            $path = base_path() . '/resources/img/' . $filename;
-        } elseif ($folder == "null") {
-            $path = base_path() . '/resources/img/' . $page . '/' . $filename;
-        } elseif ($sub == "null") {
-            $path = base_path() . '/resources/img/' . $page . '/' . $folder . '/' . $filename;
+        if ($page == 'null') {
+            $path = base_path().'/resources/img/'.$filename;
+        } elseif ($folder == 'null') {
+            $path = base_path().'/resources/img/'.$page.'/'.$filename;
+        } elseif ($sub == 'null') {
+            $path = base_path().'/resources/img/'.$page.'/'.$folder.'/'.$filename;
         } else {
-            $path = base_path() . '/resources/img/' . $page . '/' . $folder . '/' . $sub . '/' . $filename;
-            //$path = storage_path() . '/app/' . $folder . '/' . $filename;
+            $path = base_path().'/resources/img/'.$page.'/'.$folder.'/'.$sub.'/'.$filename;
+            // $path = storage_path() . '/app/' . $folder . '/' . $filename;
         }
         $file = File::get($path);
         $type = File::mimeType($path);
 
         $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
+        $response->header('Content-Type', $type);
 
         return $response;
     } catch (Throwable $th) {

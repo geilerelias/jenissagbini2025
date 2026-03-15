@@ -121,6 +121,14 @@ Route::get('/clear-cache', function () {
     }
 });
 
+Route::get('/debug-paths', function () {
+    return [
+        'base_path' => base_path(),
+        'public_path' => public_path(),
+        'storage_path' => storage_path(),
+    ];
+});
+
 Route::get('/storage-link', function () {
     Artisan::call('storage:link');
 

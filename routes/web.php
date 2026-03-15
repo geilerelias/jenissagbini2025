@@ -127,20 +127,48 @@ Route::get('/storage-link', function () {
     return 'Enlace de storage creado correctamente';
 });
 
-Route::get('/crear-enlace-storage', function () {
+Route::get('/crear-storage', function () {
 
-    $target = base_path('storage/app/public'); // origen real
-    $link = public_path('storage'); // enlace público
+    $target = base_path('storage/app/public');
+    $link = base_path('../public_html/storage');
+
+    $info = [];
+
+    $info['target_path'] = $target;
+    $info['link_path'] = $link;
+    $info['target_exists'] = file_exists($target) ? 'SI' : 'NO';
+    $info['link_exists'] = file_exists($link) ? 'SI' : 'NO';
+    $info['is_symlink'] = is_link($link) ? 'SI' : 'NO';
+
+    if (is_link($link)) {
+        $info['symlink_points_to'] = readlink($link);
+    }
 
     if (file_exists($link)) {
-        return 'El enlace ya existe';
+        $info['mensaje'] = 'El enlace o carpeta ya existe';
+
+        return response()->json($info);
     }
 
-    if (symlink($target, $link)) {
-        return 'Enlace creado correctamente';
+    try {
+
+        if (symlink($target, $link)) {
+
+            $info['mensaje'] = 'Enlace creado correctamente';
+            $info['symlink_points_to'] = readlink($link);
+
+        } else {
+
+            $info['mensaje'] = 'No se pudo crear el enlace (posible restricción del hosting)';
+
+        }
+
+    } catch (\Throwable $e) {
+
+        $info['error'] = $e->getMessage();
     }
 
-    return 'El hosting no permite enlaces simbólicos';
+    return response()->json($info);
 });
 
 Route::get('/welcome', function () {

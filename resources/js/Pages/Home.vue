@@ -83,14 +83,36 @@ function formatDateEs(date) {
 }
 
 function capitalizeTitle(title) {
-    return title
-        .toLowerCase()
-        .replace(/\b\w+/g, (word) => {
-            const preposiciones = [
-                "a", "ante", "bajo", "cabe", "con", "contra", "de", "desde", "durante", "en", "entre", "hacia", "hasta", "mediante", "para", "por", "según", "sin", "so", "sobre", "tras", "versus", "vía"
-            ];
-            return preposiciones.includes(word) ? word : word.charAt(0).toUpperCase() + word.slice(1);
-        });
+    return title.toLowerCase().replace(/\b\w+/g, (word) => {
+        const preposiciones = [
+            "a",
+            "ante",
+            "bajo",
+            "cabe",
+            "con",
+            "contra",
+            "de",
+            "desde",
+            "durante",
+            "en",
+            "entre",
+            "hacia",
+            "hasta",
+            "mediante",
+            "para",
+            "por",
+            "según",
+            "sin",
+            "so",
+            "sobre",
+            "tras",
+            "versus",
+            "vía",
+        ];
+        return preposiciones.includes(word)
+            ? word
+            : word.charAt(0).toUpperCase() + word.slice(1);
+    });
 }
 </script>
 

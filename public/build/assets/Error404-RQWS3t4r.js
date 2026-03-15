@@ -1,0 +1,1 @@
+import{E as o}from"./ErrorLayout-Cyus0QJ-.js";import{c as r,o as t}from"./app-D-V5gUvF.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const m={__name:"Error404",setup(a){return(e,s)=>(t(),r(o,{status:"404",title:"Página no encontrada",message:"La ruta solicitada no existe o fue eliminada.",color:"text-red-600"}))}};export{m as default};

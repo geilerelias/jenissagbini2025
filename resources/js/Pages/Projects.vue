@@ -1,678 +1,321 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useDisplay } from "vuetify";
+import { Link } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import { Head } from "@inertiajs/vue3";
+import Logo from "@/Components/Logo.vue";
+import SectionHeading from "@/Components/SectionHeading.vue";
+import {
+    defaultSoftwares,
+    defaultBusiness,
+    defaultThesis,
+    defaultScientificArticles,
+    defaultJurys,
+    PROJECT_ICONS,
+} from "@/data/pages/projectsData";
 
-const { mobile, mdAndUp } = useDisplay();
+import lazyBg1 from "@images/bg/lazy-home.png";
+import bgHome from "@images/bg/bg-home-2.png";
+import img9688 from "@images/bg/DSC_9688.jpg";
+import img9732 from "@images/bg/DSC_9732.jpg";
 
-// Tab management
+const { mobile } = useDisplay();
+
 const activeTab = ref(0);
+const accent = { accentColor: "#F5F5F5", accentDark: "#9E9E9E" };
 
-// Projects data with pastel colors
-const entrepreneurship = ref([
-    {
-        id: "0",
-        title: "HUMUS DEL CESAR S.A.S.",
-        description:
-            "Socia de una empresa privada tipo S.A.S. dedicada a la producción y comercialización de abonos orgánicos y a la prestación de servicios en diseño y elaboración de jardines.",
-        state: "Cerrado",
-        period: "2010-2017",
-        icon: "mdi-leaf",
-        accentColor: "#F5F5F5",
-        accentDark: "#9E9E9E",
-    },
-    {
-        id: "1",
-        title: "PRACTIKA BOUTIQUE",
-        description:
-            "Socia de empresa privada del Régimen Simplificado dedicada al alquiler de ropa de gala para toda la familia.",
-        state: "Cerrado",
-        period: "2009-2011",
-        icon: "mdi-shopping",
-        accentColor: "#F5F5F5",
-        accentDark: "#9E9E9E",
-    },
-    {
-        id: "2",
-        title: "HOSTAL VALLEDUPAR",
-        description:
-            "Socia de empresa privada del Régimen Simplificado dedicada a la prestación del servicio hotelero y/o turístico.",
-        state: "Cerrado",
-        period: "2008-2009",
-        icon: "mdi-hotel",
-        accentColor: "#F5F5F5",
-        accentDark: "#9E9E9E",
-    },
+const addAccent = (arr, icons) =>
+    (arr || []).map((item, i) => ({
+        ...accent,
+        ...item,
+        icon: icons[i % icons.length] || "mdi-briefcase",
+    }));
+
+const softwares = ref(addAccent(defaultSoftwares, PROJECT_ICONS.software));
+const business = ref(addAccent(defaultBusiness, PROJECT_ICONS.business));
+const thesis = ref(addAccent(defaultThesis, PROJECT_ICONS.thesis));
+const scientificArticles = ref(addAccent(defaultScientificArticles, PROJECT_ICONS.scientificArticles));
+const jurys = ref(addAccent(defaultJurys, PROJECT_ICONS.jury));
+
+const tabs = computed(() => [
+    { label: "Software", icon: "mdi-code-braces", count: softwares.value.length },
+    { label: "Planes", icon: "mdi-chart-line", count: business.value.length },
+    { label: "Tesis", icon: "mdi-school", count: thesis.value.length },
+    { label: "Art. Científicos", icon: "mdi-file-document-outline", count: scientificArticles.value.length },
+    { label: "Jurado", icon: "mdi-gavel", count: jurys.value.length },
 ]);
-
-const softwares = ref([
-    {
-        id: "0",
-        title: "SOFTWARE DE GESTIÓN PARA CITAS MÉDICAS E HISTORIAS CLÍNICAS",
-        description:
-            "Software para el sector salud dirigido al Consultorio Particular de Neumología. Desarrollado en PHP y MySQL.",
-        state: "Terminado",
-        entity: "Fundación Universitaria San Martín",
-        year: "2006",
-        icon: "mdi-hospital-box",
-        accentColor: "#F5F5F5",
-        accentDark: "#9E9E9E",
-    },
-    {
-        id: "1",
-        title: 'SOFTWARE PARA LA COMERCIALIZACIÓN DE PRODUCTOS AGRARIOS "GANAVENTAS"',
-        description:
-            "Implementación de una empresa digital regional en el sector agrario para comercialización y asesorías.",
-        state: "Terminado",
-        entity: "Universidad Jorge Tadeo Lozano",
-        year: "2009",
-        icon: "mdi-sprout",
-        accentColor: "#F5F5F5",
-        accentDark: "#9E9E9E",
-    },
-    {
-        id: "2",
-        title: "PÁGINA WEB DE ULTRALINE DE LA COSTA",
-        description:
-            "Diseño e Implementación de la Página Institucional para comercialización de productos electrónicos.",
-        state: "Terminado",
-        entity: "Ultraline Electrónica",
-        year: "2012",
-        icon: "mdi-web",
-        accentColor: "#F5F5F5",
-        accentDark: "#9E9E9E",
-    },
-]);
-
-const business = ref([
-    {
-        id: "0",
-        title: "PLAN DE NEGOCIO - COMERCIALIZADORA DE SEMOVIENTES",
-        description:
-            "Plan de Negocios orientado a la creación de una empresa digital regional en el sector agrario.",
-        state: "Terminado",
-        entity: "Universidad Jorge Tadeo Lozano",
-        year: "2009",
-        icon: "mdi-chart-line",
-        accentColor: "#F5F5F5",
-        accentDark: "#9E9E9E",
-    },
-    {
-        id: "1",
-        title: "PLAN DE NEGOCIOS - ABONO ORGÁNICO Y REFORESTACIÓN",
-        description:
-            "Plan de negocios para la creación de una empresa productora de abono orgánico.",
-        state: "Terminado",
-        entity: "Instituto Eurothecnology - España",
-        year: "2011",
-        icon: "mdi-tree",
-        accentColor: "#F5F5F5",
-        accentDark: "#9E9E9E",
-    },
-]);
-
-const thesis = ref([
-    {
-        id: "0",
-        title: 'EMPRENDIMIENTO DIGITAL "SOMOS UNO"',
-        entity: "Universidad Popular del Cesar",
-        year: "2018",
-        people: "Aldair Nuñez Florian",
-        icon: "mdi-graduation-cap",
-        accentColor: "#F5F5F5",
-        accentDark: "#9E9E9E",
-    },
-    {
-        id: "1",
-        title: "LA REALIDAD AUMENTADA EN COMERCIALIZACIÓN DE PRODUCTOS",
-        entity: "Universidad Popular del Cesar",
-        year: "2018",
-        people: "Yesid Linares y Sergio Luis Barragán",
-        icon: "mdi-vr-box",
-        accentColor: "#F5F5F5",
-        accentDark: "#9E9E9E",
-    },
-]);
-
-const jurys = ref([
-    {
-        id: "0",
-        title: "APLICATIVO MÓVIL PARA LA GESTIÓN DE PROCESOS JUDICIALES",
-        entity: "Universidad Popular del Cesar",
-        year: "2017",
-        people: "Kevin Luis Florez Lozada y Ricardo Andrés Sanchez",
-        icon: "mdi-gavel",
-        accentColor: "#F5F5F5",
-        accentDark: "#9E9E9E",
-    },
-]);
-
-const tabs = [
-    { label: "Emprendimientos", icon: "mdi-briefcase", count: 3 },
-    { label: "Software", icon: "mdi-code-braces", count: 3 },
-    { label: "Planes", icon: "mdi-chart-line", count: 2 },
-    { label: "Tesis", icon: "mdi-school", count: 2 },
-    { label: "Jurado", icon: "mdi-gavel", count: 1 },
-];
 
 const getProjectsByTab = computed(() => {
-    const projects = [
-        entrepreneurship.value,
-        softwares.value,
-        business.value,
-        thesis.value,
-        jurys.value,
-    ];
-    return projects[activeTab.value] || [];
+    const all = [softwares.value, business.value, thesis.value, scientificArticles.value, jurys.value];
+    return all[activeTab.value] || [];
 });
 
-const getTabBgColor = (index) => {
-    const colors = ["#F9F9F9", "#F7F7F7", "#F9F9F9", "#F7F7F7", "#F9F9F9"];
-    return colors[index] || "#FAFAFA";
-};
-
-const getTabColor = (index) => {
-    const colors = ["#9E9E9E", "#757575", "#9E9E9E", "#757575", "#212121"];
-    return colors[index] || "#9E9E9E";
-};
+const getTabBgColor = (i) => ["#F9F9F9", "#F7F7F7", "#F9F9F9", "#F7F7F7", "#F9F9F9"][i] ?? "#FAFAFA";
+const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121"][i] ?? "#9E9E9E";
 </script>
 
 <template>
-    <page-layout>
+    <PageLayout title="Proyectos">
         <Head title="Proyectos" />
 
-        <!-- Header Section -->
-        <section
-            class="py-md-16 py-12 position-relative overflow-hidden"
-            style="
-                background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-            "
+        <!-- Hero -->
+        <v-img
+            :lazy-src="lazyBg1"
+            :src="bgHome"
+            alt="Proyectos"
+            class="z-index2 mt-n16 hero-with-gradient"
+            cover
+            height="60vh"
+            width="100%"
+            gradient="to bottom, rgba(39,39,39,0.35), rgba(39,39,39,0.85)"
         >
-            <v-container>
-                <v-row class="justify-center align-center">
-                    <v-col class="v-col-md-8 v-col-12 text-center">
+            <v-container class="fill-height d-flex align-center">
+                <v-row>
+                    <v-col cols="12" class="text-center">
                         <div
-                            data-aos="fade-up"
-                            data-aos-duration="1000"
-                            class="mb-6"
-                        >
-                            <h6
-                                class="text-subtitle-2 font-weight-600 text-grey-darken-2"
-                                style="letter-spacing: 1.5px"
-                            >
-                                PORTAFOLIO PROFESIONAL
-                            </h6>
-                        </div>
-                        <h1
-                            data-aos="fade-up"
-                            data-aos-delay="100"
-                            data-aos-duration="1000"
-                            class="text-h3 font-weight-300 text-grey-darken-4 mb-5"
-                            style="letter-spacing: -0.5px"
-                        >
-                            Proyectos y Realizaciones
-                        </h1>
-                        <p
-                            data-aos="fade-up"
+                            :data-aos="mobile ? 'fade-up' : 'fade-up'"
                             data-aos-delay="200"
                             data-aos-duration="1000"
-                            class="text-body-1 text-grey-darken-1 mx-auto"
-                            style="max-width: 600px; line-height: 1.6"
                         >
-                            Emprendimientos, desarrollos tecnológicos, planes de
-                            negocio y dirección académica con impacto
-                            profesional
-                        </p>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </section>
-
-        <!-- Statistics Section -->
-        <section class="py-md-12 py-8" style="background-color: #fafafa">
-            <v-container>
-                <v-row class="justify-center">
-                    <v-col
-                        v-for="(tab, index) in tabs"
-                        :key="index"
-                        class="v-col-md-2 v-col-sm-4 v-col-6"
-                    >
-                        <v-card
-                            variant="tonal"
-                            elevation="12"
-                            :data-aos="mobile ? 'fade-up' : 'zoom-in'"
-                            :data-aos-delay="200 + index * 100"
-                            data-aos-duration="1000"
-                            class="elevation-0 text-center pa-6 fill-height d-flex flex-column justify-center rounded-xl"
-                            @click="activeTab = index"
-                            :style="{
-                                cursor: 'pointer',
-                                backgroundColor: getTabBgColor(index),
-                                borderLeft: `3px solid ${getTabColor(index)}`,
-                                transition:
-                                    'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                            }"
-                        >
-                            <v-avatar
-                                :color="getTabColor(index)"
-                                size="48"
-                                class="mx-auto mb-4"
-                                style="opacity: 0.9"
+                            <h6
+                                class="text-subtitle-2 font-weight-600 mb-2"
+                                style="letter-spacing: 2px; color: rgba(255,255,255,0.9)"
                             >
-                                <v-icon
-                                    :icon="tab.icon"
-                                    size="28"
-                                    color="white"
-                                ></v-icon>
-                            </v-avatar>
-                            <h3
-                                class="text-h6 font-weight-600 text-grey-darken-3 mb-2"
-                            >
-                                {{ tab.count }}
-                            </h3>
-                            <p
-                                class="text-body-2 text-grey-darken-1 mb-0 font-weight-500"
-                            >
-                                {{ tab.label }}
-                            </p>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </section>
-
-        <!-- Projects Tabs Section -->
-        <section
-            class="py-md-16 py-12 container"
-            style="background-color: #ffffff"
-        >
-            <v-container>
-                <v-row class="justify-center mb-md-12 mb-8">
-                    <v-col class="v-col-md-10 v-col-12">
-                        <div class="text-center mb-10">
-                            <h2
-                                class="text-h3 font-weight-300 text-grey-darken-4 mb-6"
+                                PORTAFOLIO
+                            </h6>
+                            <h1
+                                class="font-poppins text-h3 text-lg-h2 font-weight-bold text-white"
                                 style="letter-spacing: -0.5px"
                             >
-                                {{ tabs[activeTab].label }}
-                            </h2>
-                            <v-divider
-                                class="mx-auto"
-                                style="
-                                    max-width: 80px;
-                                    background-color: #e0e0e0;
-                                    border: none;
-                                    height: 2px;
-                                "
-                            ></v-divider>
+                                Proyectos y Realizaciones
+                            </h1>
+                            <v-responsive class="mx-auto mt-4 rounded-lg" style="max-width: 120px">
+                                <v-divider class="bg-white pb-1 rounded-lg" />
+                            </v-responsive>
+                            <p
+                                class="text-body-1 mt-4 mx-auto"
+                                style="max-width: 500px; color: rgba(255,255,255,0.9)"
+                            >
+                                Software, planes de negocio, tesis dirigidas, artículos científicos y jurado
+                            </p>
                         </div>
-
-                        <!-- Tab content with smooth transition -->
-                        <transition name="fade" mode="out-in">
-                            <v-row :key="activeTab" class="justify-center">
-                                <v-col
-                                    v-for="(project, index) in getProjectsByTab"
-                                    :key="`${activeTab}-${index}`"
-                                    class="v-col-md-6 v-col-12 mb-6"
-                                >
-                                    <v-card
-                                        :data-aos="
-                                            mobile ? 'fade-up' : 'fade-up'
-                                        "
-                                        :data-aos-delay="200 + index * 100"
-                                        data-aos-duration="1000"
-                                        class="elevation-0 fill-height rounded-xl overflow-hidden"
-                                        style="
-                                            transition: all 0.4s
-                                                cubic-bezier(0.4, 0, 0.2, 1);
-                                            border: 1px solid #efefef;
-                                        "
-                                    >
-                                        <!-- Color bar header -->
-                                        <div
-                                            :style="{
-                                                backgroundColor:
-                                                    project.accentColor,
-                                                borderLeft: `4px solid ${project.accentDark}`,
-                                            }"
-                                            class="pa-5"
-                                        >
-                                            <div
-                                                class="d-flex align-center ga-3 mb-3"
-                                            >
-                                                <v-avatar
-                                                    :color="project.accentColor"
-                                                    size="40"
-                                                    style="
-                                                        border: 2px solid
-                                                            #ffffff;
-                                                    "
-                                                >
-                                                    <v-icon
-                                                        :icon="
-                                                            project.icon ||
-                                                            'mdi-check'
-                                                        "
-                                                        size="24"
-                                                        :color="
-                                                            project.accentDark
-                                                        "
-                                                    ></v-icon>
-                                                </v-avatar>
-                                                <div>
-                                                    <h4
-                                                        class="text-subtitle-2 font-weight-600 text-grey-darken-3"
-                                                    >
-                                                        {{
-                                                            tabs[activeTab]
-                                                                .label
-                                                        }}
-                                                    </h4>
-                                                    <p
-                                                        class="text-caption mb-0 text-grey-darken-1"
-                                                    >
-                                                        {{
-                                                            project.period ||
-                                                            project.year
-                                                        }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Card content -->
-                                        <v-card-text class="pa-6">
-                                            <h3
-                                                class="text-h6 font-weight-600 text-grey-darken-3 mb-4"
-                                                style="line-height: 1.4"
-                                            >
-                                                {{ project.title }}
-                                            </h3>
-
-                                            <p
-                                                class="text-body-2 text-grey-darken-1 mb-5"
-                                                style="
-                                                    line-height: 1.6;
-                                                    color: #757575;
-                                                "
-                                            >
-                                                {{ project.description }}
-                                            </p>
-
-                                            <v-divider
-                                                class="my-4"
-                                                style="border-color: #f0f0f0"
-                                            ></v-divider>
-
-                                            <!-- Additional Info -->
-                                            <div
-                                                class="text-caption text-grey-darken-1"
-                                                style="color: #9e9e9e"
-                                            >
-                                                <div
-                                                    v-if="project.state"
-                                                    class="d-flex align-center ga-2 mb-3"
-                                                >
-                                                    <v-icon
-                                                        size="16"
-                                                        :color="
-                                                            project.state ===
-                                                            'Terminado'
-                                                                ? '#212121'
-                                                                : '#9E9E9E'
-                                                        "
-                                                        >mdi-check-circle</v-icon
-                                                    >
-                                                    <span
-                                                        class="font-weight-500"
-                                                        >Estado:</span
-                                                    >
-                                                    <v-chip
-                                                        size="x-small"
-                                                        :color="
-                                                            project.state ===
-                                                            'Terminado'
-                                                                ? '#F5F5F5'
-                                                                : '#F5F5F5'
-                                                        "
-                                                        :text-color="
-                                                            project.state ===
-                                                            'Terminado'
-                                                                ? '#424242'
-                                                                : '#9E9E9E'
-                                                        "
-                                                        style="font-weight: 500"
-                                                    >
-                                                        {{ project.state }}
-                                                    </v-chip>
-                                                </div>
-                                                <div
-                                                    v-if="project.entity"
-                                                    class="d-flex align-center ga-2 mb-3"
-                                                >
-                                                    <v-icon
-                                                        size="16"
-                                                        color="#9E9E9E"
-                                                        >mdi-office-building</v-icon
-                                                    >
-                                                    <span
-                                                        class="font-weight-500"
-                                                        >{{
-                                                            project.entity
-                                                        }}</span
-                                                    >
-                                                </div>
-                                                <div
-                                                    v-if="project.people"
-                                                    class="d-flex align-center ga-2"
-                                                >
-                                                    <v-icon
-                                                        size="16"
-                                                        color="#9E9E9E"
-                                                        >mdi-account-group</v-icon
-                                                    >
-                                                    <span
-                                                        class="font-weight-500"
-                                                        >{{
-                                                            project.people
-                                                        }}</span
-                                                    >
-                                                </div>
-                                            </div>
-                                        </v-card-text>
-                                    </v-card>
-                                </v-col>
-                            </v-row>
-                        </transition>
                     </v-col>
                 </v-row>
+            </v-container>
+        </v-img>
 
-                <!-- Tab Navigation Buttons -->
-                <v-row class="justify-center mt-md-14 mt-10">
-                    <v-col
-                        class="v-col-12 d-flex justify-center flex-wrap ga-3"
-                    >
+        <!-- Sección principal - Estilo Noticias Destacadas -->
+        <section class="bg-grey-lighten-3">
+            <div class="container">
+                <div class="pricing-header px-3 pt-md-5 pb-0 mx-auto">
+                    <SectionHeading
+                        icon="mdi-file-tree"
+                        title-light="Portafolio"
+                        title-bold="Profesional"
+                        description="Software desarrollados, planes de negocio, tesis de grado dirigidas, artículos científicos publicados y participación como jurado."
+                    />
+                </div>
+
+                <!-- Tabs selector -->
+                <v-container>
+                    <v-row class="justify-center mb-6">
+                        <v-col
+                            v-for="(tab, index) in tabs"
+                            :key="index"
+                            class="v-col-md-2 v-col-sm-4 v-col-6"
+                        >
+                            <v-card
+                                :data-aos="mobile ? 'fade-up' : 'zoom-in'"
+                                :data-aos-delay="200 + index * 80"
+                                data-aos-duration="1000"
+                                class="elevation-0 text-center pa-4 fill-height d-flex flex-column justify-center rounded-md cursor-pointer"
+                                :style="{
+                                    cursor: 'pointer',
+                                    backgroundColor: getTabBgColor(index),
+                                    borderLeft: `4px solid ${getTabColor(index)}`,
+                                }"
+                                @click="activeTab = index"
+                            >
+                                <v-avatar :color="getTabColor(index)" size="44" class="mx-auto mb-3">
+                                    <v-icon :icon="tab.icon" size="24" color="white" />
+                                </v-avatar>
+                                <h3 class="text-h6 font-weight-600 text-dark mb-1">{{ tab.count }}</h3>
+                                <p class="text-caption text-muted mb-0">{{ tab.label }}</p>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+
+                    <!-- Cards de proyectos -->
+                    <transition name="fade" mode="out-in">
+                        <v-row :key="activeTab" class="mb-8">
+                            <v-col
+                                v-for="(project, index) in getProjectsByTab"
+                                :key="`${activeTab}-${index}`"
+                                cols="12"
+                                sm="6"
+                                md="4"
+                            >
+                                <v-card
+                                    variant="elevated"
+                                    class="elevation-10 fill-height rounded-md hover-card"
+                                    :data-aos="mobile ? 'fade-up' : 'fade-up'"
+                                    :data-aos-delay="200 + index * 80"
+                                    data-aos-duration="1000"
+                                >
+                                    <div
+                                        class="pa-4"
+                                        :style="{
+                                            backgroundColor: project.accentColor,
+                                            borderLeft: `4px solid ${project.accentDark}`,
+                                        }"
+                                    >
+                                        <div class="d-flex align-center ga-3">
+                                            <v-avatar :color="project.accentDark" size="40">
+                                                <v-icon :icon="project.icon || 'mdi-briefcase'" size="22" color="white" />
+                                            </v-avatar>
+                                            <div class="flex-grow-1 min-width-0">
+                                                <v-tooltip :text="project.title" location="top" max-width="400">
+                                                    <template #activator="{ props }">
+                                                        <h4 v-bind="props" class="text-subtitle-2 font-weight-600 text-dark project-title">
+                                                            {{ project.title }}
+                                                        </h4>
+                                                    </template>
+                                                </v-tooltip>
+                                                <p class="text-caption text-muted mb-0">
+                                                    {{ project.period || project.year }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <v-card-text class="pa-4">
+                                        <v-tooltip :text="project.description" location="top" max-width="450">
+                                            <template #activator="{ props }">
+                                                <p v-bind="props" class="text-body-2 text-muted mb-3 project-description">
+                                                    {{ project.description }}
+                                                </p>
+                                            </template>
+                                        </v-tooltip>
+                                        <div v-if="project.state" class="d-flex align-center ga-2">
+                                            <v-icon size="16" color="primary">mdi-check-circle</v-icon>
+                                            <v-chip size="x-small" variant="tonal">{{ project.state }}</v-chip>
+                                        </div>
+                                        <div v-if="project.entity" class="d-flex align-center ga-2 mt-2">
+                                            <v-icon size="16" class="text-muted">mdi-office-building</v-icon>
+                                            <span class="text-caption text-muted">{{ project.entity }}</span>
+                                        </div>
+                                        <div v-if="project.people" class="d-flex align-center ga-2 mt-1">
+                                            <v-icon size="16" class="text-muted">mdi-account-group</v-icon>
+                                            <span class="text-caption text-muted">{{ project.people }}</span>
+                                        </div>
+                                    </v-card-text>
+                                    <div class="pa-4 pt-0 d-flex align-center">
+                                        <Logo :size="36" color="grey" />
+                                        <span class="text-caption text-muted ml-2">Jenis Sagbini</span>
+                                    </div>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </transition>
+
+                    <!-- Botones de tab -->
+                    <v-row class="justify-center mt-6">
                         <v-btn
                             v-for="(tab, index) in tabs"
                             :key="index"
-                            :color="
-                                activeTab === index
-                                    ? getTabColor(index)
-                                    : '#E0E0E0'
-                            "
-                            :text="activeTab !== index"
+                            :color="activeTab === index ? getTabColor(index) : undefined"
                             :variant="activeTab === index ? 'flat' : 'outlined'"
-                            @click="activeTab = index"
-                            class="rounded-xl"
+                            class="mx-1 mb-2 rounded-md"
                             :prepend-icon="tab.icon"
-                            style="font-weight: 500; letter-spacing: 0.3px"
+                            @click="activeTab = index"
                         >
                             {{ tab.label }}
                         </v-btn>
-                    </v-col>
-                </v-row>
-            </v-container>
+                    </v-row>
+                </v-container>
+            </div>
         </section>
 
-        <!-- Summary Section -->
-        <section class="py-md-16 py-12" style="background-color: #fafafa">
+        <!-- CTA - Estilo Home -->
+        <section class="container">
             <v-container>
-                <v-row class="justify-center">
-                    <v-col class="v-col-md-8 v-col-12 text-center">
-                        <div
-                            data-aos="fade-up"
-                            data-aos-duration="1000"
-                            class="mb-8"
-                        >
-                            <v-icon size="48" color="#9E9E9E" class="mb-4"
-                                >mdi-star-circle-outline</v-icon
-                            >
-                            <h2
-                                class="text-h4 font-weight-300 text-grey-darken-4 mb-4"
-                                style="letter-spacing: -0.5px"
-                            >
-                                Proyectos con Impacto
-                            </h2>
-                            <p
-                                class="text-body-1 text-grey-darken-1"
-                                style="line-height: 1.6"
-                            >
-                                Con más de 20 años de experiencia en
-                                emprendimiento, tecnología y educación, he
-                                desarrollado proyectos innovadores que combinan
-                                visión empresarial con responsabilidad social.
-                            </p>
-                        </div>
-
-                        <v-row class="justify-center mt-8">
-                            <v-col class="v-col-md-3 v-col-sm-6 v-col-6">
-                                <div
-                                    data-aos="fade-up"
-                                    data-aos-delay="200"
-                                    data-aos-duration="1000"
-                                >
-                                    <h3
-                                        class="text-h4 font-weight-300 text-grey-darken-4"
+                <div class="bg-accent py-sm-15 py-7 px-lg-16 px-4 mt-12 rounded-lg">
+                    <div class="px-sm-6 px-3">
+                        <v-row align="center">
+                            <v-col class="v-col-md-6 v-col-12">
+                                <h2 class="text-h4 mb-4 text-white">
+                                    ¿Quieres colaborar en un proyecto?
+                                </h2>
+                                <p class="text-body-1 text-white" style="opacity: 0.9">
+                                    Estoy disponible para asesoría, dirección de proyectos y formación en emprendimiento digital.
+                                </p>
+                                <Link :href="route('contact')" class="text-decoration-none">
+                                    <v-btn
+                                        color="white"
+                                        variant="flat"
+                                        size="large"
+                                        class="mt-4 rounded-md"
+                                        prepend-icon="mdi-email"
                                     >
-                                        {{ entrepreneurship.length }}
-                                    </h3>
-                                    <p class="text-body-1 text-grey-darken-1">
-                                        Emprendimientos
-                                    </p>
-                                </div>
+                                        Contáctame
+                                    </v-btn>
+                                </Link>
                             </v-col>
-                            <v-col class="v-col-md-3 v-col-sm-6 v-col-6">
-                                <div
-                                    data-aos="fade-up"
-                                    data-aos-delay="300"
-                                    data-aos-duration="1000"
-                                >
-                                    <h3
-                                        class="text-h4 font-weight-300 text-grey-darken-4"
-                                    >
-                                        {{ softwares.length }}
-                                    </h3>
-                                    <p class="text-body-1 text-grey-darken-1">
-                                        Desarrollos
-                                    </p>
-                                </div>
-                            </v-col>
-                            <v-col class="v-col-md-3 v-col-sm-6 v-col-6">
-                                <div
-                                    data-aos="fade-up"
-                                    data-aos-delay="400"
-                                    data-aos-duration="1000"
-                                >
-                                    <h3
-                                        class="text-h4 font-weight-300 text-grey-darken-4"
-                                    >
-                                        {{ business.length + thesis.length }}
-                                    </h3>
-                                    <p class="text-body-1 text-grey-darken-1">
-                                        Planes y Tesis
-                                    </p>
-                                </div>
+                            <v-col class="v-col-md-6 v-col-12">
+                                <v-row class="d-flex align-center justify-center">
+                                    <v-col class="d-flex justify-center">
+                                        <div class="hover-card">
+                                            <v-img
+                                                :src="img9688"
+                                                aspect-ratio="4/5"
+                                                class="zoom-in w-40 h-50 rounded-lg"
+                                                cover
+                                            />
+                                        </div>
+                                    </v-col>
+                                    <v-col class="d-flex justify-center">
+                                        <div class="hover-card">
+                                            <v-img
+                                                :src="img9732"
+                                                aspect-ratio="4/5"
+                                                class="zoom-in w-40 h-50 rounded-lg"
+                                                cover
+                                            />
+                                        </div>
+                                    </v-col>
+                                    <v-col cols="12" class="d-flex justify-center align-center">
+                                        <a
+                                            class="text-decoration-none d-flex align-center"
+                                            href="mailto:contacto@jenissagbini.com"
+                                        >
+                                            <v-icon color="white" class="mr-2">mdi-email</v-icon>
+                                            <span class="text-white font-weight-medium">contacto@jenissagbini.com</span>
+                                        </a>
+                                    </v-col>
+                                </v-row>
                             </v-col>
                         </v-row>
-                    </v-col>
-                </v-row>
+                    </div>
+                </div>
             </v-container>
         </section>
-
-        <!-- Call to Action Section -->
-        <section class="py-md-16 py-12">
-            <v-container>
-                <v-row class="justify-center">
-                    <v-col class="v-col-md-8 v-col-12 text-center">
-                        <div data-aos="zoom-in" data-aos-duration="1000">
-                            <h2
-                                class="text-h4 font-weight-300 text-grey-darken-4 mb-6"
-                                style="letter-spacing: -0.5px"
-                            >
-                                ¿Quieres colaborar en un proyecto?
-                            </h2>
-                            <p
-                                class="text-body-1 text-grey-darken-1 mb-8"
-                                style="line-height: 1.6"
-                            >
-                                Estoy disponible para asesoría, dirección de
-                                proyectos y formación en emprendimiento digital.
-                            </p>
-                            <v-btn
-                                color="#212121"
-                                size="large"
-                                class="rounded-xl white--text"
-                                prepend-icon="mdi-email"
-                                style="font-weight: 500; letter-spacing: 0.3px"
-                            >
-                                Contáctame
-                            </v-btn>
-                        </div>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </section>
-    </page-layout>
+    </PageLayout>
 </template>
 
 <style scoped>
-.position-relative {
-    position: relative;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.overflow-hidden {
-    overflow: hidden;
+.hover-card:hover {
+    transform: translateY(-4px);
+    transition: transform 0.3s ease;
 }
 
-.ga-2 {
-    gap: 8px;
-}
-
-.ga-3 {
-    gap: 12px;
-}
-
-.rounded-xl {
-    border-radius: 12px;
-}
-
-.text-grey-darken-1 {
-    color: #616161;
-}
-
-.text-grey-darken-3 {
-    color: #212121;
-}
-
-.text-grey-darken-4 {
-    color: #1a1a1a;
-}
-
-/* Fade transition */
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.3s ease;
+    transition: opacity 0.25s ease;
 }
 
 .fade-enter-from,
@@ -680,24 +323,20 @@ const getTabColor = (index) => {
     opacity: 0;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+.project-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
 }
 
-/* Hover effects */
-:deep(.v-card:hover) {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
-}
-
-@media (max-width: 960px) {
-    .text-h3 {
-        font-size: 1.75rem !important;
-    }
-
-    .text-h4 {
-        font-size: 1.5rem !important;
-    }
+.project-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+    word-break: break-word;
 }
 </style>

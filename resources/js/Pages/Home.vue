@@ -16,7 +16,6 @@ import ResponsiveImage from "@/Components/ResponsiveImage.vue";
 import Logo from "@/Components/Logo.vue";
 
 import bg1 from "@images/bg/bg-home-2.png";
-console.log("SRC:", bg1);
 import lazyBg1 from "@images/bg/lazy-home.png";
 import personaLeyendo from "@images/bg/persona_leyendo_un_libro_con_una_taza_de_te.jpg";
 
@@ -67,9 +66,8 @@ async function fetchNotices() {
     try {
         const { data } = await axios.get("/admin/notices/all");
         notices.value = data;
-        console.log("notices:", notices.value);
-    } catch (error) {
-        console.error("Error fetching notices:", error);
+    } catch {
+        notices.value = [];
     }
 }
 
@@ -102,10 +100,11 @@ function capitalizeTitle(title) {
             :lazy-src="lazyBg1"
             :src="bg1"
             alt="bg lg"
-            class="z-index2 mt-n16"
-            cover=""
+            class="z-index2 mt-n16 hero-with-gradient"
+            cover
             height="100vh"
             width="100%"
+            gradient="to bottom, rgba(39,39,39,0.25), rgba(39,39,39,0.75)"
         >
             <v-container :fluid="md" class="fill-height">
                 <v-row
@@ -120,16 +119,14 @@ function capitalizeTitle(title) {
                                 :data-aos="mobile ? 'fade-up' : 'fade-up'"
                                 data-aos-delay="200"
                                 data-aos-duration="1000"
-                                color="black"
-                                size="100px"
-                                class="font-poppins text-5xl text-wrap text-justify font-weight-bold"
+                                class="font-poppins text-5xl text-wrap text-justify font-weight-bold text-white"
                             >
                                 Jenis Sagbini
                             </div>
 
                             <div
                                 :data-aos="mobile ? 'fade-down' : 'fade-down'"
-                                class="font-poppins text-2xl mt-1"
+                                class="font-poppins text-2xl mt-1 text-white"
                                 data-aos-delay="200"
                                 data-aos-duration="1000"
                                 style="
@@ -145,7 +142,7 @@ function capitalizeTitle(title) {
                                 data-aos-delay="200"
                                 data-aos-duration="1000"
                                 style="width: 100%"
-                                class="bg-black rounded-lg mb-3 mt-1"
+                                class="bg-white rounded-lg mb-3 mt-1"
                             >
                                 <v-divider class="pb-0.5 rounded-lg" />
                             </v-responsive>
@@ -153,7 +150,7 @@ function capitalizeTitle(title) {
                             <div
                                 :data-aos="mobile ? 'fade-up' : 'fade-right'"
                                 alt="logo name"
-                                class="font-poppins text-1xl text-wrap text-justify"
+                                class="font-poppins text-1xl text-wrap text-justify text-white"
                                 data-aos-delay="200"
                                 data-aos-duration="1000"
                                 style="max-width: 300px"

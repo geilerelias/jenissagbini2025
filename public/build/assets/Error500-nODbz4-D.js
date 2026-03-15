@@ -1,1 +1,0 @@
-import{E as r}from"./ErrorLayout-CbO59KkG.js";import{c as o,o as t}from"./app-W8nL2IYi.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const m={__name:"Error500",setup(a){return(e,s)=>(t(),o(r,{status:"500",title:"Error interno del servidor",message:"Estamos trabajando para solucionarlo. Intenta más tarde.",color:"text-purple-600"}))}};export{m as default};

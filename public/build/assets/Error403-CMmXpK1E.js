@@ -1,0 +1,1 @@
+import{E as e}from"./ErrorLayout-krkMWrwv.js";import{c as o,o as r}from"./app-CZuOFswN.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const n={__name:"Error403",setup(t){return(a,s)=>(r(),o(e,{status:"403",title:"Acceso denegado",message:"No tienes permiso para acceder a esta página.",color:"text-yellow-500"}))}};export{n as default};

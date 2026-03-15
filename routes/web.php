@@ -129,14 +129,14 @@ Route::get('/storage-link', function () {
 
 Route::get('/crear-enlace-storage', function () {
 
-    $origen = storage_path('app/public');
-    $destino = public_path('../../laravel/storage');
+    $target = base_path('storage/app/public'); // origen real
+    $link = public_path('storage'); // enlace público
 
-    if (file_exists($destino)) {
-        return 'El enlace o carpeta ya existe';
+    if (file_exists($link)) {
+        return 'El enlace ya existe';
     }
 
-    if (symlink($origen, $destino)) {
+    if (symlink($target, $link)) {
         return 'Enlace creado correctamente';
     }
 

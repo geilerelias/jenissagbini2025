@@ -356,7 +356,7 @@ Route::get('/files/{path}', function ($path) {
     }
 })->where('path', '.*');
 
-Route::get('/storage-list/{path}', function ($path) {
+Route::get('/files-list/{path}', function ($path) {
     try {
         $fullPath = storage_path("app/public/{$path}");
 

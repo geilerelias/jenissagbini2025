@@ -338,6 +338,35 @@ Route::get('/storage/{path}', function ($path) {
     }
 })->where('path', '.*');
 
+Route::get('/storage-list/{path}', function ($path) {
+    try {
+        $fullPath = storage_path("app/public/{$path}");
+
+        // Validar que exista y sea directorio
+        if (! File::exists($fullPath) || ! File::isDirectory($fullPath)) {
+            abort(404, 'Directorio no encontrado');
+        }
+
+        // Obtener solo archivos (no carpetas)
+        $files = File::files($fullPath);
+
+        // Extraer solo nombres
+        $fileNames = array_map(function ($file) {
+            return $file->getFilename();
+        }, $files);
+
+        return response()->json([
+            'path' => $path,
+            'files' => $fileNames,
+        ]);
+
+    } catch (Throwable $th) {
+        return response()->json([
+            'error' => $th->getMessage(),
+        ], 500);
+    }
+})->where('path', '.*');
+
 Route::get('/src/{page?}/{folder?}/{sub?}/{filename}', function ($page, $folder, $sub, $filename) {
     try {
         $path = '';

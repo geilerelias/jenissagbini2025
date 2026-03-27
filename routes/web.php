@@ -320,9 +320,9 @@ Route::get('/storage-file/{folder}/{filename}', function ($folder, $filename) {
     return Response::make($file, 200)->header('Content-Type', $mimeType);
 })->where(['folder' => '[a-zA-Z0-9_\-]+', 'filename' => '.+']);
 
-Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
+Route::get('/storage/{path}', function ($path) {
     try {
-        $path = storage_path("app/{$folder}/{$filename}");
+        $path = storage_path("app/public/{$path}");
 
         // si no se encuentra lanzamos un error 404.
         if (! File::exists($path)) {
@@ -336,7 +336,7 @@ Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
     } catch (Throwable $th) {
         return $th->getMessage();
     }
-});
+})->where('path', '.*');
 
 Route::get('/src/{page?}/{folder?}/{sub?}/{filename}', function ($page, $folder, $sub, $filename) {
     try {

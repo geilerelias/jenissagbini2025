@@ -124,7 +124,6 @@ function capitalizeTitle(title) {
             alt="bg lg"
             class="z-index2 mt-n16 hero-with-gradient"
             cover
-            height="100vh"
             width="100%"
             gradient="to bottom, rgba(39,39,39,0.25), rgba(39,39,39,0.75)"
         >
@@ -702,6 +701,18 @@ html .hover-primary {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.hero-with-gradient {
+    height: calc(100svh - var(--v-layout-top));
+    min-height: calc(100svh - var(--v-layout-top));
+}
+
+@supports not (height: 100svh) {
+    .hero-with-gradient {
+        height: calc(100vh - var(--v-layout-top));
+        min-height: calc(100vh - var(--v-layout-top));
+    }
 }
 
 /* Esqueleto visible correctamente */

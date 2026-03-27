@@ -369,7 +369,6 @@ function capitalizeTitle(title) {
                                 <div
                                     class="hover-card overflow-hidden rounded-md lh-10 position-relative rounded-b-0"
                                 >
-                                    {{ `/files/${notice.image}` }}
                                     <ResponsiveImage
                                         height="250px"
                                         :src="`/files/${notice.image}`"

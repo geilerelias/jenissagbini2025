@@ -1,1 +1,0 @@
-import{E as a}from"./ErrorLayout-t6pQg9ys.js";import{c as e,o as r}from"./app-CY0ydb3P.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";const p={__name:"Error419",setup(t){return(o,s)=>(r(),e(a,{status:"419",title:"Sesión expirada",message:"Tu sesión ha caducado. Recarga la página e intenta nuevamente.",color:"text-orange-600"}))}};export{p as default};

@@ -338,6 +338,24 @@ Route::get('/storage/{path}', function ($path) {
     }
 })->where('path', '.*');
 
+Route::get('/files/{path}', function ($path) {
+    try {
+
+        $fullPath = storage_path('app/public/'.$path);
+
+        if (! File::exists($fullPath)) {
+            abort(404, 'Archivo no encontrado');
+        }
+
+        return response()->file($fullPath);
+
+    } catch (\Throwable $th) {
+        return response()->json([
+            'error' => $th->getMessage(),
+        ], 500);
+    }
+})->where('path', '.*');
+
 Route::get('/storage-list/{path}', function ($path) {
     try {
         $fullPath = storage_path("app/public/{$path}");

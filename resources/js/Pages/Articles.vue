@@ -28,13 +28,15 @@ function closeDialog() {
 }
 
 function openPdf(file) {
-    pdfUrl.value = "/storage/" + file;
+    pdfUrl.value = "/files/" + file;
     dialog.value = true;
 }
 
 function loadPublishedArticles() {
     publishedArticles.value = [...DEFAULT_PUBLISHED_ARTICLES].sort((a, b) =>
-        (b.year || "").localeCompare(a.year || "", undefined, { numeric: true })
+        (b.year || "").localeCompare(a.year || "", undefined, {
+            numeric: true,
+        }),
     );
 }
 
@@ -97,7 +99,11 @@ function loadConsultingItems() {
             description:
                 "La consultoria tecnologica para esta empresa se centro en la revision y analisis de procesos organizacionales, con el proposito de identificar oportunidades de mejora, optimizar flujos de trabajo y alinear las operaciones con los objetivos estrategicos de la organizacion. Mediante el uso de herramientas digitales y enfoques de analisis, la consultoria apoyo la estandarizacion, optimizacion y mejora continua de los procesos, contribuyendo a una mayor eficiencia operativa y a la generacion de valor para el negocio.",
         },
-    ].sort((a, b) => (b.year || "").localeCompare(a.year || "", undefined, { numeric: true }));
+    ].sort((a, b) =>
+        (b.year || "").localeCompare(a.year || "", undefined, {
+            numeric: true,
+        }),
+    );
 }
 
 onMounted(() => {
@@ -132,7 +138,10 @@ onMounted(() => {
                         >
                             <h6
                                 class="text-subtitle-2 font-weight-600 mb-2"
-                                style="letter-spacing: 2px; color: rgba(255,255,255,0.9)"
+                                style="
+                                    letter-spacing: 2px;
+                                    color: rgba(255, 255, 255, 0.9);
+                                "
                             >
                                 INVESTIGACIÓN
                             </h6>
@@ -142,14 +151,21 @@ onMounted(() => {
                             >
                                 Artículos y Publicaciones
                             </h1>
-                            <v-responsive class="mx-auto mt-4 rounded-lg" style="max-width: 120px">
+                            <v-responsive
+                                class="mx-auto mt-4 rounded-lg"
+                                style="max-width: 120px"
+                            >
                                 <v-divider class="bg-white pb-1 rounded-lg" />
                             </v-responsive>
                             <p
                                 class="text-body-1 mt-4 mx-auto"
-                                style="max-width: 500px; color: rgba(255,255,255,0.9)"
+                                style="
+                                    max-width: 500px;
+                                    color: rgba(255, 255, 255, 0.9);
+                                "
                             >
-                                Investigaciones y artículos académicos en tecnología, educación e innovación
+                                Investigaciones y artículos académicos en
+                                tecnología, educación e innovación
                             </p>
                         </div>
                     </v-col>
@@ -184,11 +200,15 @@ onMounted(() => {
                     >
                         <template #icon>
                             <v-avatar color="grey">
-                                <span class="font-weight-bold text-white">{{ index + 1 }}</span>
+                                <span class="font-weight-bold text-white">{{
+                                    index + 1
+                                }}</span>
                             </v-avatar>
                         </template>
                         <template #opposite>
-                            <span class="font-weight-500 text-muted">{{ item.year }}</span>
+                            <span class="font-weight-500 text-muted">{{
+                                item.year
+                            }}</span>
                         </template>
 
                         <v-card
@@ -206,15 +226,21 @@ onMounted(() => {
                                     class="article-tooltip"
                                 >
                                     <template #activator="{ props }">
-                                        <h3 v-bind="props" class="text-subtitle-1 font-weight-600 text-dark article-title">
+                                        <h3
+                                            v-bind="props"
+                                            class="text-subtitle-1 font-weight-600 text-dark article-title"
+                                        >
                                             {{ item.title }}
                                         </h3>
                                     </template>
                                 </v-tooltip>
                             </v-card-title>
                             <v-card-text class="pa-4 pt-0">
-                                <div class="text-caption text-muted mb-3 article-meta">
-                                    País: {{ item.country }} • ISBN: {{ item.isbn }} • {{ item.ed }}
+                                <div
+                                    class="text-caption text-muted mb-3 article-meta"
+                                >
+                                    País: {{ item.country }} • ISBN:
+                                    {{ item.isbn }} • {{ item.ed }}
                                 </div>
                                 <v-tooltip
                                     :text="item.description"
@@ -223,7 +249,10 @@ onMounted(() => {
                                     class="article-tooltip"
                                 >
                                     <template #activator="{ props }">
-                                        <p v-bind="props" class="text-body-2 text-muted article-description">
+                                        <p
+                                            v-bind="props"
+                                            class="text-body-2 text-muted article-description"
+                                        >
                                             {{ item.description }}
                                         </p>
                                     </template>
@@ -242,11 +271,15 @@ onMounted(() => {
                                 </v-btn>
                                 <a
                                     v-if="item.file"
-                                    :href="'/storage/' + item.file"
+                                    :href="'/files/' + item.file"
                                     target="_blank"
                                     class="text-decoration-none"
                                 >
-                                    <v-btn variant="text" color="primary" prepend-icon="mdi-file-pdf-box">
+                                    <v-btn
+                                        variant="text"
+                                        color="primary"
+                                        prepend-icon="mdi-file-pdf-box"
+                                    >
                                         Descargar
                                     </v-btn>
                                 </a>
@@ -284,14 +317,21 @@ onMounted(() => {
                         >
                             <div class="pa-4 d-flex align-center ga-3">
                                 <v-avatar color="primary" size="48">
-                                    <v-icon color="white">mdi-file-document-outline</v-icon>
+                                    <v-icon color="white"
+                                        >mdi-file-document-outline</v-icon
+                                    >
                                 </v-avatar>
-                                <h4 class="text-subtitle-1 font-weight-600 text-dark">
+                                <h4
+                                    class="text-subtitle-1 font-weight-600 text-dark"
+                                >
                                     {{ item.title }}
                                 </h4>
                             </div>
                             <v-card-text class="flex-grow-1">
-                                <p class="text-body-2 text-muted" style="line-height: 1.6">
+                                <p
+                                    class="text-body-2 text-muted"
+                                    style="line-height: 1.6"
+                                >
                                     {{ item.description }}
                                 </p>
                             </v-card-text>
@@ -309,15 +349,21 @@ onMounted(() => {
                             </v-card-actions>
                             <div class="pa-4 pt-0 d-flex align-center">
                                 <Logo :size="36" color="grey" />
-                                <span class="text-caption text-muted ml-2">Jenis Sagbini</span>
+                                <span class="text-caption text-muted ml-2"
+                                    >Jenis Sagbini</span
+                                >
                             </div>
                         </v-card>
                     </v-col>
                 </v-row>
                 <v-row v-else class="mt-8 justify-center">
                     <v-col cols="12" class="text-center">
-                        <v-icon size="64" color="grey-lighten-1">mdi-folder-open-outline</v-icon>
-                        <p class="text-muted mt-4">No hay otros artículos disponibles en este momento.</p>
+                        <v-icon size="64" color="grey-lighten-1"
+                            >mdi-folder-open-outline</v-icon
+                        >
+                        <p class="text-muted mt-4">
+                            No hay otros artículos disponibles en este momento.
+                        </p>
                     </v-col>
                 </v-row>
             </v-container>
@@ -347,11 +393,15 @@ onMounted(() => {
                     >
                         <template #icon>
                             <v-avatar color="grey">
-                                <span class="font-weight-bold text-white">{{ index + 1 }}</span>
+                                <span class="font-weight-bold text-white">{{
+                                    index + 1
+                                }}</span>
                             </v-avatar>
                         </template>
                         <template #opposite>
-                            <span class="font-weight-500 text-muted">{{ item.year || " " }}</span>
+                            <span class="font-weight-500 text-muted">{{
+                                item.year || " "
+                            }}</span>
                         </template>
 
                         <v-card
@@ -362,15 +412,23 @@ onMounted(() => {
                             data-aos-duration="1000"
                         >
                             <v-card-title class="pa-4 pb-2">
-                                <h3 class="text-subtitle-1 font-weight-600 text-dark article-title">
-                                    CONSULTORIA EN TRANSFORMACION DIGITAL A LA EMPRESA {{ item.company }}.
+                                <h3
+                                    class="text-subtitle-1 font-weight-600 text-dark article-title"
+                                >
+                                    CONSULTORIA EN TRANSFORMACION DIGITAL A LA
+                                    EMPRESA {{ item.company }}.
                                 </h3>
                             </v-card-title>
                             <v-card-text class="pa-4 pt-0">
-                                <div class="text-caption text-muted mb-3 article-meta">
-                                    NIT: {{ item.nit }} â€¢ {{ item.city }} {{ item.year ? "â€¢ " + item.year : "" }}
+                                <div
+                                    class="text-caption text-muted mb-3 article-meta"
+                                >
+                                    NIT: {{ item.nit }} â€¢ {{ item.city }}
+                                    {{ item.year ? "â€¢ " + item.year : "" }}
                                 </div>
-                                <p class="text-body-2 text-muted article-description">
+                                <p
+                                    class="text-body-2 text-muted article-description"
+                                >
                                     {{ item.description }}
                                 </p>
                             </v-card-text>
@@ -390,10 +448,17 @@ onMounted(() => {
                                 <h2 class="text-h4 mb-4 text-white">
                                     ¿Te interesa mi investigación?
                                 </h2>
-                                <p class="text-body-1 text-white" style="opacity: 0.9">
-                                    Comparte tus ideas o solicita más información sobre mis publicaciones.
+                                <p
+                                    class="text-body-1 text-white"
+                                    style="opacity: 0.9"
+                                >
+                                    Comparte tus ideas o solicita más
+                                    información sobre mis publicaciones.
                                 </p>
-                                <Link :href="route('contact')" class="text-decoration-none">
+                                <Link
+                                    :href="route('contact')"
+                                    class="text-decoration-none"
+                                >
                                     <v-btn
                                         color="white"
                                         variant="flat"
@@ -406,16 +471,34 @@ onMounted(() => {
                                 </Link>
                             </v-col>
                             <v-col class="v-col-md-6 v-col-12">
-                                <v-row class="d-flex align-center justify-center">
+                                <v-row
+                                    class="d-flex align-center justify-center"
+                                >
                                     <v-col class="d-flex justify-center">
-                                        <v-img :src="img9688" aspect-ratio="4/5" class="rounded-lg w-40" cover />
+                                        <v-img
+                                            :src="img9688"
+                                            aspect-ratio="4/5"
+                                            class="rounded-lg w-40"
+                                            cover
+                                        />
                                     </v-col>
                                     <v-col class="d-flex justify-center">
-                                        <v-img :src="img9732" aspect-ratio="4/5" class="rounded-lg w-40" cover />
+                                        <v-img
+                                            :src="img9732"
+                                            aspect-ratio="4/5"
+                                            class="rounded-lg w-40"
+                                            cover
+                                        />
                                     </v-col>
-                                    <v-col cols="12" class="d-flex justify-center align-center">
+                                    <v-col
+                                        cols="12"
+                                        class="d-flex justify-center align-center"
+                                    >
                                         <Logo color="grey" class="mr-2" />
-                                        <span class="text-white font-weight-medium">Jenis Sagbini</span>
+                                        <span
+                                            class="text-white font-weight-medium"
+                                            >Jenis Sagbini</span
+                                        >
                                     </v-col>
                                 </v-row>
                             </v-col>
@@ -425,7 +508,12 @@ onMounted(() => {
             </v-container>
         </section>
 
-        <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <v-dialog
+            v-model="dialog"
+            fullscreen
+            hide-overlay
+            transition="dialog-bottom-transition"
+        >
             <PdfViewer :url="pdfUrl" @close="closeDialog" />
         </v-dialog>
     </PageLayout>

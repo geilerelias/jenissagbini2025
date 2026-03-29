@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EntrepreneurshipController;
 use App\Http\Controllers\JuryController;
@@ -409,3 +410,5 @@ Route::get('/src/{page?}/{folder?}/{sub?}/{filename}', function ($page, $folder,
         return $th->getMessage();
     }
 });
+
+Route::post('/enviar-correo', [ContactController::class, 'send'])->name('contact.send');

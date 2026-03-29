@@ -42,22 +42,24 @@ onBeforeUnmount(() => {
         <Drawer app />
         <v-main>
             <slot />
-            <div
-                class="position-fixed right-0 bottom-0 mb-10 mr-5"
-                style="z-index: 1000"
-            >
-                <v-btn
-                    v-if="mostrarBoton"
-                    class="bg-primary rounded-circle"
-                    fab
-                    icon="mdi-chevron-up"
-                    scroll-to="'#scrolltop'"
-                    variant="elevated"
-                    @click="scrollToTop"
-                >
-                </v-btn>
+            <div class="position-fixed right-0 bottom-0" style="z-index: 1000">
+                <v-hover v-slot="{ isHovering, props }">
+                    <v-btn
+                        :elevation="isHovering ? 5 : 1"
+                        v-if="mostrarBoton"
+                        class="bg-secondary rounded-circle mr-5 mb-5"
+                        fab
+                        elevated
+                        variant="elevated"
+                        icon="mdi-chevron-up"
+                        scroll-to="'#scrolltop'"
+                        @click="scrollToTop"
+                        size="small"
+                    >
+                    </v-btn>
+                </v-hover>
             </div>
         </v-main>
-        <Footer style="z-index: 100"/>
+        <Footer style="z-index: 100" />
     </v-app>
 </template>

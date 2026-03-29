@@ -77,7 +77,7 @@ const vuetify = createVuetify({
             }
         },
         typography: {
-            fontFamily: 'Montserrat, sans-serif', // Configura Montserrat como fuente predeterminada
+            fontFamily: 'Poppins, sans-serif', // Configura Poppins como fuente predeterminada
         },
     },
 });

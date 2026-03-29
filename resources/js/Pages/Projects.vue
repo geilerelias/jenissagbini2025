@@ -1,19 +1,17 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useDisplay } from "vuetify";
 import { Link } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import { Head } from "@inertiajs/vue3";
+import axios from "axios";
 import Logo from "@/Components/Logo.vue";
 import SectionHeading from "@/Components/SectionHeading.vue";
 import {
+    defaultEntrepreneurships,
     defaultSoftwares,
     defaultBusiness,
-    defaultThesis,
-    defaultScientificArticles,
-    defaultJurys,
-    PROJECT_ICONS,
-} from "@/data/pages/projectsData";
+} from "@/data/pages/projectsData.js";
 
 import lazyBg1 from "@images/bg/lazy-home.png";
 import bgHome from "@images/bg/bg-home-2.png";
@@ -32,27 +30,52 @@ const addAccent = (arr, icons) =>
         icon: icons[i % icons.length] || "mdi-briefcase",
     }));
 
-const softwares = ref(addAccent(defaultSoftwares, PROJECT_ICONS.software));
-const business = ref(addAccent(defaultBusiness, PROJECT_ICONS.business));
-const thesis = ref(addAccent(defaultThesis, PROJECT_ICONS.thesis));
-const scientificArticles = ref(addAccent(defaultScientificArticles, PROJECT_ICONS.scientificArticles));
-const jurys = ref(addAccent(defaultJurys, PROJECT_ICONS.jury));
+const entrepreneurship = ref([...defaultEntrepreneurships]);
+const softwares = ref([...defaultSoftwares]);
+const business = ref([...defaultBusiness]);
 
 const tabs = computed(() => [
-    { label: "Software", icon: "mdi-code-braces", count: softwares.value.length },
+    {
+        label: "Emprendimientos",
+        icon: "mdi-briefcase",
+        count: entrepreneurship.value.length,
+    },
+    {
+        label: "Software",
+        icon: "mdi-code-braces",
+        count: softwares.value.length,
+    },
     { label: "Planes", icon: "mdi-chart-line", count: business.value.length },
-    { label: "Tesis", icon: "mdi-school", count: thesis.value.length },
-    { label: "Art. Científicos", icon: "mdi-file-document-outline", count: scientificArticles.value.length },
-    { label: "Jurado", icon: "mdi-gavel", count: jurys.value.length },
 ]);
 
 const getProjectsByTab = computed(() => {
-    const all = [softwares.value, business.value, thesis.value, scientificArticles.value, jurys.value];
+    const all = [entrepreneurship.value, softwares.value, business.value];
     return all[activeTab.value] || [];
 });
 
-const getTabBgColor = (i) => ["#F9F9F9", "#F7F7F7", "#F9F9F9", "#F7F7F7", "#F9F9F9"][i] ?? "#FAFAFA";
-const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121"][i] ?? "#9E9E9E";
+const getTabBgColor = (i) =>
+    ["#F9F9F9", "#F7F7F7", "#F9F9F9", "#F7F7F7", "#F9F9F9"][i] ?? "#FAFAFA";
+const getTabColor = (i) =>
+    ["#9E9E9E", "#757575", "#9E9E9E", "#757575", "#212121"][i] ?? "#9E9E9E";
+
+onMounted(async () => {
+    try {
+        const [ent, sw, bus] = await Promise.allSettled([
+            axios.get("/admin/entrepreneurship/all"),
+            axios.get("/admin/software/all"),
+            axios.get("/admin/business/all"),
+        ]);
+        if (ent.status === "fulfilled" && ent.value?.data?.length)
+            entrepreneurship.value = addAccent(
+                ent.value.data,
+                PROJECT_ICONS.entrepreneurship,
+            );
+        if (sw.status === "fulfilled" && sw.value?.data?.length)
+            softwares.value = addAccent(sw.value.data, PROJECT_ICONS.software);
+        if (bus.status === "fulfilled" && bus.value?.data?.length)
+            business.value = addAccent(bus.value.data, PROJECT_ICONS.business);
+    } catch (_) {}
+});
 </script>
 
 <template>
@@ -64,11 +87,10 @@ const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121
             :lazy-src="lazyBg1"
             :src="bgHome"
             alt="Proyectos"
-            class="z-index2 mt-n16 hero-with-gradient"
+            class="z-index2 mt-n16"
             cover
             height="60vh"
             width="100%"
-            gradient="to bottom, rgba(39,39,39,0.35), rgba(39,39,39,0.85)"
         >
             <v-container class="fill-height d-flex align-center">
                 <v-row>
@@ -80,7 +102,10 @@ const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121
                         >
                             <h6
                                 class="text-subtitle-2 font-weight-600 mb-2"
-                                style="letter-spacing: 2px; color: rgba(255,255,255,0.9)"
+                                style="
+                                    letter-spacing: 2px;
+                                    color: rgba(255, 255, 255, 0.9);
+                                "
                             >
                                 PORTAFOLIO
                             </h6>
@@ -90,14 +115,21 @@ const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121
                             >
                                 Proyectos y Realizaciones
                             </h1>
-                            <v-responsive class="mx-auto mt-4 rounded-lg" style="max-width: 120px">
+                            <v-responsive
+                                class="mx-auto mt-4 rounded-lg"
+                                style="max-width: 120px"
+                            >
                                 <v-divider class="bg-white pb-1 rounded-lg" />
                             </v-responsive>
                             <p
                                 class="text-body-1 mt-4 mx-auto"
-                                style="max-width: 500px; color: rgba(255,255,255,0.9)"
+                                style="
+                                    max-width: 500px;
+                                    color: rgba(255, 255, 255, 0.9);
+                                "
                             >
-                                Software, planes de negocio, tesis dirigidas, artículos científicos y jurado
+                                Emprendimientos, desarrollos tecnológicos,
+                                planes de negocio y dirección académica
                             </p>
                         </div>
                     </v-col>
@@ -113,7 +145,7 @@ const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121
                         icon="mdi-file-tree"
                         title-light="Portafolio"
                         title-bold="Profesional"
-                        description="Software desarrollados, planes de negocio, tesis de grado dirigidas, artículos científicos publicados y participación como jurado."
+                        description="Emprendimientos, software, planes de negocio, tesis dirigidas y participación como jurado."
                     />
                 </div>
 
@@ -137,11 +169,25 @@ const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121
                                 }"
                                 @click="activeTab = index"
                             >
-                                <v-avatar :color="getTabColor(index)" size="44" class="mx-auto mb-3">
-                                    <v-icon :icon="tab.icon" size="24" color="white" />
+                                <v-avatar
+                                    :color="getTabColor(index)"
+                                    size="44"
+                                    class="mx-auto mb-3"
+                                >
+                                    <v-icon
+                                        :icon="tab.icon"
+                                        size="24"
+                                        color="white"
+                                    />
                                 </v-avatar>
-                                <h3 class="text-h6 font-weight-600 text-dark mb-1">{{ tab.count }}</h3>
-                                <p class="text-caption text-muted mb-0">{{ tab.label }}</p>
+                                <h3
+                                    class="text-h6 font-weight-600 text-dark mb-1"
+                                >
+                                    {{ tab.count }}
+                                </h3>
+                                <p class="text-caption text-muted mb-0">
+                                    {{ tab.label }}
+                                </p>
                             </v-card>
                         </v-col>
                     </v-row>
@@ -166,52 +212,93 @@ const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121
                                     <div
                                         class="pa-4"
                                         :style="{
-                                            backgroundColor: project.accentColor,
+                                            backgroundColor:
+                                                project.accentColor,
                                             borderLeft: `4px solid ${project.accentDark}`,
                                         }"
                                     >
                                         <div class="d-flex align-center ga-3">
-                                            <v-avatar :color="project.accentDark" size="40">
-                                                <v-icon :icon="project.icon || 'mdi-briefcase'" size="22" color="white" />
+                                            <v-avatar
+                                                :color="project.accentDark"
+                                                size="40"
+                                            >
+                                                <v-icon
+                                                    :icon="
+                                                        project.icon ||
+                                                        'mdi-briefcase'
+                                                    "
+                                                    size="22"
+                                                    color="white"
+                                                />
                                             </v-avatar>
-                                            <div class="flex-grow-1 min-width-0">
-                                                <v-tooltip :text="project.title" location="top" max-width="400">
-                                                    <template #activator="{ props }">
-                                                        <h4 v-bind="props" class="text-subtitle-2 font-weight-600 text-dark project-title">
-                                                            {{ project.title }}
-                                                        </h4>
-                                                    </template>
-                                                </v-tooltip>
-                                                <p class="text-caption text-muted mb-0">
-                                                    {{ project.period || project.year }}
+                                            <div>
+                                                <h4
+                                                    class="text-subtitle-2 font-weight-600 text-dark"
+                                                >
+                                                    {{ project.title }}
+                                                </h4>
+                                                <p
+                                                    class="text-caption text-muted mb-0"
+                                                >
+                                                    {{
+                                                        project.period ||
+                                                        project.year
+                                                    }}
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                     <v-card-text class="pa-4">
-                                        <v-tooltip :text="project.description" location="top" max-width="450">
-                                            <template #activator="{ props }">
-                                                <p v-bind="props" class="text-body-2 text-muted mb-3 project-description">
-                                                    {{ project.description }}
-                                                </p>
-                                            </template>
-                                        </v-tooltip>
-                                        <div v-if="project.state" class="d-flex align-center ga-2">
-                                            <v-icon size="16" color="primary">mdi-check-circle</v-icon>
-                                            <v-chip size="x-small" variant="tonal">{{ project.state }}</v-chip>
+                                        <p
+                                            class="text-body-2 text-muted mb-3"
+                                            style="line-height: 1.5"
+                                        >
+                                            {{ project.description }}
+                                        </p>
+                                        <div
+                                            v-if="project.state"
+                                            class="d-flex align-center ga-2"
+                                        >
+                                            <v-icon size="16" color="primary"
+                                                >mdi-check-circle</v-icon
+                                            >
+                                            <v-chip
+                                                size="x-small"
+                                                variant="tonal"
+                                                >{{ project.state }}</v-chip
+                                            >
                                         </div>
-                                        <div v-if="project.entity" class="d-flex align-center ga-2 mt-2">
-                                            <v-icon size="16" class="text-muted">mdi-office-building</v-icon>
-                                            <span class="text-caption text-muted">{{ project.entity }}</span>
+                                        <div
+                                            v-if="project.entity"
+                                            class="d-flex align-center ga-2 mt-2"
+                                        >
+                                            <v-icon size="16" class="text-muted"
+                                                >mdi-office-building</v-icon
+                                            >
+                                            <span
+                                                class="text-caption text-muted"
+                                                >{{ project.entity }}</span
+                                            >
                                         </div>
-                                        <div v-if="project.people" class="d-flex align-center ga-2 mt-1">
-                                            <v-icon size="16" class="text-muted">mdi-account-group</v-icon>
-                                            <span class="text-caption text-muted">{{ project.people }}</span>
+                                        <div
+                                            v-if="project.people"
+                                            class="d-flex align-center ga-2 mt-1"
+                                        >
+                                            <v-icon size="16" class="text-muted"
+                                                >mdi-account-group</v-icon
+                                            >
+                                            <span
+                                                class="text-caption text-muted"
+                                                >{{ project.people }}</span
+                                            >
                                         </div>
                                     </v-card-text>
                                     <div class="pa-4 pt-0 d-flex align-center">
                                         <Logo :size="36" color="grey" />
-                                        <span class="text-caption text-muted ml-2">Jenis Sagbini</span>
+                                        <span
+                                            class="text-caption text-muted ml-2"
+                                            >Jenis Sagbini</span
+                                        >
                                     </div>
                                 </v-card>
                             </v-col>
@@ -223,7 +310,11 @@ const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121
                         <v-btn
                             v-for="(tab, index) in tabs"
                             :key="index"
-                            :color="activeTab === index ? getTabColor(index) : undefined"
+                            :color="
+                                activeTab === index
+                                    ? getTabColor(index)
+                                    : undefined
+                            "
                             :variant="activeTab === index ? 'flat' : 'outlined'"
                             class="mx-1 mb-2 rounded-md"
                             :prepend-icon="tab.icon"
@@ -239,17 +330,27 @@ const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121
         <!-- CTA - Estilo Home -->
         <section class="container">
             <v-container>
-                <div class="bg-accent py-sm-15 py-7 px-lg-16 px-4 mt-12 rounded-lg">
+                <div
+                    class="bg-accent py-sm-15 py-7 px-lg-16 px-4 mt-12 rounded-lg"
+                >
                     <div class="px-sm-6 px-3">
                         <v-row align="center">
                             <v-col class="v-col-md-6 v-col-12">
                                 <h2 class="text-h4 mb-4 text-white">
                                     ¿Quieres colaborar en un proyecto?
                                 </h2>
-                                <p class="text-body-1 text-white" style="opacity: 0.9">
-                                    Estoy disponible para asesoría, dirección de proyectos y formación en emprendimiento digital.
+                                <p
+                                    class="text-body-1 text-white"
+                                    style="opacity: 0.9"
+                                >
+                                    Estoy disponible para asesoría, dirección de
+                                    proyectos y formación en emprendimiento
+                                    digital.
                                 </p>
-                                <Link :href="route('contact')" class="text-decoration-none">
+                                <Link
+                                    :href="route('contact')"
+                                    class="text-decoration-none"
+                                >
                                     <v-btn
                                         color="white"
                                         variant="flat"
@@ -262,7 +363,9 @@ const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121
                                 </Link>
                             </v-col>
                             <v-col class="v-col-md-6 v-col-12">
-                                <v-row class="d-flex align-center justify-center">
+                                <v-row
+                                    class="d-flex align-center justify-center"
+                                >
                                     <v-col class="d-flex justify-center">
                                         <div class="hover-card">
                                             <v-img
@@ -283,13 +386,21 @@ const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121
                                             />
                                         </div>
                                     </v-col>
-                                    <v-col cols="12" class="d-flex justify-center align-center">
+                                    <v-col
+                                        cols="12"
+                                        class="d-flex justify-center align-center"
+                                    >
                                         <a
                                             class="text-decoration-none d-flex align-center"
                                             href="mailto:contacto@jenissagbini.com"
                                         >
-                                            <v-icon color="white" class="mr-2">mdi-email</v-icon>
-                                            <span class="text-white font-weight-medium">contacto@jenissagbini.com</span>
+                                            <v-icon color="white" class="mr-2"
+                                                >mdi-email</v-icon
+                                            >
+                                            <span
+                                                class="text-white font-weight-medium"
+                                                >contacto@jenissagbini.com</span
+                                            >
                                         </a>
                                     </v-col>
                                 </v-row>
@@ -321,22 +432,5 @@ const getTabColor = (i) => ["#9E9E9E", "#757575", "#9E9E9E", "#616161", "#212121
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
-}
-
-.project-title {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    word-break: break-word;
-}
-
-.project-description {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.5;
-    word-break: break-word;
 }
 </style>

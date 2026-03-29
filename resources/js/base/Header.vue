@@ -1,10 +1,10 @@
 <script setup>
-import {useDrawerStore} from "../stores/drawer";
-import {useLinksStore} from "../stores/links";
-import {useDisplay} from "vuetify";
+import { useDrawerStore } from "../stores/drawer";
+import { useLinksStore } from "../stores/links";
+import { useDisplay } from "vuetify";
 import Logo from "./../Components/Logo.vue";
-import {Link} from "@inertiajs/vue3";
-import {computed, onMounted, onUnmounted, ref} from "vue";
+import { Link } from "@inertiajs/vue3";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import SettingsDropdown from "@/Components/SettingsDropdown.vue";
 /*import SettingsDropdown from "../Components/SettingsDropdown.vue";*/
 
@@ -75,7 +75,7 @@ const showText = ref({});
             'bg-transparent text-white': isTransparent && isHomePage,
             'bg-primary': !isTransparent || !isHomePage,
         }"
-        class="px-sm-12 px-auto container"
+        class="px-sm-12 px-auto"
         scroll-behavior="elevate"
     >
         <div class="container d-flex justify-center align-center">
@@ -170,7 +170,7 @@ const showText = ref({});
                                             item.fab
                                         "
                                     >
-                                        <v-icon :icon="item.icon"/>
+                                        <v-icon :icon="item.icon" />
                                     </span>
                                     <span
                                         v-else
@@ -204,7 +204,7 @@ const showText = ref({});
                                 }"
                                 class="rounded-lg mx-auto"
                             >
-                                <v-divider class="pb-0.5 rounded-lg" light/>
+                                <v-divider class="pb-0.5 rounded-lg" light />
                             </v-responsive>
                         </transition>
                     </div>
@@ -222,14 +222,17 @@ const showText = ref({});
                 >
                     {{
                         linksStore.links.find((item) =>
-                            isCurrentRoute(item.route)
+                            isCurrentRoute(item.route),
                         )?.title || ""
                     }}
                 </v-btn>
             </div>
             <settings-dropdown
-                color="white" :size="40" :transparent="isTransparent"
-                :homepage="isHomePage">
+                color="white"
+                :size="40"
+                :transparent="isTransparent"
+                :homepage="isHomePage"
+            >
             </settings-dropdown>
         </div>
     </v-app-bar>
@@ -249,7 +252,10 @@ const showText = ref({});
 }
 
 .menu-zoom {
-    transition: transform 0.3s ease, color 0.3s ease, font-weight 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        color 0.3s ease,
+        font-weight 0.3s ease;
 }
 
 .menu-zoom:hover,
@@ -260,7 +266,9 @@ const showText = ref({});
 /* Transición personalizada para el divider */
 .fade-up-enter-active,
 .fade-up-leave-active {
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
 }
 
 .fade-up-enter-from,
@@ -291,7 +299,9 @@ const showText = ref({});
     height: 2px;
     width: 100%;
     background: linear-gradient(to right, #4a4a4a, #fff1f1);
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    transition:
+        opacity 0.4s ease,
+        transform 0.4s ease;
     transform-origin: left;
     border-radius: 2px;
     transform: scaleX(0);
@@ -311,7 +321,9 @@ const showText = ref({});
 /* Puedes colocarlo en tu archivo de estilos globales o en el <style> del componente */
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
 }
 
 .fade-enter-from,
@@ -328,7 +340,9 @@ const showText = ref({});
 
 custom-transition-enter-active,
 .custom-transition-leave-active {
-    transition: opacity 0.5s, transform 0.5s;
+    transition:
+        opacity 0.5s,
+        transform 0.5s;
 }
 
 .custom-transition-enter,

@@ -70,6 +70,9 @@ export const defaultJurys = [
     { id: "10", title: "DESARROLLO DE UN SOFTWARE INTERACTIVO PARA LA ENSEÑANZA-APRENDIZAJE DEL ARHUACO-ESPAÑOL", description: "Fundación Universitaria San Martín", entity: "Fundación Universitaria San Martín", ...ACCENT },
 ];
 
+export const defaultEntrepreneurships = [];
+export const defaultEntrepreneurship = defaultEntrepreneurships;
+
 export const PROJECT_ICONS = {
     software: ["mdi-cellphone", "mdi-cog", "mdi-chart-box", "mdi-chart-line", "mdi-desktop-mac", "mdi-web", "mdi-database"],
     business: ["mdi-chart-line", "mdi-tree"],

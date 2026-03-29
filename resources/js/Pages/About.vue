@@ -1,10 +1,10 @@
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
 
 import PageLayout from "@/Layouts/PageLayout.vue";
 import ProfileBlocks from "@/Components/ProfileBlocks.vue";
 import Logo from "@/Components/Logo.vue";
-import {useDisplay} from "vuetify";
+import { useDisplay } from "vuetify";
 
 import slide1 from "@images/slides/DSC_9635.PNG";
 import slide2 from "@images/slides/DSC_9732.PNG";
@@ -20,7 +20,6 @@ import img9774 from "@images/profile/DSC_9774.png";
 import img9688 from "@images/profile/DSC_9688.png";
 import img9724 from "@images/profile/DSC_9724.png";
 import img9625 from "@images/profile/DSC_9625.png";
-
 
 const {
     mobile,
@@ -263,7 +262,7 @@ const infoCards = ref([
     },
 ]);
 
-const navigateTo = ref(null)
+const navigateTo = ref(null);
 </script>
 
 <template>
@@ -317,8 +316,8 @@ const navigateTo = ref(null)
                                     mobile
                                         ? 'align-end justify-center'
                                         : item.order === 'left'
-                                        ? 'flex-row'
-                                        : 'flex-row-reverse'
+                                          ? 'flex-row'
+                                          : 'flex-row-reverse'
                                 "
                                 class="d-flex fill-height my-0 py-0"
                             >
@@ -446,9 +445,14 @@ const navigateTo = ref(null)
             </v-carousel>
         </section>
 
-
-        <section class="container py-md-15 py-8 ">
-            <v-card rounded="lg" variant="outlined" v-for="(item, index) in jenisSagbiniProfile" :key="index" class="border my-4">
+        <section class="container py-md-15 py-8">
+            <v-card
+                rounded="lg"
+                variant="outlined"
+                v-for="(item, index) in jenisSagbiniProfile"
+                :key="index"
+                class="border my-4"
+            >
                 <ProfileBlocks
                     :order="index % 2 !== 0 ? 'last' : 'first'"
                     :icon="item.icon"
@@ -462,7 +466,7 @@ const navigateTo = ref(null)
 
             <v-container class="py-6 py-lg-12 text-center">
                 <v-icon size="30" class="mb-2"
-                >mdi-lightbulb-on-outline
+                    >mdi-lightbulb-on-outline
                 </v-icon>
                 <blockquote class="text-h6 font-italic">
                     “¡Haciendo a la Gente Exitosa en un mundo cambiante!”
@@ -619,20 +623,35 @@ const navigateTo = ref(null)
                             v-for="(pilar, index) in pilaresCorporativos"
                             :key="index"
                             class="d-flex"
-                            sm="6" md="4" cols="12"
-                            style="min-height: 100%;"
+                            sm="6"
+                            md="4"
+                            cols="12"
+                            style="min-height: 100%"
                         >
                             <v-card
                                 :data-aos="mobile ? 'fade-up' : 'fade-up'"
-                                class="elevation-0 text-center py-md-15 py-6 px-md-8 px-4 fill-height  rounded-md aos-init aos-animate d-flex flex-column justify-between"
+                                class="elevation-0 text-center py-md-15 py-6 px-md-8 px-4 fill-height rounded-md aos-init aos-animate d-flex flex-column justify-between"
                                 data-aos-delay="200"
                                 data-aos-duration="1000"
-                                style="width: 100%; min-height: 200px; height: 100%;"
+                                style="
+                                    width: 100%;
+                                    min-height: 200px;
+                                    height: 100%;
+                                "
                             >
-                                <v-avatar color="secondary" size="68" class="mx-auto mb-4">
-                                    <v-icon :icon="pilar.icon" size="40"></v-icon>
+                                <v-avatar
+                                    color="secondary"
+                                    size="68"
+                                    class="mx-auto mb-4"
+                                >
+                                    <v-icon
+                                        :icon="pilar.icon"
+                                        size="40"
+                                    ></v-icon>
                                 </v-avatar>
-                                <h4 class="text-h6 text-dark font-weight-bold my-sm-6 my-4 px-md-6">
+                                <h4
+                                    class="text-h6 text-dark font-weight-bold my-sm-6 my-4 px-md-6"
+                                >
                                     {{ pilar.title }}
                                 </h4>
                                 <p class="text-muted mb-sm-6 mb-4">
@@ -691,193 +710,6 @@ const navigateTo = ref(null)
                                     Ingeniera, educadora y líder en innovación
                                 </p>
                             </div>
-                        </v-col>
-                    </v-row>
-                </v-container>
-            </div>
-        </div>
-
-        <div class="bg-secondary py-md-15 py-8">
-            <div class="container py-md-8 py-sm-5">
-                <v-container class="">
-                    <v-row class="align-center justify-space-between">
-                        <v-col class="v-col-md-5 v-col-12">
-                            <div>
-                                <div class="d-flex align-center mb-5">
-                                    <span
-                                        class="bg-success pa-2 rounded-circle mr-2"
-                                    >
-                                    </span>
-                                    <h6
-                                        class="text-subtitle-1 text-white font-weight-bold"
-                                    >
-                                        Podemos ayudar
-                                    </h6>
-                                </div>
-                                <h2 class="text-h4 py-6 text-white">
-                                    Hablemos sobre cómo Jenis Sagbini puede
-                                    ayudarte a impulsar tu proyecto, formación o
-                                    emprendimiento.
-                                </h2>
-                                <v-row>
-                                    <v-col class="v-col-12">
-                                        <h6
-                                            class="text-body-1 text-muted font-weight-regular"
-                                        >
-                                            Email
-                                        </h6>
-                                        <div class="d-flex align-center">
-                                            <a
-                                                class="text-decoration-none"
-                                                href="mailto:contacto@jenissagbini.com"
-                                                target="_blank"
-                                            >
-                                                <v-icon color="white"
-                                                >mdi-email
-                                                </v-icon>
-                                            </a>
-
-                                            <a
-                                                class="font-weight-medium text-h5 text-white ml-2"
-                                                href="mailto:contacto@jenissagbini.com"
-                                            >
-                                                contacto@jenissagbini.com
-                                            </a>
-                                        </div>
-                                    </v-col>
-                                    <v-col class="v-col-12">
-                                        <h6
-                                            class="text-body-1 text-muted font-weight-regular"
-                                        >
-                                            Localización
-                                        </h6>
-                                        <div class="d-flex">
-                                            <a
-                                                class="text-decoration-none"
-                                                href="https://maps.google.com/?q=Av.+Simón+Bolívar+No.+6-04+Valledupar,+Co"
-                                                target="_blank"
-                                            >
-                                                <v-icon color="white"
-                                                >mdi-map-marker
-                                                </v-icon>
-                                            </a>
-                                            <h5
-                                                class="font-weight-medium text-h5 text-white ml-2"
-                                            >
-                                                Av. Simón Bolívar No. 6-04
-                                                Valledupar, Co
-                                            </h5>
-                                        </div>
-                                    </v-col>
-                                </v-row>
-                            </div>
-                        </v-col>
-
-                        <v-col class="v-col-md-5 v-col-12">
-                            <v-card
-                                class="elevation-0 rounded-md"
-                                variant="elevated"
-                            >
-                                <div class="pa-md-11 pa-sm-8 pa-4">
-                                    <h4
-                                        class="text-dark text-h4 font-weight-bold mb-7"
-                                    >
-                                        Iniciar el proyecto
-                                    </h4>
-                                    <v-form class="project-form" novalidate="">
-                                        <v-row class="v-row">
-                                            <v-col
-                                                class="v-col-sm-6 v-col-12 pb-1"
-                                            >
-                                                <v-text-field
-                                                    density="comfortable"
-                                                    label="Nombres"
-                                                    variant="outlined"
-                                                >
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col
-                                                class="v-col-sm-6 v-col-12 pb-1"
-                                            >
-                                                <v-text-field
-                                                    density="comfortable"
-                                                    label="Apellidos"
-                                                    variant="outlined"
-                                                >
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col
-                                                class="v-col-sm-12 v-col-12 pb-1"
-                                            >
-                                                <v-text-field
-                                                    color="primary"
-                                                    density="comfortable"
-                                                    label="Email"
-                                                    variant="outlined"
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col
-                                                class="v-col-sm-12 v-col-12 pb-1"
-                                            >
-                                                <v-text-field
-                                                    color="primary"
-                                                    density="comfortable"
-                                                    label="País o región"
-                                                    variant="outlined"
-                                                ></v-text-field>
-                                            </v-col>
-                                            <v-col
-                                                class="v-col-sm-12 v-col-12 pb-1"
-                                            >
-                                                <v-textarea
-                                                    color="primary"
-                                                    density="comfortable"
-                                                    label="Cuéntanos sobre el proyecto"
-                                                    variant="outlined"
-                                                ></v-textarea>
-                                            </v-col>
-                                            <v-col
-                                                class="v-col-12 mb-md-3 mb-1"
-                                            >
-                                                <div class="ml-n2">
-                                                    <div
-                                                        class="d-flex align-center"
-                                                    >
-                                                        <v-checkbox-btn></v-checkbox-btn>
-                                                        <div
-                                                            class="text-muted pl-2"
-                                                        >
-                                                            He leído y acepto
-                                                            los
-                                                            <a
-                                                                aria-current="page"
-                                                                class="router-link-active router-link-exact-active opacity-1 text-decoration-none text-primary"
-                                                                href="/"
-                                                            >
-                                                                Términos y
-                                                                Condiciones
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </v-col>
-                                            <v-col class="v-col v-col-12 pt-0">
-                                                <v-btn
-                                                    block=""
-                                                    class="bg-primary rounded-md"
-                                                    size="large"
-                                                    style="
-                                                        text-transform: capitalize;
-                                                        letter-spacing: 0px;
-                                                    "
-                                                    variant="flat"
-                                                >enviar consulta
-                                                </v-btn>
-                                            </v-col>
-                                        </v-row>
-                                    </v-form>
-                                </div>
-                            </v-card>
                         </v-col>
                     </v-row>
                 </v-container>

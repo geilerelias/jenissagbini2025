@@ -17,12 +17,17 @@ const page = usePage();
 const successMessage = computed(() => page.props.flash?.success);
 
 const form = useForm({
-    firstName: "Geiler Elias",
-    lastName: "Radillo Sarmiento",
-    email: "geilerelias@gmail.com",
-    subject: "Test a send email",
-    message:
-        "THis a test message to check if the contact form is working properly.",
+    // firstName: "Geiler Elias",
+    // lastName: "Radillo Sarmiento",
+    // email: "geilerelias@gmail.com",
+    // subject: "Test a send email",
+    // message:
+    //     "THis a test message to check if the contact form is working properly.",
+    firstName: "",
+    lastName: "",
+    email: "",
+    subject: "",
+    message: "",
 });
 
 const snackbar = ref(false);

@@ -108,6 +108,11 @@ Route::get('/check-role', function (Request $request) {
     return $response;
 });
 
+Route::get('limpiar', function () {
+    
+    return redirect()->route('home');
+});
+
 Route::get('/clear-cache', function () {
     try {
         $exitCode = Artisan::call('cache:clear');
